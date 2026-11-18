@@ -1,4 +1,4 @@
-/* Perfis do grupo. Só o hash duplo da senha fica aqui; a senha mesmo, cada um recebe do Davy. */
+/* Perfis de quem apresenta slides e debate (a Evilayne apresenta e media pelo painel, não usa este site). Só o hash duplo da senha fica aqui; a senha mesmo, cada um recebe do Davy. */
 window.PROFILES = [
  {
   "name": "Davy",
@@ -29,10 +29,5 @@ window.PROFILES = [
   "name": "Guilherme",
   "check": "4a5b0aab6fa63dc78dd5f5f9b244fa0a794ddf1ea6e9ca91484e9ad2d0d5fa3f",
   "host": false
- },
- {
-  "name": "Evilayne",
-  "check": "9b906e76e663242db03e803725cc2aca4ec579f7ea67e5210ff9bdd02ea906c3",
-  "host": true
  }
 ];

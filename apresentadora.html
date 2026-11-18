@@ -103,6 +103,7 @@
           <button class="btn y" id="next" type="button">▶</button>
         </div>
         <div class="notes" id="notes"></div>
+        <details id="argsBox" class="notes" style="border-left-color:var(--blue);background:rgba(77,163,255,.08)" hidden><summary style="cursor:pointer;font-weight:800">⚔️ O que cada lado deve argumentar (pra você mediar)</summary><div id="argsBody"></div></details>
         <div class="nextup" id="nextup"></div>
       </div>
 
@@ -448,8 +449,15 @@
     $('slideNum').textContent = `${state.slide + 1} / ${SLIDES.length}`;
     $('curK').textContent = sl.kicker || '';
     $('curT').textContent = sl.title;
-    $('curS').textContent = sl.speaker ? '🎙️ Quem fala: ' + sl.speaker : '';
-    $('notes').innerHTML = '<b>Roteiro:</b> ' + esc(sl.notes || '');
+    $('curS').textContent = sl.speaker === 'Evilayne' ? '🎙️ Você conduz este slide' : sl.speaker ? '🎙️ Quem fala: ' + sl.speaker : '';
+    $('notes').innerHTML = '<b>Como conduzir:</b> ' + esc(sl.notes || '');
+    $('argsBox').hidden = !sl.args;
+    if (sl.args) {
+      const a = sl.args, li = arr => arr.map(x => `<li>${esc(x)}</li>`).join('');
+      $('argsBody').innerHTML = `<p style="margin:10px 0 4px"><b>🟢 Palestina</b></p><ul style="margin:0;padding-left:18px">${li(a.pal)}</ul>
+        <p style="margin:10px 0 4px"><b>🔵 Israel</b></p><ul style="margin:0;padding-left:18px">${li(a.isr)}</ul>
+        <p style="margin:10px 0 0;color:var(--muted)">Pergunta de provocação: se um lado ficar sem resposta, pergunte "e o que vocês respondem a isso?" pro outro lado.</p>`;
+    }
     const nx = SLIDES[state.slide + 1];
     $('nextup').textContent = nx ? `Próximo: ${nx.title} (${nx.speaker})` : 'Último slide.';
     $('prev').disabled = state.slide === 0;
