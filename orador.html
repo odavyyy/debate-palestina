@@ -75,15 +75,27 @@
     <div class="names" id="names"></div>
   </section>
 
+  <!-- senha -->
+  <section id="pinBox" class="box" hidden>
+    <h1>Oi, <span id="pinName"></span>! 🔒</h1>
+    <p class="muted">Digite a sua senha (o Davy mandou no privado).</p>
+    <form id="pinForm" autocomplete="off">
+      <input id="pinIn" type="password" inputmode="numeric" maxlength="8" placeholder="••••" style="width:100%;padding:16px;font-size:24px;letter-spacing:.3em;text-align:center;border-radius:14px;border:2px solid var(--line);background:var(--bg2);color:var(--text);margin-top:12px">
+      <div class="err" id="pinErr" style="color:var(--red);min-height:1.2em;margin-top:8px;font-size:14px"></div>
+      <button type="submit" style="width:100%;padding:16px;border-radius:14px;background:var(--accent);color:#111;font-weight:800;font-size:18px;margin-top:6px">Entrar</button>
+      <button type="button" class="lnk" id="pinBack" style="margin-top:10px">← não sou eu</button>
+    </form>
+  </section>
+
   <!-- lado no debate -->
   <section id="pickSide" class="box" hidden>
     <h1>Seu lado no debate</h1>
     <p class="muted">Pra mostrar os argumentos certos na hora das perguntas.</p>
     <div class="sides">
-      <button class="pal" data-s="pal" type="button">🟢 Lado da Palestina</button>
-      <button class="isr" data-s="isr" type="button">🔵 Lado de Israel</button>
-      <button data-s="" type="button">Ainda não sei (mostrar os dois)</button>
+      <button class="pal" data-s="pal" type="button">🟢 Lado da Palestina <small id="cntPal"></small></button>
+      <button class="isr" data-s="isr" type="button">🔵 Lado de Israel <small id="cntIsr"></small></button>
     </div>
+    <p class="muted" style="margin-top:12px">Seu nome aparece no telão no time que você escolher. Dá pra trocar depois.</p>
   </section>
 
   <section id="main" hidden>
@@ -105,35 +117,65 @@
       </div>
       <div id="ensaioList"></div>
     </div>
-    <p class="muted" style="text-align:center;margin-top:18px">Você: <b id="meName"></b> · <button class="lnk" id="change" type="button">trocar</button></p>
+    <p class="muted" style="text-align:center;margin-top:18px">Você: <b id="meName"></b> · <button class="lnk" id="changeSide" type="button">trocar lado</button> · <button class="lnk" id="change" type="button">sair</button></p>
   </section>
 </div>
 
 <script src="js/mqtt.min.js"></script>
 <script src="js/core.js"></script>
 <script src="js/slides.js"></script>
+<script src="js/profiles.js"></script>
 <script>
 (function () {
   const { T, store, esc, peek } = DP;
   const $ = id => document.getElementById(id);
-  const PEOPLE = ['Davy', 'Eduardo', 'Luis Eduardo', 'Gustavo', 'Kaiky', 'Guilherme', 'Evilayne'];
+  const PEOPLE = PROFILES.map(p => p.name);
   let me = store.get('orador', '');
+  let proof = store.get('orador_proof', '');
   let side = store.get('orador_side', null);
+  let picking = '';
   let state = Object.assign({}, DP.DEFAULT_STATE);
   let fs = store.get('orador_fs', 22);
   document.documentElement.style.setProperty('--fs', fs + 'px');
+  const isHost = n => (PROFILES.find(p => p.name === n) || {}).host;
+  if (!proof) { me = ''; }
 
-  $('names').innerHTML = PEOPLE.map(n => `<button type="button" data-n="${esc(n)}">${n === 'Evilayne' ? '🎙️ ' : ''}${esc(n)}</button>`).join('');
-  $('names').onclick = e => { const b = e.target.closest('button'); if (!b) return; me = b.dataset.n; store.set('orador', me); if (me === 'Evilayne') { side = ''; store.set('orador_side', ''); } flow(); };
-  document.querySelector('.sides').onclick = e => { const b = e.target.closest('button'); if (!b) return; side = b.dataset.s; store.set('orador_side', side); flow(); };
-  $('change').onclick = () => { me = ''; side = null; store.del('orador'); store.del('orador_side'); flow(); };
+  $('names').innerHTML = PEOPLE.map(n => `<button type="button" data-n="${esc(n)}">${isHost(n) ? '🎙️ ' : ''}${esc(n)}</button>`).join('');
+  $('names').onclick = e => { const b = e.target.closest('button'); if (!b) return; picking = b.dataset.n; $('pinName').textContent = picking; $('pinIn').value = ''; $('pinErr').textContent = ''; flow(); setTimeout(() => $('pinIn').focus(), 50); };
+  $('pinBack').onclick = () => { picking = ''; flow(); };
+  $('pinForm').onsubmit = async e => {
+    e.preventDefault();
+    const pin = $('pinIn').value.trim();
+    const pr = await DP.sha256hex(`dp-orador:${picking}:${pin}`);
+    const ok = (PROFILES.find(p => p.name === picking) || {}).check === await DP.sha256hex(pr);
+    if (!ok) { $('pinErr').textContent = 'Senha errada. Confere com o Davy.'; return; }
+    me = picking; proof = pr; picking = '';
+    store.set('orador', me); store.set('orador_proof', proof);
+    if (isHost(me)) { side = ''; store.set('orador_side', ''); }
+    else side = null;
+    flow();
+  };
+  document.querySelector('.sides').onclick = e => { const b = e.target.closest('button'); if (!b) return; side = b.dataset.s; store.set('orador_side', side); sendTeam(); flow(); };
+  $('change').onclick = () => { me = ''; proof = ''; side = null; store.del('orador'); store.del('orador_proof'); store.del('orador_side'); flow(); };
+  $('changeSide').onclick = () => { if (isHost(me)) return; side = null; flow(); };
 
   function flow() {
-    $('pick').hidden = !!me;
+    $('pick').hidden = !!me || !!picking;
+    $('pinBox').hidden = !picking;
     $('pickSide').hidden = !me || side !== null;
     $('main').hidden = !me || side === null;
+    $('changeSide').hidden = !me || isHost(me);
     if (me) $('meName').textContent = me + (side === 'pal' ? ' · 🟢 Palestina' : side === 'isr' ? ' · 🔵 Israel' : '');
-    render(); renderEnsaio();
+    renderCounts(); render(); renderEnsaio();
+  }
+  function renderCounts() {
+    const t = state.teams || { pal: [], isr: [] };
+    const f = (arr) => arr && arr.length ? `(${arr.length}/3: ${arr.map(esc).join(', ')})` : '(0/3)';
+    $('cntPal').innerHTML = f(t.pal); $('cntIsr').innerHTML = f(t.isr);
+  }
+  function sendTeam() {
+    if (!me || !proof || isHost(me) || (side !== 'pal' && side !== 'isr')) return;
+    bus.send(T.team, { name: me, side, proof });
   }
 
   /* abas */
@@ -144,14 +186,15 @@
 
   /* tempo real */
   const bus = DP.createBus('orador');
-  bus.onStatus(n => { $('conn').className = 'dot ' + (n ? 'on' : 'off'); });
+  bus.onStatus(n => { $('conn').className = 'dot ' + (n ? 'on' : 'off'); if (n) sendTeam(); });
+  setInterval(sendTeam, 15000);
   bus.on(T.state, msg => {
     const s = peek(msg); if (!s) return;
     if ((s.v || 0) < (state.v || 0)) return;
     const prevSlide = state.slide;
     state = Object.assign({}, DP.DEFAULT_STATE, s);
     if (state.slide !== prevSlide && SLIDES[state.slide] && SLIDES[state.slide].speaker === me && navigator.vibrate) navigator.vibrate([200, 100, 200]);
-    render();
+    renderCounts(); render();
   });
 
   function falaHTML(t) {

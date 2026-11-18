@@ -16,6 +16,7 @@
     hand: BASE + '/hand',
     vote: BASE + '/vote',
     hello: BASE + '/hello',
+    team: BASE + '/team',
     state: BASE + '/state', // retido
     queue: BASE + '/queue', // retido
   };
@@ -179,6 +180,7 @@
     banned: [],
     session: 1,
     score: null,       // {pal, isr, played}
+    teams: { pal: [], isr: [] },
   };
 
   /* ---------- Assinatura (só quem tem a senha controla slides e fila) ---------- */
@@ -208,5 +210,10 @@
     try { return JSON.parse(msg.body); } catch { return null; }
   }
 
-  window.DP = { makeSigner, peek, T, UID, rid, store, createBus, nameProblem, cleanName, esc, REACTIONS, REACT_MAP, studentURL, qrSVG, DEFAULT_STATE, params, ROOM };
+  async function sha256hex(t) {
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t));
+    return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
+  }
+
+  window.DP = { makeSigner, peek, sha256hex, T, UID, rid, store, createBus, nameProblem, cleanName, esc, REACTIONS, REACT_MAP, studentURL, qrSVG, DEFAULT_STATE, params, ROOM };
 })();

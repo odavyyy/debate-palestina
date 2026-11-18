@@ -74,7 +74,7 @@
   .poll { margin-top: 12px; }
   .poll .status { font-size: 28px; color: var(--muted); margin-bottom: 18px; display: flex; gap: 14px; align-items: center; }
   .poll .status .live-badge { font-size: 20px; }
-  .bar { position: relative; height: 84px; background: var(--panel); border-radius: 16px; margin-bottom: 16px; overflow: hidden; border: 1px solid var(--line); }
+  .bar { position: relative; height: 76px; background: var(--panel); border-radius: 16px; margin-bottom: 12px; overflow: hidden; border: 1px solid var(--line); }
   .bar .fill { position: absolute; inset: 0 auto 0 0; width: 0; background: linear-gradient(90deg, #2b6fd6, #4da3ff); transition: width .8s cubic-bezier(.2,.8,.2,1); }
   .bar:nth-child(2) .fill { background: linear-gradient(90deg, #6a3fd0, #9b7bff); }
   .bar:nth-child(3) .fill { background: linear-gradient(90deg, #12828a, #33c3c9); }
@@ -148,6 +148,14 @@
   .team.pal { background: rgba(18,148,95,.16); border-color: rgba(47,209,139,.5); }
   .team.isr { background: rgba(43,111,214,.16); border-color: rgba(77,163,255,.5); }
   .vs { font-family: var(--head); font-weight: 900; font-size: 64px; text-align: center; color: var(--accent); }
+  .teamline { display: flex; align-items: center; gap: 18px; margin-top: 10px; font-size: 26px; font-weight: 700; }
+  .teamline .tl { flex: 1; padding: 14px 20px; border-radius: 14px; }
+  .teamline .tl.pal { background: rgba(18,148,95,.2); }
+  .teamline .tl.isr { background: rgba(43,111,214,.2); text-align: right; }
+  .teamline .tl small { display: block; font-size: 16px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+  .teamline .x { font-family: var(--head); font-weight: 900; font-size: 34px; color: var(--accent); }
+  .team .members { margin-top: 18px; font-size: 32px; font-weight: 800; font-family: var(--head); line-height: 1.3; }
+  .team .members .empty { color: var(--muted); font-weight: 500; font-size: 22px; font-family: var(--body); }
   .bigscore { display: flex; align-items: center; gap: 30px; margin: 0 0 30px; }
   .bigscore .side { flex: 1; border-radius: 20px; padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; font-family: var(--head); font-weight: 900; font-size: 36px; }
   .bigscore .side b { font-size: 80px; }
@@ -311,10 +319,10 @@
       <div class="kicker">${esc(sl.kicker || '')}</div>
       <div class="who">${sl.speaker ? '🎙️ ' + esc(sl.speaker) : ''}</div>
       <h1>${esc(sl.title)}</h1>
-      <div class="body">${sl.body || ''}<div id="pollArea"></div><div id="podArea"></div></div>
+      <div class="body">${sl.body || ''}<div id="pollArea"></div><div id="teamArea"></div><div id="podArea"></div></div>
       ${extra}`;
     document.getElementById('side').style.display = sl.layout === 'cover' ? 'none' : '';
-    renderPoll();
+    renderPoll(); renderTeams();
     if (sl.layout === 'end') { renderPodium(); renderScore(); }
   }
 
@@ -370,6 +378,20 @@
     tick(); lowerTimer = setInterval(tick, 250);
   }
 
+  function teamNames(k) { return ((state.teams || {})[k] || []); }
+  function renderTeams() {
+    const sl = SLIDES[state.slide];
+    const pal = teamNames('pal'), isr = teamNames('isr');
+    const list = arr => arr.length ? arr.map(esc).join(' · ') : '<span class="empty">esperando os nomes…</span>';
+    document.querySelectorAll('.team.pal').forEach(el => { let m = el.querySelector('.members'); if (!m) { m = document.createElement('div'); m.className = 'members'; el.appendChild(m); } m.innerHTML = list(pal); });
+    document.querySelectorAll('.team.isr').forEach(el => { let m = el.querySelector('.members'); if (!m) { m = document.createElement('div'); m.className = 'members'; el.appendChild(m); } m.innerHTML = list(isr); });
+    const area = document.getElementById('teamArea');
+    if (area) area.innerHTML = (sl.args && (pal.length || isr.length)) ? `<div class="teamline">
+      <div class="tl pal"><small>🟢 Defendem a Palestina</small>${pal.map(esc).join(', ') || '—'}</div>
+      <div class="x">${pal.length || '?'} x ${isr.length || '?'}</div>
+      <div class="tl isr"><small>Defendem Israel 🔵</small>${isr.map(esc).join(', ') || '—'}</div></div>` : '';
+  }
+
   function renderScore() {
     const sc = state.score;
     const el = document.getElementById('score');
@@ -384,7 +406,7 @@
   }
 
   function renderSide() {
-    renderScore();
+    renderScore(); renderTeams();
     document.getElementById('floats').style.display = state.reactions ? '' : 'none';
   }
 

@@ -146,6 +146,12 @@
       </div>
 
       <div class="box">
+        <h2>Times do debate <span id="teamCount" style="text-transform:none;letter-spacing:0"></span></h2>
+        <p style="color:var(--muted);font-size:13px;margin:0 0 8px">Cada um escolhe o lado no site das falas, com a própria senha. Dá pra ajustar aqui também.</p>
+        <div id="teamsBox"></div>
+      </div>
+
+      <div class="box">
         <h2>Reações chegando <span style="text-transform:none;letter-spacing:0">🚫 = remover a pessoa</span></h2>
         <div class="feed" id="feed"><div class="empty">Nenhuma reação ainda.</div></div>
         <div id="bannedBox"></div>
@@ -169,6 +175,7 @@
 <script src="js/mqtt.min.js"></script>
 <script src="js/core.js"></script>
 <script src="js/slides.js"></script>
+<script src="js/profiles.js"></script>
 <script>
 (async function () {
   const { T, esc, REACT_MAP, store, DEFAULT_STATE, rid } = DP;
@@ -392,10 +399,38 @@
     const b = e.currentTarget;
     if (!b.dataset.sure) { b.dataset.sure = 1; b.textContent = 'Tem certeza? Toque de novo'; b.classList.add('r'); setTimeout(() => { delete b.dataset.sure; b.textContent = 'Zerar tudo (novo ensaio)'; b.classList.remove('r'); }, 3000); return; }
     polls = {}; queue = { items: [] };
-    state = Object.assign({}, DEFAULT_STATE, { v: state.v, session: (state.session || 1) + 1 });
+    state = Object.assign({}, DEFAULT_STATE, { v: state.v, session: (state.session || 1) + 1, teams: state.teams });
     publish(true); publishQueue(); renderBanned();
     b.textContent = 'Zerado ✓';
   };
+
+  /* ---- times ---- */
+  function setTeam(name, side) {
+    const t = { pal: (state.teams?.pal || []).filter(n => n !== name), isr: (state.teams?.isr || []).filter(n => n !== name) };
+    if (side === 'pal' || side === 'isr') t[side].push(name);
+    state.teams = t;
+    publish(true);
+  }
+  bus.on(T.team, async msg => {
+    const prof = PROFILES.find(p => p.name === msg.name);
+    if (!prof || prof.host || typeof msg.proof !== 'string') return;
+    if (await DP.sha256hex(msg.proof) !== prof.check) return;
+    if (msg.side !== 'pal' && msg.side !== 'isr') return;
+    if ((state.teams?.[msg.side] || []).includes(msg.name)) return;
+    setTeam(msg.name, msg.side);
+  });
+  $('teamsBox').onclick = e => { const b = e.target.closest('button'); if (b) setTeam(b.dataset.n, b.dataset.s); };
+  function renderTeams() {
+    const t = state.teams || { pal: [], isr: [] };
+    $('teamCount').textContent = `🟢 ${t.pal.length} x ${t.isr.length} 🔵`;
+    $('teamsBox').innerHTML = PROFILES.filter(p => !p.host).map(p => {
+      const sd = t.pal.includes(p.name) ? 'pal' : t.isr.includes(p.name) ? 'isr' : '';
+      return `<div class="row" style="padding:6px 0;border-bottom:1px solid var(--line)"><span style="flex:1;font-weight:700">${esc(p.name)}</span>
+        <button class="btn sm ${sd === 'pal' ? 'g' : ''}" data-n="${esc(p.name)}" data-s="pal" type="button">🟢 Palestina</button>
+        <button class="btn sm ${sd === 'isr' ? 'b' : ''}" data-n="${esc(p.name)}" data-s="isr" type="button">🔵 Israel</button>
+        <button class="btn sm" data-n="${esc(p.name)}" data-s="" type="button">✕</button></div>`;
+    }).join('');
+  }
 
   /* ---- pessoas ---- */
   const people = new Map();
@@ -448,7 +483,7 @@
     }
 
     $('slidelist').innerHTML = SLIDES.map((s, i) => `<button type="button" data-i="${i}" class="${i === state.slide ? 'on' : ''}">${i + 1}. ${esc(s.title)} <small>· ${esc(s.speaker)}</small></button>`).join('');
-    renderSpeaker(); renderQueue(); renderBanned();
+    renderSpeaker(); renderQueue(); renderBanned(); renderTeams();
   }
   $('pollBtns').onclick = e => { const b = e.target.closest('button'); if (b) pollAction(b.dataset.p); };
   $('slidelist').onclick = e => { const b = e.target.closest('button'); if (b) setSlide(+b.dataset.i); };
