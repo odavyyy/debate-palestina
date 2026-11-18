@@ -160,6 +160,7 @@
         <h2>Links</h2>
         <div>📺 Telão: <a id="lTelao" target="_blank"></a></div>
         <div>📱 Alunos: <a id="lAluno" target="_blank"></a></div>
+        <div>🎙️ Falas do grupo: <a id="lOrador" target="_blank"></a></div>
       </div>
     </div>
   </div>
@@ -178,6 +179,8 @@
   const telao = new URL('telao.html', aluno); new URL(location.href).searchParams.forEach((v, k) => telao.searchParams.set(k, v));
   $('lAluno').href = $('lAluno').textContent = aluno;
   $('lTelao').href = $('lTelao').textContent = telao.toString();
+  const orador = new URL('orador.html', aluno); new URL(location.href).searchParams.forEach((v, k) => orador.searchParams.set(k, v));
+  $('lOrador').href = $('lOrador').textContent = orador.toString();
 
   /* ---- senha ---- */
   const pin = await new Promise(resolve => {

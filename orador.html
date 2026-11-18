@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<title>Minha fala · Debate Palestina</title>
+<link rel="stylesheet" href="css/base.css">
+<style>
+  body { min-height: 100dvh; padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); }
+  .app { max-width: 620px; margin: 0 auto; padding: 14px 14px 50px; }
+  header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  header .t { flex: 1; font-family: var(--head); font-weight: 800; font-size: 16px; }
+  header .t small { display: block; color: var(--muted); font-family: var(--body); font-weight: 500; font-size: 12px; }
+  .lnk { background: none; color: var(--blue); font-size: 13px; text-decoration: underline; padding: 4px; }
+  .box { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 18px; margin-bottom: 12px; }
+  h1 { font-family: var(--head); font-size: 26px; margin: 4px 0 8px; }
+  .muted { color: var(--muted); font-size: 14px; line-height: 1.45; }
+  .names { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .names button, .sides button { padding: 16px 10px; border-radius: 14px; background: var(--bg2); color: var(--text); font-weight: 800; font-size: 17px; border: 2px solid var(--line); }
+  .sides { display: grid; gap: 10px; margin-top: 14px; }
+  .sides .pal { border-color: rgba(47,209,139,.6); } .sides .isr { border-color: rgba(77,163,255,.6); }
+
+  .status { border-radius: 20px; padding: 20px; margin-bottom: 12px; text-align: center; }
+  .status .big { font-family: var(--head); font-weight: 900; font-size: 34px; line-height: 1.05; }
+  .status .sub { font-size: 15px; margin-top: 6px; opacity: .9; }
+  .s-wait { background: var(--panel2); }
+  .s-soon { background: #6b5200; border: 2px solid var(--accent); }
+  .s-next { background: var(--accent); color: #111; animation: pulse 1s infinite; }
+  .s-now { background: var(--live); color: #fff; }
+  .s-done { background: #0f5a3c; }
+  @keyframes pulse { 50% { transform: scale(1.02); } }
+
+  .now { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
+  .ti { font-family: var(--head); font-weight: 800; font-size: 19px; margin: 4px 0 2px; line-height: 1.2; }
+  .who { color: var(--muted); font-size: 13px; }
+
+  .fala { font-size: var(--fs, 22px); line-height: 1.5; font-weight: 500; }
+  .fala.dim { opacity: .75; }
+  .fala .cue { color: var(--accent); font-weight: 700; font-size: .8em; }
+  .sizes { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 6px; }
+  .sizes button { background: var(--bg2); color: var(--text); border-radius: 10px; padding: 6px 12px; font-weight: 800; border: 1px solid var(--line); }
+
+  .args h3 { margin: 4px 0 10px; font-family: var(--head); font-size: 20px; }
+  .args ul { margin: 0; padding-left: 20px; }
+  .args li { font-size: 18px; line-height: 1.45; margin-bottom: 8px; }
+  .punch { margin-top: 10px; padding: 12px 14px; border-left: 4px solid var(--accent); background: rgba(255,204,51,.1); border-radius: 0 12px 12px 0; font-size: 18px; font-weight: 700; }
+  .other { margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .other summary { cursor: pointer; font-weight: 700; color: var(--text); }
+  .other li { font-size: 15px; }
+  .floor { background: var(--live); color: #fff; border-radius: 14px; padding: 12px; text-align: center; font-weight: 900; font-family: var(--head); font-size: 20px; margin-bottom: 10px; }
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+  .tabs button { flex: 1; padding: 12px; border-radius: 12px; background: var(--panel); color: var(--muted); font-weight: 800; border: 1px solid var(--line); }
+  .tabs button.on { background: var(--accent); color: #111; }
+  .card-ensaio { border-left: 5px solid var(--blue); }
+  .card-ensaio .num { color: var(--accent); font-family: var(--head); font-weight: 900; }
+  .hide-fala .fala { filter: blur(7px); transition: filter .2s; }
+  .hide-fala .fala:active, .hide-fala .fala.reveal { filter: none; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <span class="live-badge" style="font-size:12px">Apresentador</span>
+    <div class="t" id="hdr">Minha fala<small>Genocídio na Palestina</small></div>
+    <span class="dot" id="conn"></span>
+  </header>
+
+  <!-- quem é você -->
+  <section id="pick" class="box" hidden>
+    <h1>Quem é você? 🎙️</h1>
+    <p class="muted">Seu celular avisa quando estiver chegando sua vez e mostra o que você vai falar.</p>
+    <div class="names" id="names"></div>
+  </section>
+
+  <!-- lado no debate -->
+  <section id="pickSide" class="box" hidden>
+    <h1>Seu lado no debate</h1>
+    <p class="muted">Pra mostrar os argumentos certos na hora das perguntas.</p>
+    <div class="sides">
+      <button class="pal" data-s="pal" type="button">🟢 Lado da Palestina</button>
+      <button class="isr" data-s="isr" type="button">🔵 Lado de Israel</button>
+      <button data-s="" type="button">Ainda não sei (mostrar os dois)</button>
+    </div>
+  </section>
+
+  <section id="main" hidden>
+    <div class="tabs"><button id="tLive" class="on" type="button">🔴 Ao vivo</button><button id="tEnsaio" type="button">📖 Ensaiar</button></div>
+
+    <div id="live">
+      <div id="status" class="status s-wait"></div>
+      <div id="speakerFloor"></div>
+      <div class="box" id="nowBox"></div>
+      <div id="mainCard"></div>
+    </div>
+
+    <div id="ensaio" hidden>
+      <div class="box">
+        <div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+          <span class="muted">Toque no texto borrado pra conferir se lembrou.</span>
+          <label class="muted" style="white-space:nowrap"><input type="checkbox" id="blur"> esconder</label>
+        </div>
+      </div>
+      <div id="ensaioList"></div>
+    </div>
+    <p class="muted" style="text-align:center;margin-top:18px">Você: <b id="meName"></b> · <button class="lnk" id="change" type="button">trocar</button></p>
+  </section>
+</div>
+
+<script src="js/mqtt.min.js"></script>
+<script src="js/core.js"></script>
+<script src="js/slides.js"></script>
+<script>
+(function () {
+  const { T, store, esc, peek } = DP;
+  const $ = id => document.getElementById(id);
+  const PEOPLE = ['Davy', 'Eduardo', 'Luis Eduardo', 'Gustavo', 'Kaiky', 'Guilherme', 'Evilayne'];
+  let me = store.get('orador', '');
+  let side = store.get('orador_side', null);
+  let state = Object.assign({}, DP.DEFAULT_STATE);
+  let fs = store.get('orador_fs', 22);
+  document.documentElement.style.setProperty('--fs', fs + 'px');
+
+  $('names').innerHTML = PEOPLE.map(n => `<button type="button" data-n="${esc(n)}">${n === 'Evilayne' ? '🎙️ ' : ''}${esc(n)}</button>`).join('');
+  $('names').onclick = e => { const b = e.target.closest('button'); if (!b) return; me = b.dataset.n; store.set('orador', me); if (me === 'Evilayne') { side = ''; store.set('orador_side', ''); } flow(); };
+  document.querySelector('.sides').onclick = e => { const b = e.target.closest('button'); if (!b) return; side = b.dataset.s; store.set('orador_side', side); flow(); };
+  $('change').onclick = () => { me = ''; side = null; store.del('orador'); store.del('orador_side'); flow(); };
+
+  function flow() {
+    $('pick').hidden = !!me;
+    $('pickSide').hidden = !me || side !== null;
+    $('main').hidden = !me || side === null;
+    if (me) $('meName').textContent = me + (side === 'pal' ? ' · 🟢 Palestina' : side === 'isr' ? ' · 🔵 Israel' : '');
+    render(); renderEnsaio();
+  }
+
+  /* abas */
+  $('tLive').onclick = () => { $('tLive').classList.add('on'); $('tEnsaio').classList.remove('on'); $('live').hidden = false; $('ensaio').hidden = true; };
+  $('tEnsaio').onclick = () => { $('tEnsaio').classList.add('on'); $('tLive').classList.remove('on'); $('live').hidden = true; $('ensaio').hidden = false; };
+  $('blur').onchange = e => { $('ensaio').classList.toggle('hide-fala', e.target.checked); };
+  $('ensaio').addEventListener('click', e => { const f = e.target.closest('.fala'); if (f) f.classList.toggle('reveal'); });
+
+  /* tempo real */
+  const bus = DP.createBus('orador');
+  bus.onStatus(n => { $('conn').className = 'dot ' + (n ? 'on' : 'off'); });
+  bus.on(T.state, msg => {
+    const s = peek(msg); if (!s) return;
+    if ((s.v || 0) < (state.v || 0)) return;
+    const prevSlide = state.slide;
+    state = Object.assign({}, DP.DEFAULT_STATE, s);
+    if (state.slide !== prevSlide && SLIDES[state.slide] && SLIDES[state.slide].speaker === me && navigator.vibrate) navigator.vibrate([200, 100, 200]);
+    render();
+  });
+
+  function falaHTML(t) {
+    return esc(t).replace(/\[(.+?)\]/g, '<span class="cue">[$1]</span>');
+  }
+  function sizes() {
+    return `<div class="sizes"><button type="button" data-fs="-2">A−</button><button type="button" data-fs="2">A+</button></div>`;
+  }
+  document.addEventListener('click', e => {
+    const b = e.target.closest('[data-fs]'); if (!b) return;
+    fs = Math.max(14, Math.min(40, fs + +b.dataset.fs)); store.set('orador_fs', fs);
+    document.documentElement.style.setProperty('--fs', fs + 'px');
+  });
+
+  function argsHTML(sl, focus) {
+    const a = sl.args; if (!a) return '';
+    const block = (k) => `
+      <h3>${k === 'pal' ? '🟢 Lado da Palestina' : '🔵 Lado de Israel'}</h3>
+      <ul>${a[k].map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+      <div class="punch">💥 ${esc(a[k + 'Punch'])}</div>`;
+    if (focus === 'pal' || focus === 'isr') {
+      const o = focus === 'pal' ? 'isr' : 'pal';
+      return `<div class="box args">${block(focus)}
+        <details class="other"><summary>O que o outro lado deve dizer (pra você rebater)</summary><ul>${a[o].map(x => `<li>${esc(x)}</li>`).join('')}</ul></details></div>`;
+    }
+    return `<div class="box args">${block('pal')}</div><div class="box args">${block('isr')}</div>`;
+  }
+
+  function render() {
+    if (!me || side === null) return;
+    const i = state.slide || 0;
+    const sl = SLIDES[i];
+    // painel "agora no telão"
+    $('nowBox').innerHTML = `<div class="now">No telão agora · slide ${i + 1}/${SLIDES.length}</div><div class="ti">${esc(sl.title)}</div><div class="who">🎙️ ${esc(sl.speaker)}</div>`;
+
+    // quem tem a palavra
+    const sp = state.speaker;
+    $('speakerFloor').innerHTML = sp ? `<div class="floor">🎤 Com a palavra: ${esc(sp.name)}</div>` : '';
+
+    // próximo slide meu
+    let next = -1;
+    for (let k = i; k < SLIDES.length; k++) if (SLIDES[k].speaker === me) { next = k; break; }
+    const isDebate = !!sl.args;
+    const st = $('status');
+    let card = '';
+
+    if (sl.speaker === me) {
+      st.className = 'status s-now';
+      st.innerHTML = `<div class="big">🎤 SUA VEZ!</div><div class="sub">Fala com calma, olhando pra sala.</div>`;
+      card = `<div class="box">${sizes()}<div class="fala">${falaHTML(sl.fala || '')}</div></div>`;
+      if (sl.notes && me === 'Evilayne') card += `<div class="box muted"><b>Dica:</b> ${esc(sl.notes)}</div>`;
+    } else if (isDebate && me !== 'Evilayne') {
+      const mySideFloor = sp && side && ((side === 'pal' && /Palestina/.test(sp.name)) || (side === 'isr' && /Israel/.test(sp.name)));
+      st.className = 'status ' + (mySideFloor ? 's-now' : 's-soon');
+      st.innerHTML = mySideFloor
+        ? `<div class="big">🎤 VEZ DO SEU LADO!</div><div class="sub">1 minuto. Use os argumentos abaixo.</div>`
+        : `<div class="big">⚔️ DEBATE</div><div class="sub">${esc(sl.kicker)} — prepare seus argumentos.</div>`;
+      card = argsHTML(sl, side);
+    } else if (next === -1) {
+      st.className = 'status s-done';
+      st.innerHTML = `<div class="big">✅ Você já falou!</div><div class="sub">${isDebate ? '' : 'Agora é torcer e participar do debate.'}</div>`;
+      if (isDebate) card = argsHTML(sl, side);
+    } else {
+      const n = next - i;
+      const ns = SLIDES[next];
+      st.className = 'status ' + (n === 1 ? 's-next' : n <= 3 ? 's-soon' : 's-wait');
+      st.innerHTML = n === 1
+        ? `<div class="big">⚡ PRÓXIMO É VOCÊ!</div><div class="sub">Prepare-se: "${esc(ns.title)}"</div>`
+        : `<div class="big">Sua vez em ${n} slides</div><div class="sub">Seu próximo: "${esc(ns.title)}"</div>`;
+      card = `<div class="box"><div class="now" style="margin-bottom:8px">Sua próxima fala</div>${sizes()}<div class="fala dim">${falaHTML(ns.fala || '')}</div></div>`;
+    }
+    $('mainCard').innerHTML = card;
+  }
+
+  function renderEnsaio() {
+    if (!me) return;
+    const mine = SLIDES.map((s, i) => ({ s, i })).filter(x => x.s.speaker === me);
+    let html = mine.map(({ s, i }) => `
+      <div class="box card-ensaio">
+        <div class="now"><span class="num">Slide ${i + 1}</span> · ${esc(s.kicker || '')}</div>
+        <div class="ti" style="margin-bottom:10px">${esc(s.title)}</div>
+        <div class="fala">${falaHTML(s.fala || '')}</div>
+      </div>`).join('');
+    if (me !== 'Evilayne') {
+      html += `<div class="box"><h1 style="font-size:20px">⚔️ Argumentos do debate</h1><p class="muted">As 4 perguntas que a Evilayne vai fazer.</p></div>`;
+      SLIDES.filter(s => s.args).forEach(s => {
+        html += `<div class="box"><div class="now">${esc(s.kicker)}</div><div class="ti">${esc(s.title)}</div></div>` + argsHTML(s, side);
+      });
+    }
+    $('ensaioList').innerHTML = html || '<div class="box muted">Você não tem slides pra apresentar.</div>';
+  }
+
+  flow();
+})();
+</script>
+</body>
+</html>
