@@ -88,6 +88,7 @@
   <header>
     <span class="live-badge">Ao vivo</span>
     <h1>Painel da Evilayne</h1>
+    <span class="pill" id="scorePill">🟢 0 x 0 🔵</span>
     <span class="pill">👥 <span id="people">0</span></span>
     <span class="pill"><span class="dot" id="conn"></span> <span id="connTxt">conectando</span></span>
   </header>
@@ -128,7 +129,7 @@
         </div>
         <h2>Fila ✋ <span id="qcount">0</span></h2>
         <ul class="q" id="queue"></ul>
-        <h2 style="margin-top:16px">Chamar alguém do grupo</h2>
+        <h2 style="margin-top:16px">Dar a palavra a um time ou pessoa do grupo</h2>
         <div class="members" id="members"></div>
       </div>
     </div>
@@ -171,7 +172,7 @@
 (async function () {
   const { T, esc, REACT_MAP, store, DEFAULT_STATE, rid } = DP;
   const $ = id => document.getElementById(id);
-  const GROUP = ['Davy', 'Eduardo', 'Luis Eduardo', 'Gustavo', 'Kaiky', 'Guilherme', 'Evilayne'];
+  const GROUP = ['🟢 Lado da Palestina', '🔵 Lado de Israel', 'Davy', 'Eduardo', 'Luis Eduardo', 'Gustavo', 'Kaiky', 'Guilherme', 'Evilayne'];
 
   const aluno = DP.studentURL();
   const telao = new URL('telao.html', aluno); new URL(location.href).searchParams.forEach((v, k) => telao.searchParams.set(k, v));
@@ -268,12 +269,21 @@
       state.poll = Object.assign({ id: polls[sl.id].id, slideId: sl.id, q: sl.poll.q, options: sl.poll.options, open: true, show: false }, tally(sl.id));
     } else if (!state.poll || state.poll.slideId !== sl.id) return;
     if (act === 'close') state.poll.open = false;
-    if (act === 'show') { state.poll.open = false; state.poll.show = true; }
+    if (act === 'show') { state.poll.open = false; state.poll.show = true; polls[sl.id].revealed = true; }
     if (act === 'hide') state.poll.show = false;
     if (act === 'restart') { polls[sl.id] = { id: sl.id + '_' + rid(5), votes: {} }; return pollAction('open'); }
-    // Rodada 1 vira comparação da votação final
-    if (polls.debate1) { const t = tally('debate1'); state.compare = { options: SLIDES.find(s => s.id === 'debate1').poll.options, counts: t.counts, total: t.total }; }
+    computeScore();
     publish(true);
+  }
+  // Placar: cada rodada revelada dá 1 ponto ao lado mais votado (empate não pontua)
+  function computeScore() {
+    const sc = { pal: 0, isr: 0, played: 0 };
+    SLIDES.forEach(sl => {
+      if (!sl.poll || !sl.poll.score || !polls[sl.id] || !polls[sl.id].revealed) return;
+      const t = tally(sl.id); sc.played++;
+      if (t.counts[0] > t.counts[1]) sc.pal++; else if (t.counts[1] > t.counts[0]) sc.isr++;
+    });
+    state.score = sc;
   }
   bus.on(T.vote, msg => {
     const p = state.poll;
@@ -307,7 +317,7 @@
     if (b.dataset.a === 'del') { queue.items = queue.items.filter(i => i !== it); publishQueue(); }
     if (b.dataset.a === 'ban' && confirmBan(b, it.name)) ban(it.uid, it.name);
   });
-  $('members').innerHTML = GROUP.map(n => `<button class="btn sm" data-n="${esc(n)}" type="button">🎤 ${esc(n)}</button>`).join('');
+  $('members').innerHTML = GROUP.map(n => `<button class="btn sm" data-n="${esc(n)}" type="button">${n.startsWith('🟢')||n.startsWith('🔵') ? '' : '🎤 '}${esc(n)}</button>`).join('');
   $('members').onclick = e => { const b = e.target.closest('button'); if (b) giveFloor('grupo:' + b.dataset.n, b.dataset.n); };
 
   function renderSpeaker() {
@@ -345,6 +355,7 @@
     queue.items = queue.items.filter(i => i.uid !== uid);
     if (state.speaker && state.speaker.uid === uid) state.speaker = null;
     if (state.poll) Object.assign(state.poll, tally(state.poll.slideId));
+    computeScore();
     publish(true); publishQueue(); renderBanned();
   }
   function renderBanned() {
@@ -406,6 +417,8 @@
     $('prev').disabled = state.slide === 0;
     $('next').disabled = state.slide === SLIDES.length - 1;
 
+    const sc = state.score || { pal: 0, isr: 0 };
+    $('scorePill').textContent = `🟢 Palestina ${sc.pal || 0} x ${sc.isr || 0} Israel 🔵`;
     $('swReact').classList.toggle('on', !!state.reactions);
     $('swHands').classList.toggle('on', !!state.hands);
 

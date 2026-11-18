@@ -178,6 +178,7 @@
     poll: null,         // {id, q, options:[...], open, show, counts:[...], total}
     banned: [],
     session: 1,
+    score: null,       // {pal, isr, played}
   };
 
   /* ---------- Assinatura (só quem tem a senha controla slides e fila) ---------- */

@@ -4,7 +4,7 @@ window.SLIDES = [
   {
     id: 'capa', speaker: 'Davy', layout: 'cover',
     kicker: 'Debate ao vivo',
-    title: 'Palestina: é genocídio?',
+    title: 'Genocídio na Palestina',
     body: `<p class="lead">Escaneie o QR Code, coloque seu nome e participe: reaja, vote e peça a palavra.</p>`,
     notes: 'Boa tarde! Hoje a gente não vai só apresentar: vai ser um debate, tipo programa de TV. Todo mundo pega o celular e escaneia o QR Code. Coloca só o nome, sem login. Dá pra mandar reação, votar e pedir pra falar. Quem comanda é a nossa apresentadora, a Evilayne.'
   },
@@ -16,7 +16,7 @@ window.SLIDES = [
       <div class="cards c4">
         <div class="card"><div class="big">📱</div><h3>Entre</h3><p>QR Code → seu nome → pronto. Sem login.</p></div>
         <div class="card"><div class="big">🔥👍👎</div><h3>Reaja</h3><p>Suas reações aparecem aqui no telão com seu nome.</p></div>
-        <div class="card"><div class="big">📊</div><h3>Vote</h3><p>Em cada rodada a apresentadora abre uma votação.</p></div>
+        <div class="card"><div class="big">📊</div><h3>Vote</h3><p>Em cada rodada você escolhe qual lado argumentou melhor.</p></div>
         <div class="card"><div class="big">✋</div><h3>Peça a palavra</h3><p>Você entra na fila e a apresentadora te chama.</p></div>
       </div>
       <p class="rule">Regra de ouro: <b>critique ideias, não pessoas.</b> Use fatos e diga de onde tirou.</p>`,
@@ -94,7 +94,7 @@ window.SLIDES = [
   },
   {
     id: 'acusam', speaker: 'Kaiky', layout: 'versus', side: 'a',
-    kicker: 'Um lado',
+    kicker: 'As acusações',
     title: 'Quem diz que é genocídio',
     body: `
       <ul class="points">
@@ -108,7 +108,7 @@ window.SLIDES = [
   {
     id: 'negam', speaker: 'Kaiky', layout: 'versus', side: 'b',
     kicker: 'O outro lado',
-    title: 'Quem diz que não é',
+    title: 'O que diz Israel',
     body: `
       <ul class="points">
         <li><b>Governo de Israel</b> rejeita a acusação e chamou o relatório da ONU de "distorcido e falso".</li>
@@ -145,54 +145,60 @@ window.SLIDES = [
     notes: 'Fechar o contexto: a guerra "acabou" no papel, mas ainda morre gente quase todo dia, a reconstrução não começou de verdade e o futuro de Gaza está indefinido. Agora passa pra Evilayne.'
   },
   {
+    id: 'formato', speaker: 'Evilayne', layout: 'versus-intro',
+    kicker: 'Agora é com vocês',
+    title: 'Como vai ser o debate',
+    body: `
+      <div class="teams">
+        <div class="team pal"><h3>🟢 Lado da Palestina</h3><p>Defende o povo de Gaza e as vítimas da guerra.</p></div>
+        <div class="vs">VS</div>
+        <div class="team isr"><h3>🔵 Lado de Israel</h3><p>Apresenta os argumentos do governo israelense.</p></div>
+      </div>
+      <p class="rule">Os times são <b>papéis</b>, como num júri simulado. Ninguém está dando a opinião pessoal.</p>
+      <p class="lead" style="margin-top:22px">Cada lado tem <b>1 minuto</b> por pergunta. No fim de cada rodada, <b>você vota</b> em quem argumentou melhor. Depois a palavra é da sala ✋</p>`,
+    notes: 'Explicar as regras com energia de programa de TV. Deixar claro que os lados são papéis. Apresentar quem está em cada time.'
+  },
+  {
     id: 'debate1', speaker: 'Evilayne', layout: 'question', round: 1,
     kicker: 'Rodada 1',
-    title: 'Pelo que vimos, o que acontece em Gaza é genocídio?',
-    body: `<p class="lead">Vote no celular. Depois, quem quiser defender sua resposta, peça a palavra ✋</p>`,
-    poll: { q: 'O que acontece em Gaza é genocídio?', options: ['Sim', 'Não', 'Ainda não sei'] },
-    notes: 'Abrir a votação. Deixar uns 30 segundos. Mostrar o resultado. Chamar pelo menos uma pessoa de cada lado da fila. Perguntas de apoio: "o que te convenceu?", "qual fato pesou mais?"'
+    title: 'Israel tinha direito de reagir ao 7 de outubro? Até onde?',
+    body: `<p class="lead">Legítima defesa tem limite? Quem passou dele?</p>`,
+    poll: { q: 'Quem argumentou melhor nesta rodada?', options: ['Lado da Palestina', 'Lado de Israel', 'Empate'], score: true },
+    notes: 'Lado de Israel começa (1 min), Lado da Palestina responde (1 min). Réplica rápida de 30 s se quiserem. Abrir a votação, mostrar o resultado e depois abrir a fila pra sala.'
   },
   {
     id: 'debate2', speaker: 'Evilayne', layout: 'question', round: 2,
     kicker: 'Rodada 2',
-    title: 'O que mais pesa para provar a intenção?',
-    body: `<p class="lead">Lembra: genocídio exige <b>intenção de destruir o grupo</b>.</p>`,
-    poll: { q: 'O que mais pesa para provar intenção?', options: ['Número de mortos', 'Falas de líderes', 'Bloqueio de comida e ajuda', 'Nada disso sozinho'] },
-    notes: 'Provocar: "Se morreu muita gente mas o objetivo era o Hamas, é genocídio?" "E se líderes falaram em destruir Gaza?" Ouvir os dois lados.'
+    title: 'O Hamas também é culpado pelas mortes de civis em Gaza?',
+    body: `<p class="lead">Escudos humanos, túneis embaixo de casas e hospitais… e a responsabilidade de quem ataca?</p>`,
+    poll: { q: 'Quem argumentou melhor nesta rodada?', options: ['Lado da Palestina', 'Lado de Israel', 'Empate'], score: true },
+    notes: 'Lado da Palestina começa desta vez. Provocar: "Se o Hamas usa civis, isso libera Israel de proteger esses civis?" Votar e abrir pra sala.'
   },
   {
     id: 'debate3', speaker: 'Evilayne', layout: 'question', round: 3,
     kicker: 'Rodada 3',
-    title: 'Israel tinha direito de reagir ao 7 de outubro?',
-    body: `<p class="lead">Legítima defesa tem limites? Quais?</p>`,
-    poll: { q: 'Israel tinha direito de reagir?', options: ['Sim, do jeito que fez', 'Sim, mas não desse jeito', 'Não'] },
-    notes: 'Aqui aparece a diferença entre "ter o direito de se defender" e "como" se defende. Perguntar: o que seria uma reação aceitável? E o que o Hamas deveria ter feito?'
+    title: 'O mundo — e o Brasil — deveriam fazer mais para parar a guerra?',
+    body: `<p class="lead">Cortar relações? Parar de vender armas? O Brasil entrou no processo contra Israel na Corte da ONU. Fez certo?</p>`,
+    poll: { q: 'Quem argumentou melhor nesta rodada?', options: ['Lado da Palestina', 'Lado de Israel', 'Empate'], score: true },
+    notes: 'Lado de Israel começa. Trazer pra perto da turma: um país distante deve se meter? Votar e abrir pra sala.'
   },
   {
     id: 'debate4', speaker: 'Evilayne', layout: 'question', round: 4,
-    kicker: 'Rodada 4',
-    title: 'O Brasil fez certo em entrar no caso da CIJ?',
-    body: `<p class="lead">O Brasil entrou no processo da África do Sul em 2025. Israel criticou a decisão.</p>`,
-    poll: { q: 'O Brasil fez certo em entrar no caso?', options: ['Sim', 'Não', 'Não sei'] },
-    notes: 'Trazer pra perto da turma: um país distante deve se posicionar? Isso ajuda ou atrapalha a paz? Qual o papel do mundo quando há suspeita de genocídio?'
-  },
-  {
-    id: 'final', speaker: 'Evilayne', layout: 'question', round: 5, final: true,
-    kicker: 'Votação final',
-    title: 'E agora, depois do debate: é genocídio?',
-    body: `<p class="lead">Mudou de ideia? Vote de novo e compare com a Rodada 1.</p>`,
-    poll: { q: 'Depois do debate: é genocídio?', options: ['Sim', 'Não', 'Ainda não sei'] },
-    notes: 'Abrir a votação final e mostrar o resultado. O telão compara com a Rodada 1. Comentar se a turma mudou de opinião e por quê.'
+    kicker: 'Rodada 4 · Final',
+    title: 'O cessar-fogo resolve? O que precisa acontecer agora?',
+    body: `<p class="lead">Reconstrução, quem governa Gaza, o futuro dos dois povos.</p>`,
+    poll: { q: 'Quem argumentou melhor nesta rodada?', options: ['Lado da Palestina', 'Lado de Israel', 'Empate'], score: true },
+    notes: 'Lado da Palestina começa. Última rodada: pedir que cada lado feche com uma proposta. Votar e mostrar o placar final.'
   },
   {
     id: 'fim', speaker: 'Davy', layout: 'end',
     kicker: 'Obrigado!',
     title: 'Debater é ouvir também',
-    body: `
+    body: `<div id="finalScore"></div>
       <p class="lead">Davy dos Santos Mendes · Eduardo Santos Yamanaka · Luis Eduardo Cremoneze Dourado · Gustavo Mauricio de Morais Silva · Kaiky Victor Santos · Guilherme Aquiles Xavier<br>Apresentação: <b>Evilayne</b></p>
       <div class="sources">
         <b>Fontes:</b> Convenção da ONU sobre Genocídio (1948) · Comissão de Inquérito da ONU sobre o Território Palestino Ocupado (set/2025) · Corte Internacional de Justiça, caso África do Sul v. Israel · OCHA/ONU, Gaza Impact Snapshot (nov/2026) · Ministério da Saúde de Gaza via Qatar News Agency e AP · Ministério das Relações Exteriores de Israel · Itamaraty · Anistia Internacional · IPC (classificação de fome).
       </div>`,
-    notes: 'Agradecer, chamar a apresentadora e o grupo, e mostrar o "pódio" de quem mais participou se quiserem.'
+    notes: 'Anunciar o placar final e o lado vencedor, mostrar quem mais participou e agradecer.'
   },
 ];

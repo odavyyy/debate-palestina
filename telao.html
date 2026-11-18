@@ -134,6 +134,28 @@
   #ticker .run span { margin-right: 34px; }
 
   #hint { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,.8); padding: 24px 32px; border-radius: 16px; font-size: 26px; display: none; z-index: 9; text-align: center; }
+
+  /* Placar */
+  #top .score { display: flex; align-items: center; gap: 12px; background: #fff; color: #0b1020; border-radius: 12px; padding: 6px 16px; font-family: var(--head); font-weight: 900; margin-left: 10px; }
+  #top .score b { font-size: 34px; min-width: 26px; text-align: center; }
+  #top .score i { font-style: normal; color: #888; font-size: 20px; }
+  #top .score .t { font-size: 16px; letter-spacing: .08em; padding: 4px 10px; border-radius: 8px; color: #fff; }
+  .t.pal { background: #12945f; } .t.isr { background: #2b6fd6; }
+  .teams { display: grid; grid-template-columns: 1fr 120px 1fr; align-items: center; gap: 10px; }
+  .team { border-radius: 22px; padding: 34px; border: 2px solid var(--line); }
+  .team h3 { font-family: var(--head); font-size: 44px; margin: 0 0 10px; }
+  .team p { margin: 0; font-size: 28px; color: #d4d9ea; }
+  .team.pal { background: rgba(18,148,95,.16); border-color: rgba(47,209,139,.5); }
+  .team.isr { background: rgba(43,111,214,.16); border-color: rgba(77,163,255,.5); }
+  .vs { font-family: var(--head); font-weight: 900; font-size: 64px; text-align: center; color: var(--accent); }
+  .bigscore { display: flex; align-items: center; gap: 30px; margin: 0 0 30px; }
+  .bigscore .side { flex: 1; border-radius: 20px; padding: 22px 28px; display: flex; justify-content: space-between; align-items: center; font-family: var(--head); font-weight: 900; font-size: 36px; }
+  .bigscore .side b { font-size: 80px; }
+  .bigscore .side.pal { background: rgba(18,148,95,.25); } .bigscore .side.isr { background: rgba(43,111,214,.25); }
+  .bigscore .side.win { outline: 4px solid var(--accent); }
+  .bar:nth-child(2) .fill { background: linear-gradient(90deg, #12945f, #2fd18b); }
+  .bar:nth-child(3) .fill { background: linear-gradient(90deg, #2b6fd6, #4da3ff); }
+  .bar:nth-child(4) .fill { background: linear-gradient(90deg, #666, #999); }
   #fsbtn { position: fixed; right: 14px; bottom: 14px; z-index: 50; background: rgba(255,255,255,.12); color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 14px; opacity: .25; }
   #fsbtn:hover { opacity: 1; }
 </style>
@@ -155,7 +177,8 @@
   <div id="stage">
     <div id="top">
       <span class="live-badge">Ao vivo</span>
-      <div class="show">DEBATE <span>· Palestina: é genocídio?</span></div>
+      <div class="show">DEBATE <span>· Genocídio na Palestina</span></div>
+      <div class="score" id="score" hidden><span class="t pal">PALESTINA</span><b id="scP">0</b><i>x</i><b id="scI">0</b><span class="t isr">ISRAEL</span></div>
       <div class="sp"></div>
       <div class="pill">👥 <span id="people">0</span> participando</div>
       <div class="pill" title="Conexão"><span class="dot" id="conn"></span></div>
@@ -292,7 +315,7 @@
       ${extra}`;
     document.getElementById('side').style.display = sl.layout === 'cover' ? 'none' : '';
     renderPoll();
-    if (sl.layout === 'end') renderPodium();
+    if (sl.layout === 'end') { renderPodium(); renderScore(); }
   }
 
   function bars(p, hidden, opts) {
@@ -347,7 +370,21 @@
     tick(); lowerTimer = setInterval(tick, 250);
   }
 
+  function renderScore() {
+    const sc = state.score;
+    const el = document.getElementById('score');
+    const any = sc && (sc.pal || sc.isr || sc.played);
+    el.hidden = !any;
+    if (sc) { document.getElementById('scP').textContent = sc.pal || 0; document.getElementById('scI').textContent = sc.isr || 0; }
+    const f = document.getElementById('finalScore');
+    if (f && sc && any) {
+      const w = sc.pal > sc.isr ? 'pal' : sc.isr > sc.pal ? 'isr' : '';
+      f.innerHTML = `<div class="bigscore"><div class="side pal ${w==='pal'?'win':''}">🟢 Lado da Palestina <b>${sc.pal||0}</b></div><div class="side isr ${w==='isr'?'win':''}">🔵 Lado de Israel <b>${sc.isr||0}</b></div></div>`;
+    }
+  }
+
   function renderSide() {
+    renderScore();
     document.getElementById('floats').style.display = state.reactions ? '' : 'none';
   }
 
