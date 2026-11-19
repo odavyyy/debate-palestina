@@ -87,16 +87,7 @@
     </form>
   </section>
 
-  <!-- lado no debate -->
-  <section id="pickSide" class="box" hidden>
-    <h1>Seu lado no debate</h1>
-    <p class="muted">Pra mostrar os argumentos certos na hora das perguntas.</p>
-    <div class="sides">
-      <button class="pal" data-s="pal" type="button">🟢 Lado da Palestina <small id="cntPal"></small></button>
-      <button class="isr" data-s="isr" type="button">🔵 Lado de Israel <small id="cntIsr"></small></button>
-    </div>
-    <p class="muted" style="margin-top:12px">Seu nome aparece no telão no time que você escolher. Dá pra trocar depois.</p>
-  </section>
+  <div id="pickSide" hidden></div>
 
   <section id="main" hidden>
     <div class="tabs"><button id="tLive" class="on" type="button">🔴 Ao vivo</button><button id="tEnsaio" type="button">📖 Ensaiar</button></div>
@@ -117,7 +108,7 @@
       </div>
       <div id="ensaioList"></div>
     </div>
-    <p class="muted" style="text-align:center;margin-top:18px">Você: <b id="meName"></b> · <button class="lnk" id="changeSide" type="button">trocar lado</button> · <button class="lnk" id="change" type="button">sair</button></p>
+    <p class="muted" style="text-align:center;margin-top:18px">Você: <b id="meName"></b> · <button class="lnk" id="change" type="button">sair</button></p>
   </section>
 </div>
 
@@ -132,7 +123,7 @@
   const PEOPLE = PROFILES.map(p => p.name);
   let me = store.get('orador', '');
   let proof = store.get('orador_proof', '');
-  let side = store.get('orador_side', null);
+  let side = '';
   let picking = '';
   let state = Object.assign({}, DP.DEFAULT_STATE);
   let fs = store.get('orador_fs', 22);
@@ -151,33 +142,19 @@
     if (!ok) { $('pinErr').textContent = 'Senha errada. Confere com o Davy.'; return; }
     me = picking; proof = pr; picking = '';
     store.set('orador', me); store.set('orador_proof', proof);
-    if (isHost(me)) { side = ''; store.set('orador_side', ''); }
-    else side = null;
+    side = ''; store.set('orador_side', '');
     flow();
   };
-  document.querySelector('.sides').onclick = e => { const b = e.target.closest('button'); if (!b) return; side = b.dataset.s; store.set('orador_side', side); sendTeam(); flow(); };
   $('change').onclick = () => { me = ''; proof = ''; side = null; store.del('orador'); store.del('orador_proof'); store.del('orador_side'); flow(); };
-  $('changeSide').onclick = () => { if (isHost(me)) return; side = null; flow(); };
 
   function flow() {
     $('pick').hidden = !!me || !!picking;
     $('pinBox').hidden = !picking;
-    $('pickSide').hidden = !me || side !== null;
-    $('main').hidden = !me || side === null;
-    $('changeSide').hidden = !me || isHost(me);
-    if (me) $('meName').textContent = me + (side === 'pal' ? ' · 🟢 Palestina' : side === 'isr' ? ' · 🔵 Israel' : '');
-    renderCounts(); render(); renderEnsaio();
+    $('pickSide').hidden = true;
+    $('main').hidden = !me;
+    if (me) $('meName').textContent = me;
+    render(); renderEnsaio();
   }
-  function renderCounts() {
-    const t = state.teams || { pal: [], isr: [] };
-    const f = (arr) => arr && arr.length ? `(${arr.length}/3: ${arr.map(esc).join(', ')})` : '(0/3)';
-    $('cntPal').innerHTML = f(t.pal); $('cntIsr').innerHTML = f(t.isr);
-  }
-  function sendTeam() {
-    if (!me || !proof || isHost(me) || (side !== 'pal' && side !== 'isr')) return;
-    bus.send(T.team, { name: me, side, proof });
-  }
-
   /* abas */
   $('tLive').onclick = () => { $('tLive').classList.add('on'); $('tEnsaio').classList.remove('on'); $('live').hidden = false; $('ensaio').hidden = true; };
   $('tEnsaio').onclick = () => { $('tEnsaio').classList.add('on'); $('tLive').classList.remove('on'); $('live').hidden = true; $('ensaio').hidden = false; };
@@ -186,15 +163,14 @@
 
   /* tempo real */
   const bus = DP.createBus('orador');
-  bus.onStatus(n => { $('conn').className = 'dot ' + (n ? 'on' : 'off'); if (n) sendTeam(); });
-  setInterval(sendTeam, 15000);
+  bus.onStatus(n => { $('conn').className = 'dot ' + (n ? 'on' : 'off'); });
   bus.on(T.state, msg => {
     const s = peek(msg); if (!s) return;
     if ((s.v || 0) < (state.v || 0)) return;
     const prevSlide = state.slide;
     state = Object.assign({}, DP.DEFAULT_STATE, s);
     if (state.slide !== prevSlide && SLIDES[state.slide] && SLIDES[state.slide].speaker === me && navigator.vibrate) navigator.vibrate([200, 100, 200]);
-    renderCounts(); render();
+    render();
   });
 
   function falaHTML(t) {
@@ -209,35 +185,23 @@
     document.documentElement.style.setProperty('--fs', fs + 'px');
   });
 
-  function argsHTML(sl, focus) {
-    const a = sl.args; if (!a) return '';
-    const block = (k) => `
-      <h3>${k === 'pal' ? '🟢 Lado da Palestina' : '🔵 Lado de Israel'}</h3>
-      <ul>${a[k].map(x => `<li>${esc(x)}</li>`).join('')}</ul>
-      <div class="punch">💥 ${esc(a[k + 'Punch'])}</div>`;
-    if (focus === 'pal' || focus === 'isr') {
-      const o = focus === 'pal' ? 'isr' : 'pal';
-      return `<div class="box args">${block(focus)}
-        <details class="other"><summary>O que o outro lado deve dizer (pra você rebater)</summary><ul>${a[o].map(x => `<li>${esc(x)}</li>`).join('')}</ul></details></div>`;
-    }
-    return `<div class="box args">${block('pal')}</div><div class="box args">${block('isr')}</div>`;
+  function questionsHTML(sl) {
+    if (!sl.followups) return '';
+    return `<div class="box args"><h3>🗳️ ${esc(sl.title)}</h3>
+      <p class="muted" style="margin:0 0 10px">Vote também no site da sala. Se a sala ficar quieta, puxe a conversa com uma dessas:</p>
+      <ul>${sl.followups.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
   }
 
   function render() {
-    if (!me || side === null) return;
+    if (!me) return;
     const i = state.slide || 0;
     const sl = SLIDES[i];
-    // painel "agora no telão"
     $('nowBox').innerHTML = `<div class="now">No telão agora · slide ${i + 1}/${SLIDES.length}</div><div class="ti">${esc(sl.title)}</div><div class="who">🎙️ ${esc(sl.speaker)}</div>`;
-
-    // quem tem a palavra
     const sp = state.speaker;
     $('speakerFloor').innerHTML = sp ? `<div class="floor">🎤 Com a palavra: ${esc(sp.name)}</div>` : '';
 
-    // próximo slide meu
     let next = -1;
     for (let k = i; k < SLIDES.length; k++) if (SLIDES[k].speaker === me) { next = k; break; }
-    const isDebate = !!sl.args;
     const st = $('status');
     let card = '';
 
@@ -245,26 +209,24 @@
       st.className = 'status s-now';
       st.innerHTML = `<div class="big">🎤 SUA VEZ!</div><div class="sub">Fala com calma, olhando pra sala.</div>`;
       card = `<div class="box">${sizes()}<div class="fala">${falaHTML(sl.fala || '')}</div></div>`;
-      if (sl.notes && me === 'Evilayne') card += `<div class="box muted"><b>Dica:</b> ${esc(sl.notes)}</div>`;
-    } else if (isDebate && me !== 'Evilayne') {
-      const mySideFloor = sp && side && ((side === 'pal' && /Palestina/.test(sp.name)) || (side === 'isr' && /Israel/.test(sp.name)));
-      st.className = 'status ' + (mySideFloor ? 's-now' : 's-soon');
-      st.innerHTML = mySideFloor
-        ? `<div class="big">🎤 VEZ DO SEU LADO!</div><div class="sub">1 minuto. Use os argumentos abaixo.</div>`
-        : `<div class="big">⚔️ DEBATE</div><div class="sub">${esc(sl.kicker)} — prepare seus argumentos.</div>`;
-      card = argsHTML(sl, side);
-    } else if (next === -1) {
-      st.className = 'status s-done';
-      st.innerHTML = `<div class="big">✅ Você já falou!</div><div class="sub">${isDebate ? '' : 'Agora é torcer e participar do debate.'}</div>`;
-      if (isDebate) card = argsHTML(sl, side);
     } else {
-      const n = next - i;
-      const ns = SLIDES[next];
-      st.className = 'status ' + (n === 1 ? 's-next' : n <= 3 ? 's-soon' : 's-wait');
-      st.innerHTML = n === 1
-        ? `<div class="big">⚡ PRÓXIMO É VOCÊ!</div><div class="sub">Prepare-se: "${esc(ns.title)}"</div>`
-        : `<div class="big">Sua vez em ${n} slides</div><div class="sub">Seu próximo: "${esc(ns.title)}"</div>`;
-      card = `<div class="box"><div class="now" style="margin-bottom:8px">Sua próxima fala</div>${sizes()}<div class="fala dim">${falaHTML(ns.fala || '')}</div></div>`;
+      const n = next === -1 ? 0 : next - i;
+      const ns = next === -1 ? null : SLIDES[next];
+      if (sl.followups) {
+        st.className = 'status s-soon';
+        st.innerHTML = `<div class="big">🗳️ PERGUNTA PRA SALA</div><div class="sub">${ns ? (n === 1 ? '⚡ Depois dessa pergunta é você!' : `Sua vez em ${n} slides`) : 'Você já falou. Agora é debater!'}</div>`;
+        card = questionsHTML(sl);
+        if (ns && n === 1) card += `<div class="box"><div class="now" style="margin-bottom:8px">Sua próxima fala</div>${sizes()}<div class="fala dim">${falaHTML(ns.fala || '')}</div></div>`;
+      } else if (!ns) {
+        st.className = 'status s-done';
+        st.innerHTML = `<div class="big">✅ Você já falou!</div><div class="sub">Agora é ajudar a sala a debater.</div>`;
+      } else {
+        st.className = 'status ' + (n === 1 ? 's-next' : n <= 3 ? 's-soon' : 's-wait');
+        st.innerHTML = n === 1
+          ? `<div class="big">⚡ PRÓXIMO É VOCÊ!</div><div class="sub">Prepare-se: "${esc(ns.title)}"</div>`
+          : `<div class="big">Sua vez em ${n} slides</div><div class="sub">Seu próximo: "${esc(ns.title)}"</div>`;
+        card = `<div class="box"><div class="now" style="margin-bottom:8px">Sua próxima fala</div>${sizes()}<div class="fala dim">${falaHTML(ns.fala || '')}</div></div>`;
+      }
     }
     $('mainCard').innerHTML = card;
   }
@@ -278,13 +240,9 @@
         <div class="ti" style="margin-bottom:10px">${esc(s.title)}</div>
         <div class="fala">${falaHTML(s.fala || '')}</div>
       </div>`).join('');
-    if (me !== 'Evilayne') {
-      html += `<div class="box"><h1 style="font-size:20px">⚔️ Argumentos do debate</h1><p class="muted">As 4 perguntas que a Evilayne vai fazer.</p></div>`;
-      SLIDES.filter(s => s.args).forEach(s => {
-        html += `<div class="box"><div class="now">${esc(s.kicker)}</div><div class="ti">${esc(s.title)}</div></div>` + argsHTML(s, side);
-      });
-    }
-    $('ensaioList').innerHTML = html || '<div class="box muted">Você não tem slides pra apresentar.</div>';
+    html += `<div class="box"><h1 style="font-size:20px">🗳️ Perguntas pra sala</h1><p class="muted">A Evilayne vai fazer essas perguntas. Pense na sua opinião e ajude a puxar o debate.</p></div>`;
+    SLIDES.filter(s => s.followups).forEach(s => { html += questionsHTML(s); });
+    $('ensaioList').innerHTML = html;
   }
 
   flow();

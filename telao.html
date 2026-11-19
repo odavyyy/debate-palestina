@@ -186,7 +186,6 @@
     <div id="top">
       <span class="live-badge">Ao vivo</span>
       <div class="show">DEBATE <span>· Genocídio na Palestina</span></div>
-      <div class="score" id="score" hidden><span class="t pal">PALESTINA</span><b id="scP">0</b><i>x</i><b id="scI">0</b><span class="t isr">ISRAEL</span></div>
       <div class="sp"></div>
       <div class="pill">👥 <span id="people">0</span> participando</div>
       <div class="pill" title="Conexão"><span class="dot" id="conn"></span></div>
@@ -346,7 +345,7 @@
     }
     const status = p.open
       ? `<span class="live-badge">Votação aberta</span> ${p.total || 0} voto${p.total === 1 ? '' : 's'} — vote no celular!`
-      : `Votação encerrada · ${p.total || 0} votos`;
+      : (p.show ? `${p.total || 0} votos · 🎤 Pensa diferente? Peça a palavra no celular!` : `Votação encerrada · ${p.total || 0} votos`);
     const hidden = !p.show;
     if (sl.final && state.compare && p.show) {
       area.innerHTML = `<div class="poll"><div class="status">${status}</div>
@@ -394,10 +393,7 @@
 
   function renderScore() {
     const sc = state.score;
-    const el = document.getElementById('score');
     const any = sc && (sc.pal || sc.isr || sc.played);
-    el.hidden = !any;
-    if (sc) { document.getElementById('scP').textContent = sc.pal || 0; document.getElementById('scI').textContent = sc.isr || 0; }
     const f = document.getElementById('finalScore');
     if (f && sc && any) {
       const w = sc.pal > sc.isr ? 'pal' : sc.isr > sc.pal ? 'isr' : '';

@@ -13,7 +13,7 @@ Apresentação interativa para a escola, com três telas que conversam em tempo 
 1. No computador do projetor, abra o **telão**, digite a senha do grupo e aperte **F** (tela cheia).
 2. A Evilayne abre o **painel** e digita **a mesma senha**.
 3. A turma escaneia o QR Code, coloca o nome e participa.
-4. A Evilayne passa os slides, dá a palavra aos times (Lado da Palestina x Lado de Israel) e abre a votação de cada rodada. O lado mais votado ganha o ponto no placar.
+4. O grupo apresenta o contexto e a opinião do grupo. Entre os blocos, a Evilayne faz perguntas pra sala votar no celular e chama pra falar quem votou diferente (o painel mostra quem votou o quê).
 
 **Atalhos do telão:** ← → trocam slide · F tela cheia · Q esconde o QR · S troca a senha.
 

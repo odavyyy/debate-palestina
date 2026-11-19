@@ -247,7 +247,7 @@
     const b = e.target.closest('.opt'); if (!b || !state.poll || !state.poll.open) return;
     const i = +b.dataset.i;
     myVotes[state.poll.id] = i; store.set('votes', myVotes);
-    bus.send(T.vote, { uid: UID, pollId: state.poll.id, opt: i });
+    bus.send(T.vote, { uid: UID, name, pollId: state.poll.id, opt: i });
     if (navigator.vibrate) navigator.vibrate(18);
     renderPoll();
   });
