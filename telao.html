@@ -164,6 +164,16 @@
   .bar:nth-child(2) .fill { background: linear-gradient(90deg, #12945f, #2fd18b); }
   .bar:nth-child(3) .fill { background: linear-gradient(90deg, #2b6fd6, #4da3ff); }
   .bar:nth-child(4) .fill { background: linear-gradient(90deg, #666, #999); }
+
+  /* Slide só do QR Code */
+  #slide.layout-qr { width: 1920px; flex-direction: row; align-items: center; gap: 70px; padding: 26px 80px; }
+  .bigqr { width: 820px; height: 820px; flex: none; background: #fff; border-radius: 30px; padding: 26px; }
+  .bigqr svg { width: 100%; height: 100%; display: block; }
+  .qrtext h1 { font-size: 96px !important; margin: 14px 0 26px !important; }
+  .qrtext .lead { font-size: 40px; }
+  .qrurl { margin-top: 30px; font-size: 30px; font-weight: 700; color: var(--accent); word-break: break-all; }
+  .qrcount { margin-top: 40px; font-size: 40px; color: var(--muted); }
+  .qrcount b { font-family: var(--head); font-size: 110px; color: #fff; display: block; line-height: 1; }
   #fsbtn { position: fixed; right: 14px; bottom: 14px; z-index: 50; background: rgba(255,255,255,.12); color: #fff; padding: 10px 14px; border-radius: 10px; font-size: 14px; opacity: .25; }
   #fsbtn:hover { opacity: 1; }
 </style>
@@ -312,6 +322,18 @@
   function renderSlide() {
     const sl = SLIDES[state.slide] || SLIDES[0];
     slideEl.className = 'layout-' + sl.layout + (sl.side ? ' side-' + sl.side : '');
+    if (sl.layout === 'qr') {
+      slideEl.innerHTML = `<div class="bigqr">${qrSVG(url)}</div>
+        <div class="qrtext">
+          <div class="kicker">Antes de começar</div>
+          <h1>Escaneie e participe!</h1>
+          <p class="lead">Abra a câmera do celular, aponte pro QR Code e coloque só o seu nome.</p>
+          <div class="qrurl">${esc(url.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</div>
+          <div class="qrcount"><b id="qrPeople">${document.getElementById('people').textContent}</b> já entraram</div>
+        </div>`;
+      document.getElementById('side').style.display = 'none';
+      return;
+    }
     let extra = '';
     if (sl.layout === 'cover') extra = `<div class="cover-qr">${qrSVG(url)}<b>${esc(url.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</b></div>`;
     slideEl.innerHTML = `
@@ -470,6 +492,7 @@
     const cut = Date.now() - 75000;
     for (const [k, t] of people) if (t < cut) people.delete(k);
     document.getElementById('people').textContent = people.size;
+    const qp = document.getElementById('qrPeople'); if (qp) qp.textContent = people.size;
   }, 2000);
 
   renderSlide(); renderLower(); renderSide();

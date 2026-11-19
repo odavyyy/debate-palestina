@@ -3,8 +3,18 @@
    Números verificados em novembro de 2026 (ver slide de fontes). */
 window.SLIDES = [
   {
+    "id": "qr",
+    "speaker": "Davy",
+    "layout": "qr",
+    "kicker": "Antes de começar",
+    "title": "Escaneie e participe!",
+    "body": "",
+    "fala": "Pessoal, antes de começar: pega o celular, abre a câmera e escaneia esse QR Code. É só colocar o seu nome, não precisa de login. [espera o número de pessoas subir na tela]",
+    "notes": "Deixar este slide até quase toda a sala entrar (o número aparece no telão). Depois, passar pra capa."
+  },
+  {
     "id": "capa",
-    "fala": "Bom dia, pessoal! A gente é o grupo do trabalho sobre o genocídio na Palestina. Mas hoje não vai ser só a gente falando: vai ser um debate, tipo programa de TV, e vocês participam. Pega o celular e escaneia esse QR Code aqui. É só colocar o nome, não precisa de login.",
+    "fala": "Bom dia, pessoal! A gente é o grupo do trabalho sobre o genocídio na Palestina. Mas hoje não vai ser só a gente falando: vai ser um debate, tipo programa de TV, e vocês participam pelo celular.",
     "speaker": "Davy",
     "layout": "cover",
     "kicker": "Debate ao vivo",
