@@ -9,12 +9,12 @@ window.SLIDES = [
     "kicker": "Antes de começar",
     "title": "Escaneie e participe!",
     "body": "",
-    "fala": "Pessoal, antes de começar: pega o celular, abre a câmera e escaneia esse QR Code. É só colocar o seu nome, não precisa de login. [espera o número de pessoas subir na tela]",
+    "fala": "Pessoal, antes de começar: todo mundo pega o celular, abre a câmera e escaneia esse QR Code. Só o nome, sem login. E já vou avisando: hoje vocês vão ter que se posicionar. Quem ficar em cima do muro, a gente chama pra falar! [espera o número subir na tela]",
     "notes": "Deixar este slide até quase toda a sala entrar (o número aparece no telão). Depois, passar pra capa."
   },
   {
     "id": "capa",
-    "fala": "Bom dia, pessoal! A gente é o grupo do trabalho sobre o genocídio na Palestina. Mas hoje não vai ser só a gente falando: vai ser um debate, tipo programa de TV, e vocês participam pelo celular.",
+    "fala": "Bom dia, pessoal! O nosso tema é pesado: genocídio na Palestina. E eu vou começar com uma pergunta. Levanta a mão quem já viu vídeo de Gaza no TikTok ou no Instagram. [espera] Pois é. Quase todo mundo viu, mas pouca gente sabe o que está acontecendo de verdade. Hoje não vai ser só a gente falando: vai ser debate, tipo programa de TV, e a opinião de vocês vai aparecer ali no telão.",
     "speaker": "Davy",
     "layout": "cover",
     "kicker": "Debate ao vivo",
@@ -24,7 +24,7 @@ window.SLIDES = [
   },
   {
     "id": "regras",
-    "fala": "Pelo celular vocês podem fazer três coisas: mandar reação, que aparece aqui no telão com o seu nome; responder as perguntas que a Evilayne vai fazer durante a apresentação; e pedir a palavra pra falar o que pensam. A ideia é ouvir a opinião de vocês, então participem! Só uma regra: pode discordar à vontade, mas critica a ideia, não a pessoa. Agora o Eduardo vai explicar o contexto.",
+    "fala": "Pelo celular vocês podem fazer três coisas: mandar reação, que aparece no telão com o seu nome; responder as perguntas que a Evilayne vai fazer; e pedir a palavra pra falar. E vou ser sincero: aqui não tem resposta fácil. Vai ter gente discordando de vocês, e é pra isso mesmo. Só uma regra: critica a ideia, não a pessoa. Agora o Eduardo vai mostrar onde tudo isso começou.",
     "speaker": "Davy",
     "layout": "cards",
     "kicker": "Como vai funcionar",
@@ -34,7 +34,7 @@ window.SLIDES = [
   },
   {
     "id": "onde",
-    "fala": "Primeiro: onde fica isso. Os palestinos têm dois territórios: a Faixa de Gaza, no litoral, do lado do Egito, e a Cisjordânia. Gaza é minúscula: 365 quilômetros quadrados, menor que a cidade de São Paulo, e antes da guerra tinha 2,1 milhões de pessoas. Desde 2007 quem governa Gaza é o Hamas, e Israel e Egito controlam tudo que entra e sai. Isso é o bloqueio.",
+    "fala": "Imagina 2 milhões de pessoas presas num lugar menor que a cidade de São Paulo, sem poder sair. Isso é Gaza. Os palestinos têm dois territórios: Gaza, no litoral, do lado do Egito, e a Cisjordânia. Gaza tem 365 quilômetros quadrados e antes da guerra tinha 2,1 milhões de pessoas. Desde 2007 quem governa lá é o Hamas, e Israel e Egito controlam tudo que entra e sai: comida, remédio, gente. Pergunta pra vocês: vocês conseguiriam viver num lugar de onde não podem sair?",
     "speaker": "Eduardo",
     "layout": "cards",
     "kicker": "Contexto",
@@ -44,7 +44,7 @@ window.SLIDES = [
   },
   {
     "id": "historia",
-    "fala": "Esse conflito não começou agora. Em 1947 a ONU propôs dividir a região em dois Estados. Em 1948 Israel foi criado, e na guerra que veio cerca de 700 mil palestinos perderam suas casas. Eles chamam isso de Nakba, que quer dizer catástrofe. Em 1967 Israel ocupou Gaza e a Cisjordânia. Em 2005 saiu de Gaza, e em 2007 o Hamas tomou o poder lá. E em 2023 começou a guerra atual. O Luis vai explicar.",
+    "fala": "E isso não começou ontem. Em 1947 a ONU propôs dividir a terra em dois países. Em 1948 Israel foi criado, e cerca de 700 mil palestinos perderam suas casas. Eles chamam isso de Nakba, a catástrofe. Olha que louco: pros israelenses, 1948 é a independência. Pros palestinos, é a tragédia. A mesma data, duas histórias. Em 1967 Israel ocupou Gaza e a Cisjordânia, em 2005 saiu de Gaza, e em 2007 o Hamas tomou o poder lá. Então já fica a pergunta: de quem é essa terra? O Luis vai mostrar o dia que mudou tudo.",
     "speaker": "Eduardo",
     "layout": "timeline",
     "kicker": "Contexto",
@@ -54,7 +54,7 @@ window.SLIDES = [
   },
   {
     "id": "out7",
-    "fala": "No dia 7 de outubro de 2023, o Hamas atacou o sul de Israel. Morreram cerca de 1.200 pessoas, a maioria civis, e 251 foram levadas como reféns para Gaza. Foi o dia mais mortal para judeus desde o Holocausto. Depois disso, Israel declarou guerra ao Hamas.",
+    "fala": "7 de outubro de 2023. O Hamas invadiu o sul de Israel e matou cerca de 1.200 pessoas, a maioria civis: jovens numa festa de música, famílias dentro de casa. 251 pessoas foram levadas como reféns pra Gaza, inclusive crianças e idosos. Foi o dia mais mortal para judeus desde o Holocausto. E aqui eu quero que vocês pensem: se isso acontecesse no Brasil, o que vocês iam querer que o governo fizesse?",
     "speaker": "Luis Eduardo",
     "layout": "cards",
     "kicker": "7 de outubro de 2023",
@@ -64,7 +64,7 @@ window.SLIDES = [
   },
   {
     "id": "numeros",
-    "fala": "Só que a guerra em Gaza foi muito maior. Segundo o Ministério da Saúde de Gaza, já são mais de 74.600 mortos e 175 mil feridos. Cerca de 90% da população teve que sair de casa, e em 2025 foi confirmada fome em Gaza. Um detalhe: esse ministério é controlado pelo Hamas, e Israel contesta os números, mas a ONU e pesquisadores independentes consideram os dados confiáveis. E aí, o que vocês acham disso? Evilayne, é com você!",
+    "fala": "E Israel respondeu com guerra. Olha os números: mais de 74.600 mortos em Gaza, segundo o Ministério da Saúde de lá. Mais de 175 mil feridos. Cerca de 90% da população teve que fugir de casa. E em 2025 foi confirmada fome. Fome, em pleno 2025. Agora, um detalhe: esse ministério é controlado pelo Hamas, e Israel diz que os números são exagerados. Mas a ONU e pesquisadores independentes dizem que são confiáveis, e alguns estudos acham que são até maiores. Então eu pergunto: 1.200 mortos de um lado, mais de 74 mil do outro. Isso ainda é defesa? Evilayne, é com você!",
     "speaker": "Luis Eduardo",
     "layout": "cards",
     "kicker": "A guerra em Gaza",
@@ -88,15 +88,16 @@ window.SLIDES = [
       ]
     },
     "followups": [
+      "Se o Brasil fosse atacado assim, vocês aceitariam bombardear onde os terroristas se escondem, mesmo com civis perto?",
       "Pra quem votou \"sim, mas não desse jeito\": qual seria o jeito certo?",
       "Existe limite pra legítima defesa? Quem decide esse limite?",
       "E os reféns? O que vocês fariam pra trazer eles de volta?"
     ],
-    "notes": "Abrir a votação (uns 30 s) e mostrar o resultado. Chamar alguém de cada resposta: o painel mostra quem votou o quê. Usar as perguntas de provocação se a sala travar. Depois, chamar o Gustavo pra explicar o que é genocídio."
+    "notes": "Abrir a votação (uns 30 s) e mostrar o resultado. Chamar alguém de cada resposta: o painel mostra quem votou o quê. Usar as perguntas de provocação se a sala travar. Depois, chamar o Gustavo pra explicar o que é genocídio. Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão."
   },
   {
     "id": "definicao",
-    "fala": "Genocídio não é só 'morreu muita gente'. Tem uma definição da ONU, de 1948, criada depois do Holocausto: são atos cometidos com a intenção de destruir um povo, no todo ou em parte. São cinco atos: matar, causar danos graves, impor condições de vida pra destruir o grupo, impedir nascimentos e tirar as crianças à força. E o mais difícil de provar é a intenção. O Kaiky vai mostrar quem acusa e o que Israel responde.",
+    "fala": "Tá, mas o que é genocídio? Porque não é só 'morreu muita gente'. Em 1948, depois do Holocausto, a ONU definiu: genocídio são atos feitos com a intenção de destruir um povo, no todo ou em parte. São cinco atos: matar, causar danos graves, criar condições de vida pra destruir o grupo, impedir nascimentos e tirar crianças à força. E o que decide tudo é a intenção. Uma guerra pode matar muita gente sem ser genocídio. Então a pergunta não é 'quantos morreram'. É 'o que eles queriam fazer'. O Kaiky vai mostrar quem acusa e quem se defende.",
     "speaker": "Gustavo",
     "layout": "definition",
     "kicker": "Antes de discutir",
@@ -106,7 +107,7 @@ window.SLIDES = [
   },
   {
     "id": "acusam",
-    "fala": "Quem diz que é genocídio? A África do Sul levou Israel para a Corte Internacional de Justiça, e o Brasil entrou nesse processo. Em 2025, uma comissão da ONU concluiu que Israel cometeu quatro dos cinco atos de genocídio. A Anistia Internacional e a maior associação de estudiosos de genocídio do mundo dizem o mesmo. Os argumentos são: muitos civis mortos, casas e hospitais destruídos, bloqueio de comida e falas de autoridades israelenses.",
+    "fala": "Quem está acusando Israel de genocídio não é qualquer um. A África do Sul levou Israel pra Corte Internacional de Justiça, e o Brasil entrou junto. Em 2025, uma comissão da ONU concluiu que Israel cometeu quatro dos cinco atos de genocídio. A Anistia Internacional concorda. A maior associação de estudiosos de genocídio do mundo concorda. E até organizações de direitos humanos de dentro de Israel concordam. Quando até gente de dentro do país acusa, dá pra ignorar?",
     "speaker": "Kaiky",
     "layout": "versus",
     "side": "a",
@@ -117,7 +118,7 @@ window.SLIDES = [
   },
   {
     "id": "negam",
-    "fala": "E o que diz Israel? O governo nega e chamou o relatório da ONU de falso. Diz que a guerra é contra o Hamas e não contra os palestinos, que o Hamas se esconde no meio dos civis e que Israel avisou a população antes dos ataques. Os Estados Unidos defendem Israel na Corte. E vocês, concordam com quem? Evilayne!",
+    "fala": "Mas Israel tem a versão dele, e vocês precisam ouvir. O governo chamou o relatório da ONU de falso. Diz que a guerra é contra o Hamas, não contra os palestinos. Diz que o Hamas se esconde em túneis embaixo de casas, escolas e hospitais, usando a própria população como escudo. Diz que avisou os civis antes de atacar. E os Estados Unidos estão do lado de Israel na Corte. Então, quem está falando a verdade? Evilayne!",
     "speaker": "Kaiky",
     "layout": "versus",
     "side": "b",
@@ -142,11 +143,12 @@ window.SLIDES = [
       ]
     },
     "followups": [
+      "Quem acha que é \"só culpa de Israel\": e os reféns? Quem acha que é \"só culpa do Hamas\": e as crianças?",
       "Se o Hamas se esconde no meio de civis, isso libera quem ataca?",
       "Dá pra condenar o Hamas e Israel ao mesmo tempo?",
       "Por que tem gente que só fala do Hamas, e gente que nunca fala?"
     ],
-    "notes": "Mesmo esquema: votar, mostrar, chamar pessoas de respostas diferentes pra conversarem entre si. Depois, chamar o Gustavo pra mostrar a opinião do grupo."
+    "notes": "Mesmo esquema: votar, mostrar, chamar pessoas de respostas diferentes pra conversarem entre si. Depois, chamar o Gustavo pra mostrar a opinião do grupo. Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão."
   },
   {
     "id": "opiniao",
@@ -156,12 +158,12 @@ window.SLIDES = [
     "kicker": "Nossa opinião",
     "title": "Por que a gente acha que é genocídio",
     "body": "\n      <ul class=\"points\">\n        <li><b>Matar e ferir em massa (atos 1 e 2):</b> mais de 74 mil mortos e 175 mil feridos, muitos deles civis.</li>\n        <li><b>Condições pra destruir um povo (ato 3):</b> fome confirmada, hospitais destruídos, ajuda bloqueada.</li>\n        <li><b>Intenção:</b> a comissão da ONU apontou falas de autoridades israelenses mostrando a vontade de destruir Gaza.</li>\n        <li><b>Não somos só nós:</b> ONU, Anistia, estudiosos de genocídio e até organizações de direitos humanos de dentro de Israel dizem o mesmo.</li>\n      </ul>\n      <p class=\"rule\">Isso <b>não</b> é apoiar o Hamas: o 7 de outubro também foi um crime.</p>",
-    "fala": "Depois de tudo isso, a opinião do nosso grupo é: sim, é genocídio. Por quê? Primeiro, mais de 74 mil mortos e 175 mil feridos, muitos civis. Segundo, a fome e a destruição dos hospitais, que é impor condições pra destruir um povo. Terceiro, a intenção: a comissão da ONU apontou falas de autoridades israelenses. E não somos só nós: a ONU, a Anistia, estudiosos de genocídio e até organizações de direitos humanos de dentro de Israel dizem o mesmo. Mas atenção: isso não é apoiar o Hamas. O 7 de outubro também foi um crime. O Guilherme vai mostrar o que a Justiça já decidiu.",
+    "fala": "Depois de ouvir os dois lados, a opinião do nosso grupo é clara: é genocídio. Primeiro: mais de 74 mil mortos e 175 mil feridos, muitos civis. Segundo: fome, hospitais destruídos e ajuda bloqueada, que é criar condições pra destruir um povo. Terceiro: a intenção, porque a comissão da ONU apontou falas de autoridades israelenses. E não somos só nós: ONU, Anistia, estudiosos e até organizações israelenses dizem o mesmo. Mas presta atenção: dizer isso não é apoiar o Hamas. O 7 de outubro foi um crime, e o Hamas tem que responder por ele. Só que o crime de um grupo não dá o direito de punir um povo inteiro. Alguém aqui discorda? Pode falar, é pra isso que a gente está aqui. [pausa] O Guilherme vai mostrar o que a Justiça fez até agora.",
     "notes": "Slide com a posição do grupo. Falar com convicção, mas sem atacar quem pensa diferente: a sala vai poder discordar nas perguntas."
   },
   {
     "id": "tribunais",
-    "fala": "Na Justiça: em 2024 a Corte Internacional disse que a acusação é plausível e mandou Israel prevenir genocídio e deixar a ajuda entrar. No mesmo ano, o Tribunal Penal Internacional pediu a prisão do primeiro-ministro Netanyahu e do ex-ministro da Defesa, e também de um líder do Hamas. A decisão final sobre o genocídio deve sair só lá pra 2029.",
+    "fala": "E a Justiça? Em janeiro de 2024, a Corte Internacional disse que a acusação era plausível e mandou Israel prevenir genocídio e deixar a ajuda entrar. Em novembro de 2024, o Tribunal Penal Internacional pediu a prisão do primeiro-ministro Netanyahu e do ex-ministro da Defesa, e também de um líder do Hamas. Mas sabe quando sai a decisão final sobre o genocídio? Lá pra 2029. Pensa nisso: até a Justiça decidir, quantas pessoas ainda vão morrer?",
     "speaker": "Guilherme",
     "layout": "timeline",
     "kicker": "Na Justiça",
@@ -171,7 +173,7 @@ window.SLIDES = [
   },
   {
     "id": "hoje",
-    "fala": "E hoje? Desde outubro de 2025 tem um cessar-fogo, e os reféns foram trocados por prisioneiros. Mas mais de 1.600 pessoas morreram depois do acordo, e Israel ainda controla cerca de metade de Gaza. Agora a gente quer ouvir vocês. Evilayne!",
+    "fala": "E hoje? Desde outubro de 2025 tem um cessar-fogo, e os reféns vivos voltaram pra casa. Parece que acabou, né? Só que mais de 1.600 pessoas morreram depois do acordo, e Israel ainda controla mais ou menos metade de Gaza. Então é paz ou só uma pausa? Agora chega da gente: queremos ouvir vocês. Evilayne!",
     "speaker": "Guilherme",
     "layout": "cards",
     "kicker": "E hoje?",
@@ -195,11 +197,12 @@ window.SLIDES = [
       ]
     },
     "followups": [
+      "Se fosse um país pobre fazendo isso, o mundo já teria agido?",
       "O que o mundo poderia ter feito: parar de vender armas, cortar relações, sanções?",
       "Por que demorou tanto pra alguém falar em genocídio?",
       "O Brasil fez certo em entrar no processo contra Israel na Corte da ONU?"
     ],
-    "notes": "Puxar o Brasil pra conversa. Se todo mundo votar igual, perguntar: \"e o que vocês fariam se fossem presidente?\""
+    "notes": "Puxar o Brasil pra conversa. Se todo mundo votar igual, perguntar: \"e o que vocês fariam se fossem presidente?\" Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão."
   },
   {
     "id": "p4",
@@ -217,11 +220,12 @@ window.SLIDES = [
       ]
     },
     "followups": [
+      "Quem aqui já mudou de opinião por causa de um vídeo?",
       "Alguém já viu notícia falsa sobre esse assunto?",
       "Postar sobre Gaza ajuda de verdade ou é só pra aparecer?",
       "A gente, aqui no Brasil, deveria se importar com isso? Por quê?"
     ],
-    "notes": "Pergunta mais leve pra sala inteira participar. Pedir exemplos de vídeos ou posts que eles viram."
+    "notes": "Pergunta mais leve pra sala inteira participar. Pedir exemplos de vídeos ou posts que eles viram. Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão."
   },
   {
     "id": "pfinal",
@@ -239,15 +243,16 @@ window.SLIDES = [
       ]
     },
     "followups": [
+      "Quem votou diferente do grupo: o que a gente não conseguiu te convencer?",
       "Pra quem votou \"não\" ou \"ainda não sei\": o que faltou pra te convencer?",
       "Pra quem votou \"sim\": o que mais pesou?",
       "Alguém mudou de opinião durante a aula?"
     ],
-    "notes": "Última votação. Dar a palavra principalmente pra quem discordou do grupo: é o momento de debate mais legal. No fim, chamar o Davy pra encerrar."
+    "notes": "Última votação. Dar a palavra principalmente pra quem discordou do grupo: é o momento de debate mais legal. No fim, chamar o Davy pra encerrar. Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão."
   },
   {
     "id": "fim",
-    "fala": "Valeu demais pela participação de todo mundo! A gente quis mostrar que dá pra discutir um assunto pesado, com fatos e com respeito, ouvindo opiniões diferentes. E que o que acontece em Gaza importa, mesmo longe daqui. Obrigado!",
+    "fala": "Valeu demais, galera! Hoje teve gente que concordou, gente que discordou, e é assim que tem que ser. A gente quis mostrar que dá pra discutir um assunto pesado com fatos e com respeito. Mas fica uma última pergunta pra vocês levarem pra casa: se daqui a 20 anos alguém perguntar o que vocês pensavam sobre Gaza em 2026, o que vocês vão responder? Obrigado!",
     "speaker": "Davy",
     "layout": "end",
     "kicker": "Obrigado!",
