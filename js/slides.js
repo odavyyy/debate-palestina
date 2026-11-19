@@ -93,7 +93,17 @@ window.SLIDES = [
       "Existe limite pra legítima defesa? Quem decide esse limite?",
       "E os reféns? O que vocês fariam pra trazer eles de volta?"
     ],
-    "notes": "Abrir a votação (uns 30 s) e mostrar o resultado. Chamar alguém de cada resposta: o painel mostra quem votou o quê. Usar as perguntas de provocação se a sala travar. Depois, chamar o Gustavo pra explicar o que é genocídio. Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão."
+    "notes": "Antes de abrir a votação: Luis Eduardo provoca (30 s) e Guilherme rebate (30 s). Depois abre a votação e pergunta pra sala: \"e vocês, concordam com quem?\". Abrir a votação (uns 30 s) e mostrar o resultado. Chamar alguém de cada resposta: o painel mostra quem votou o quê. Usar as perguntas de provocação se a sala travar. Depois, chamar o Gustavo pra explicar o que é genocídio. Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão.",
+    "warmup": [
+      {
+        "name": "Luis Eduardo",
+        "text": "Vou provocar: Israel tinha direito, sim. Foram 1.200 mortos e 251 reféns num dia só. Qual país ia ficar parado? Se fosse aqui no Brasil, todo mundo ia pedir uma resposta."
+      },
+      {
+        "name": "Guilherme",
+        "text": "Direito de se defender não é direito de fazer qualquer coisa. Mais de 74 mil mortos, fome, hospital destruído. Isso não é defesa, é punir um povo inteiro."
+      }
+    ]
   },
   {
     "id": "definicao",
@@ -148,7 +158,17 @@ window.SLIDES = [
       "Dá pra condenar o Hamas e Israel ao mesmo tempo?",
       "Por que tem gente que só fala do Hamas, e gente que nunca fala?"
     ],
-    "notes": "Mesmo esquema: votar, mostrar, chamar pessoas de respostas diferentes pra conversarem entre si. Depois, chamar o Gustavo pra mostrar a opinião do grupo. Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão."
+    "notes": "Antes de abrir a votação: Kaiky provoca (30 s) e Eduardo rebate (30 s). Depois abre a votação e pergunta pra sala: \"e vocês, concordam com quem?\". Mesmo esquema: votar, mostrar, chamar pessoas de respostas diferentes pra conversarem entre si. Depois, chamar o Gustavo pra mostrar a opinião do grupo. Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão.",
+    "warmup": [
+      {
+        "name": "Kaiky",
+        "text": "O Hamas tem culpa, sim. Começou a guerra, sequestrou crianças e se esconde embaixo de hospital. Quem usa civil como escudo é culpado pelo que acontece com eles."
+      },
+      {
+        "name": "Eduardo",
+        "text": "Mas o Hamas não é o povo palestino. Quase metade de Gaza é criança, e criança não escolheu o Hamas. Se tem civil, quem ataca tem a obrigação de não atirar."
+      }
+    ]
   },
   {
     "id": "opiniao",
@@ -202,7 +222,17 @@ window.SLIDES = [
       "Por que demorou tanto pra alguém falar em genocídio?",
       "O Brasil fez certo em entrar no processo contra Israel na Corte da ONU?"
     ],
-    "notes": "Puxar o Brasil pra conversa. Se todo mundo votar igual, perguntar: \"e o que vocês fariam se fossem presidente?\" Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão."
+    "notes": "Antes de abrir a votação: Gustavo provoca (30 s) e Davy rebate (30 s). Depois abre a votação e pergunta pra sala: \"e vocês, concordam com quem?\". Puxar o Brasil pra conversa. Se todo mundo votar igual, perguntar: \"e o que vocês fariam se fossem presidente?\" Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão.",
+    "warmup": [
+      {
+        "name": "Gustavo",
+        "text": "O mundo falhou. Todo mundo viu tudo ao vivo pelo celular e quase ninguém fez nada. Depois do Holocausto prometeram 'nunca mais'. Cadê?"
+      },
+      {
+        "name": "Davy",
+        "text": "Mas o que um país de longe consegue fazer de verdade? Se o Brasil cortar relação com Israel, muda alguma coisa lá? Ou é só pra aparecer?"
+      }
+    ]
   },
   {
     "id": "p4",
@@ -225,7 +255,17 @@ window.SLIDES = [
       "Postar sobre Gaza ajuda de verdade ou é só pra aparecer?",
       "A gente, aqui no Brasil, deveria se importar com isso? Por quê?"
     ],
-    "notes": "Pergunta mais leve pra sala inteira participar. Pedir exemplos de vídeos ou posts que eles viram. Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão."
+    "notes": "Antes de abrir a votação: Luis Eduardo provoca (30 s) e Kaiky rebate (30 s). Depois abre a votação e pergunta pra sala: \"e vocês, concordam com quem?\". Pergunta mais leve pra sala inteira participar. Pedir exemplos de vídeos ou posts que eles viram. Plano B: se pouca gente votar no celular, pedir pra sala levantar a mão.",
+    "warmup": [
+      {
+        "name": "Luis Eduardo",
+        "text": "Rede social ajuda, sim. Foi pelo celular que o mundo viu o que está acontecendo em Gaza. A TV não mostrava."
+      },
+      {
+        "name": "Kaiky",
+        "text": "Ajuda nada. Tem muito vídeo falso, e cada um só vê o que o algoritmo quer. Vira briga, não informação."
+      }
+    ]
   },
   {
     "id": "pfinal",

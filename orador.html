@@ -192,6 +192,8 @@
       <ul>${sl.followups.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
   }
 
+  function nextText(ns) { const w = (ns.warmup || []).find(x => x.name === me); return ns.speaker === me ? (ns.fala || '') : w ? '🔥 Na pergunta, você esquenta o debate: ' + w.text : ''; }
+
   function render() {
     if (!me) return;
     const i = state.slide || 0;
@@ -201,7 +203,7 @@
     $('speakerFloor').innerHTML = sp ? `<div class="floor">🎤 Com a palavra: ${esc(sp.name)}</div>` : '';
 
     let next = -1;
-    for (let k = i; k < SLIDES.length; k++) if (SLIDES[k].speaker === me) { next = k; break; }
+    for (let k = i; k < SLIDES.length; k++) if (SLIDES[k].speaker === me || (SLIDES[k].warmup || []).some(w => w.name === me)) { next = k; break; }
     const st = $('status');
     let card = '';
 
@@ -212,11 +214,17 @@
     } else {
       const n = next === -1 ? 0 : next - i;
       const ns = next === -1 ? null : SLIDES[next];
-      if (sl.followups) {
+      const myWarm = (sl.warmup || []).find(w => w.name === me);
+      if (myWarm) {
+        const idx = sl.warmup.indexOf(myWarm);
+        st.className = 'status s-now';
+        st.innerHTML = `<div class="big">🔥 VOCÊ ESQUENTA O DEBATE!</div><div class="sub">${idx === 0 ? 'Você fala primeiro (30 s)' : 'Você rebate o ' + esc(sl.warmup[0].name) + ' (30 s)'}</div>`;
+        card = `<div class="box">${sizes()}<div class="fala">${falaHTML(myWarm.text)}</div></div>` + questionsHTML(sl);
+      } else if (sl.followups) {
         st.className = 'status s-soon';
         st.innerHTML = `<div class="big">🗳️ PERGUNTA PRA SALA</div><div class="sub">${ns ? (n === 1 ? '⚡ Depois dessa pergunta é você!' : `Sua vez em ${n} slides`) : 'Você já falou. Agora é debater!'}</div>`;
         card = questionsHTML(sl);
-        if (ns && n === 1) card += `<div class="box"><div class="now" style="margin-bottom:8px">Sua próxima fala</div>${sizes()}<div class="fala dim">${falaHTML(ns.fala || '')}</div></div>`;
+        if (ns && n === 1) card += `<div class="box"><div class="now" style="margin-bottom:8px">Sua próxima fala</div>${sizes()}<div class="fala dim">${falaHTML(nextText(ns))}</div></div>`;
       } else if (!ns) {
         st.className = 'status s-done';
         st.innerHTML = `<div class="big">✅ Você já falou!</div><div class="sub">Agora é ajudar a sala a debater.</div>`;
@@ -225,7 +233,7 @@
         st.innerHTML = n === 1
           ? `<div class="big">⚡ PRÓXIMO É VOCÊ!</div><div class="sub">Prepare-se: "${esc(ns.title)}"</div>`
           : `<div class="big">Sua vez em ${n} slides</div><div class="sub">Seu próximo: "${esc(ns.title)}"</div>`;
-        card = `<div class="box"><div class="now" style="margin-bottom:8px">Sua próxima fala</div>${sizes()}<div class="fala dim">${falaHTML(ns.fala || '')}</div></div>`;
+        card = `<div class="box"><div class="now" style="margin-bottom:8px">Sua próxima fala</div>${sizes()}<div class="fala dim">${falaHTML(nextText(ns))}</div></div>`;
       }
     }
     $('mainCard').innerHTML = card;
@@ -233,12 +241,12 @@
 
   function renderEnsaio() {
     if (!me) return;
-    const mine = SLIDES.map((s, i) => ({ s, i })).filter(x => x.s.speaker === me);
+    const mine = SLIDES.map((s, i) => ({ s, i })).filter(x => x.s.speaker === me || (x.s.warmup || []).some(w => w.name === me));
     let html = mine.map(({ s, i }) => `
       <div class="box card-ensaio">
         <div class="now"><span class="num">Slide ${i + 1}</span> · ${esc(s.kicker || '')}</div>
         <div class="ti" style="margin-bottom:10px">${esc(s.title)}</div>
-        <div class="fala">${falaHTML(s.fala || '')}</div>
+        <div class="fala">${falaHTML(s.speaker === me ? (s.fala || '') : '🔥 ' + s.warmup.find(w => w.name === me).text)}</div>
       </div>`).join('');
     html += `<div class="box"><h1 style="font-size:20px">🗳️ Perguntas pra sala</h1><p class="muted">A Evilayne vai fazer essas perguntas. Pense na sua opinião e ajude a puxar o debate.</p></div>`;
     SLIDES.filter(s => s.followups).forEach(s => { html += questionsHTML(s); });
