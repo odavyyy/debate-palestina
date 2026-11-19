@@ -14,7 +14,7 @@ window.SLIDES = [
   },
   {
     "id": "capa",
-    "fala": "Bom dia, pessoal! O nosso tema é pesado: genocídio na Palestina. E eu vou começar com uma pergunta. Levanta a mão quem já viu vídeo de Gaza no TikTok ou no Instagram. [espera] Pois é. Quase todo mundo viu, mas pouca gente sabe o que está acontecendo de verdade. Hoje não vai ser só a gente falando: vai ser debate, tipo programa de TV, e a opinião de vocês vai aparecer ali no telão.",
+    "fala": "Bom dia, pessoal! O nosso tema é pesado: genocídio na Palestina. E eu vou começar com uma pergunta. Levanta a mão quem sabe explicar o que está acontecendo em Gaza. [espera] Pois é. Todo mundo já ouviu falar, mas pouca gente sabe o que está acontecendo de verdade. Hoje não vai ser só a gente falando: vai ser debate, tipo programa de TV, e a opinião de vocês vai aparecer ali no telão.",
     "speaker": "Davy",
     "layout": "cover",
     "kicker": "Debate ao vivo",
