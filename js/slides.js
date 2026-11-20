@@ -29,7 +29,7 @@ window.SLIDES = [
     "layout": "cards",
     "kicker": "Como vai funcionar",
     "title": "Você também está no programa",
-    "body": "\n      <div class=\"cards c4\">\n        <div class=\"card\"><div class=\"big\">📱</div><h3>Entre</h3><p>QR Code → seu nome → pronto. Sem login.</p></div>\n        <div class=\"card\"><div class=\"big\">🔥👍👎</div><h3>Reaja</h3><p>Suas reações aparecem aqui no telão com seu nome.</p></div>\n        <div class=\"card\"><div class=\"big\">📊</div><h3>Opine</h3><p>Responda as perguntas e veja na hora o que a sala pensa.</p></div>\n        <div class=\"card\"><div class=\"big\">✋</div><h3>Peça a palavra</h3><p>Você entra na fila e a apresentadora te chama.</p></div>\n      </div>\n      <p class=\"rule\">Regra de ouro: <b>critique ideias, não pessoas.</b> Use fatos e diga de onde tirou.</p>",
+    "body": "\n      <div class=\"cards c4\">\n        <div class=\"card\"><div class=\"big\">01</div><h3>Entre</h3><p>QR Code → seu nome → pronto. Sem login.</p></div>\n        <div class=\"card\"><div class=\"big\">02</div><h3>Reaja</h3><p>Suas reações aparecem aqui no telão com seu nome.</p></div>\n        <div class=\"card\"><div class=\"big\">03</div><h3>Opine</h3><p>Responda as perguntas e veja na hora o que a sala pensa.</p></div>\n        <div class=\"card\"><div class=\"big\">04</div><h3>Peça a palavra</h3><p>Você entra na fila e a apresentadora te chama.</p></div>\n      </div>\n      <p class=\"rule\">Regra de ouro: <b>critique ideias, não pessoas.</b> Use fatos e diga de onde tirou.</p>",
     "notes": "Explicar as 4 coisas. Reforçar a regra: pode discordar à vontade, mas sem ofender ninguém. E todo argumento é mais forte com fonte. Nome ofensivo ou bagunça é removido pela apresentadora."
   },
   {
@@ -69,7 +69,7 @@ window.SLIDES = [
     "layout": "cards",
     "kicker": "A guerra em Gaza",
     "title": "Dois anos de guerra em números",
-    "body": "\n      <div class=\"cards c4\">\n        <div class=\"card stat red\"><div class=\"num\">74.600+</div><h3>mortos</h3><p>Segundo o Ministério da Saúde de Gaza (nov. 2026).</p></div>\n        <div class=\"card stat\"><div class=\"num\">175 mil+</div><h3>feridos</h3><p>Mais de 43 mil com lesões que mudam a vida, segundo a OMS.</p></div>\n        <div class=\"card stat\"><div class=\"num\">~90%</div><h3>deslocados</h3><p>A maior parte da população teve que deixar sua casa, muitos várias vezes.</p></div>\n        <div class=\"card stat\"><div class=\"num\">2025</div><h3>fome confirmada</h3><p>Em agosto, o sistema IPC (ligado à ONU) confirmou fome na Cidade de Gaza.</p></div>\n      </div>\n      <p class=\"note\">⚠️ O Ministério da Saúde de Gaza é controlado pelo Hamas e não separa civis de combatentes. Israel contesta os números; a ONU e vários estudos independentes consideram os dados confiáveis.</p>",
+    "body": "\n      <div class=\"cards c4\">\n        <div class=\"card stat red\"><div class=\"num\">74.600+</div><h3>mortos</h3><p>Segundo o Ministério da Saúde de Gaza (nov. 2026).</p></div>\n        <div class=\"card stat\"><div class=\"num\">175 mil+</div><h3>feridos</h3><p>Mais de 43 mil com lesões que mudam a vida, segundo a OMS.</p></div>\n        <div class=\"card stat\"><div class=\"num\">~90%</div><h3>deslocados</h3><p>A maior parte da população teve que deixar sua casa, muitos várias vezes.</p></div>\n        <div class=\"card stat\"><div class=\"num\">2025</div><h3>fome confirmada</h3><p>Em agosto, o sistema IPC (ligado à ONU) confirmou fome na Cidade de Gaza.</p></div>\n      </div>\n      <p class=\"note\"><b>Atenção:</b> o Ministério da Saúde de Gaza é controlado pelo Hamas e não separa civis de combatentes. Israel contesta os números; a ONU e vários estudos independentes consideram os dados confiáveis.</p>",
     "notes": "Ler os números com calma. Explicar a polêmica dos dados: quem conta é o ministério de Gaza, ligado ao Hamas. Israel diz que estão inflados; ONU e pesquisadores independentes costumam considerar confiáveis e alguns estudos estimam até mais mortes."
   },
   {
@@ -78,7 +78,7 @@ window.SLIDES = [
     "layout": "question",
     "kicker": "Pergunta pra sala",
     "title": "Israel tinha direito de reagir ao 7 de outubro?",
-    "body": "<p class=\"lead\">Vote no celular. Depois, quem quiser explicar o voto, pede a palavra ✋</p>",
+    "body": "<p class=\"lead\">Vote no celular. Depois, quem quiser explicar o voto, pede a palavra pelo celular.</p>",
     "poll": {
       "q": "Israel tinha direito de reagir ao 7 de outubro?",
       "options": [

@@ -8,70 +8,75 @@
 <link rel="stylesheet" href="css/base.css">
 <style>
   body { min-height: 100dvh; }
-  .wrap { max-width: 1280px; margin: 0 auto; padding: 14px 14px 60px; }
-  header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
-  header h1 { font-family: var(--head); font-size: 20px; margin: 0; flex: 1; min-width: 200px; }
-  .pill { display: inline-flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid var(--line); padding: 8px 14px; border-radius: 999px; font-weight: 700; font-size: 14px; }
-  .grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 14px; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 16px 16px 64px; }
+  header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding-bottom: 16px; margin-bottom: 16px; border-bottom: 1px solid var(--line); }
+  header h1 { font-size: 22px; margin: 0; flex: 1; min-width: 200px; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; background: var(--panel); border: 1px solid var(--line); height: 40px; padding: 0 14px; border-radius: var(--r-sm); font-weight: 500; font-size: 14px; }
+  .grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 16px; }
   @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
-  .box { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 16px; margin-bottom: 14px; }
-  .box h2 { margin: 0 0 12px; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
-  .btn { padding: 12px 16px; border-radius: 12px; font-weight: 800; font-size: 15px; background: var(--panel2); color: var(--text); border: 1px solid var(--line); }
-  .btn.y { background: var(--accent); color: #111; border: 0; }
-  .btn.b { background: var(--blue); color: #061128; border: 0; }
-  .btn.r { background: var(--live); color: #fff; border: 0; }
-  .btn.g { background: var(--green); color: #062014; border: 0; }
-  .btn.sm { padding: 8px 11px; font-size: 13px; border-radius: 10px; }
+  .box { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px; margin-bottom: 16px; }
+  .box h2 { margin: 0 0 16px; font-family: var(--body); font-size: 14px; font-weight: 500; letter-spacing: 0; color: var(--muted); display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .btn { min-height: 44px; padding: 0 18px; border-radius: var(--r-btn); font-weight: 500; font-size: 15px; background: transparent; color: var(--text); border: 1px solid var(--line-strong); }
+  @media (hover: hover) and (pointer: fine) { .btn:not(:disabled):hover { background: rgba(233,237,243,.06); border-color: rgba(233,237,243,.4); } }
+  .btn.y, .btn.b, .btn.g { background: var(--action); color: var(--action-ink); border-color: var(--action); }
+  @media (hover: hover) and (pointer: fine) { .btn.y:not(:disabled):hover, .btn.b:not(:disabled):hover, .btn.g:not(:disabled):hover { background: #4ea4e0; border-color: #4ea4e0; } }
+  .btn.r { background: var(--live); color: #fff; border-color: var(--live); }
+  .btn.sm { padding: 0 12px; font-size: 14px; }
   .btn:disabled { opacity: .35; }
   .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
-  .nav { display: grid; grid-template-columns: 70px 1fr 70px; gap: 10px; align-items: stretch; }
-  .nav .btn { font-size: 28px; padding: 0; }
-  .cur { background: var(--bg2); border-radius: 14px; padding: 14px 16px; }
-  .cur .k { color: var(--accent); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
-  .cur .ti { font-family: var(--head); font-weight: 800; font-size: 21px; margin: 4px 0; line-height: 1.2; }
-  .cur .sp { color: var(--muted); font-size: 13px; }
-  .notes { margin-top: 12px; background: rgba(255,204,51,.08); border-left: 4px solid var(--accent); padding: 12px 14px; border-radius: 0 12px 12px 0; font-size: 15px; line-height: 1.5; }
-  .notes b { color: var(--accent); }
-  .nextup { margin-top: 10px; color: var(--muted); font-size: 13px; }
+  .nav { display: grid; grid-template-columns: 64px 1fr 64px; gap: 8px; align-items: stretch; }
+  .nav .btn { font-size: 22px; padding: 0; min-height: 88px; }
+  .cur { background: var(--bg2); border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px; }
+  .cur .k { color: var(--action); font-size: 13px; font-weight: 500; }
+  .cur .ti { font-family: var(--head); font-weight: 500; font-size: 21px; margin: 4px 0; line-height: 1.25; letter-spacing: -.01em; }
+  .cur .sp { color: var(--muted); font-size: 14px; }
+  .notes { margin-top: 12px; background: var(--bg2); border-left: 3px solid var(--action); padding: 14px 16px; border-radius: 0 var(--r-sm) var(--r-sm) 0; font-size: 16px; line-height: 1.55; }
+  .notes b { font-weight: 600; }
+  .notes summary { min-height: 28px; }
+  .nextup { margin-top: 12px; color: var(--muted); font-size: 14px; }
 
-  .pbar { position: relative; background: var(--bg2); border-radius: 10px; height: 38px; margin-bottom: 8px; overflow: hidden; }
-  .pbar i { position: absolute; inset: 0 auto 0 0; background: rgba(77,163,255,.35); }
-  .pbar span { position: absolute; left: 12px; top: 0; bottom: 0; display: flex; align-items: center; font-weight: 700; font-size: 15px; }
-  .pbar em { position: absolute; right: 12px; top: 0; bottom: 0; display: flex; align-items: center; font-style: normal; font-weight: 800; }
-  .status { font-size: 14px; color: var(--muted); margin: 6px 0 10px; }
+  .pbar { position: relative; background: var(--bg2); border-radius: var(--r-sm); height: 44px; margin-bottom: 8px; overflow: hidden; border: 1px solid var(--line); }
+  .pbar i { position: absolute; inset: 0 auto 0 0; background: rgba(90,185,252,.3); }
+  .pbar span { position: absolute; left: 14px; top: 0; bottom: 0; display: flex; align-items: center; font-weight: 500; font-size: 15px; }
+  .pbar em { position: absolute; right: 14px; top: 0; bottom: 0; display: flex; align-items: center; font-style: normal; font-family: var(--font-mono); font-size: 14px; }
+  .status { font-size: 14px; color: var(--muted); margin: 8px 0 12px; }
 
-  .speaker { background: var(--live); border-radius: 14px; padding: 14px; display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-  .speaker .n { font-family: var(--head); font-weight: 900; font-size: 22px; flex: 1; }
-  .speaker .t { font-family: var(--head); font-weight: 800; font-size: 26px; min-width: 64px; text-align: right; }
-  .speaker .btn { background: rgba(0,0,0,.25); border: 0; color: #fff; }
+  .speaker { background: var(--live); color: #fff; border-radius: var(--r-md); padding: 12px 12px 12px 16px; display: flex; align-items: center; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .speaker .n { font-family: var(--head); font-weight: 500; font-size: 22px; flex: 1; letter-spacing: -.01em; }
+  .speaker .t { font-family: var(--font-mono); font-size: 24px; min-width: 64px; text-align: right; margin-right: 4px; }
+  .speaker .btn { background: rgba(0,0,0,.22); border-color: transparent; color: #fff; }
 
   .q { list-style: none; margin: 0; padding: 0; }
   .q li { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); }
-  .q li .nm { flex: 1; font-weight: 700; font-size: 17px; }
-  .q li .nm small { color: var(--muted); font-weight: 500; font-size: 12px; margin-left: 6px; }
+  .q li .nm { flex: 1; font-weight: 500; font-size: 17px; }
+  .q li .nm small { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 6px; font-family: var(--font-mono); }
   .empty { color: var(--muted); font-size: 14px; padding: 8px 0; }
-  select { background: var(--bg2); color: var(--text); border: 1px solid var(--line); border-radius: 10px; padding: 8px; font: inherit; }
+  select { background: var(--bg2); color: var(--text); border: 1px solid var(--line-strong); border-radius: var(--r-sm); height: 44px; padding: 0 10px; font: inherit; }
+  label.inl { color: var(--muted); font-size: 14px; }
 
-  .toggle { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); font-weight: 700; }
-  .sw { width: 54px; height: 30px; border-radius: 99px; background: #3a4469; position: relative; transition: .2s; }
-  .sw::after { content: ''; position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: .2s; }
-  .sw.on { background: var(--green); }
-  .sw.on::after { left: 27px; }
+  .toggle { display: flex; align-items: center; justify-content: space-between; min-height: 52px; border-bottom: 1px solid var(--line); font-weight: 500; }
+  .sw { width: 52px; height: 30px; border-radius: 99px; background: #343c4f; position: relative; transition: background-color 180ms var(--ease); }
+  .sw::after { content: ''; position: absolute; left: 3px; top: 3px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: transform 180ms var(--ease); }
+  .sw.on { background: var(--action); }
+  .sw.on::after { transform: translateX(22px); }
+  .sw:hover, .sw:active { transform: none !important; }
 
-  .feed { max-height: 280px; overflow: auto; }
-  .feed div { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+  .feed { max-height: 300px; overflow: auto; }
+  .feed div { display: flex; align-items: center; gap: 8px; padding: 4px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
   .feed div span { flex: 1; }
-  .slidelist { display: grid; gap: 6px; max-height: 340px; overflow: auto; }
-  .slidelist button { text-align: left; background: var(--bg2); color: var(--text); border-radius: 10px; padding: 9px 12px; font-size: 14px; border: 1px solid transparent; }
-  .slidelist button.on { border-color: var(--accent); }
+  .slidelist { display: grid; gap: 4px; max-height: 360px; overflow: auto; }
+  .slidelist button { text-align: left; background: var(--bg2); border-radius: var(--r-sm); min-height: 44px; padding: 8px 12px; font-size: 14px; border: 1px solid transparent; }
+  .slidelist button:hover { transform: none; border-color: var(--line-strong); }
+  .slidelist button.on { border-color: var(--action); }
   .slidelist button small { color: var(--muted); }
-  .links a { color: var(--blue); word-break: break-all; }
-  .links div { margin: 6px 0; font-size: 14px; }
-  .members { display: flex; flex-wrap: wrap; gap: 6px; }
-  .voters { display: flex; flex-wrap: wrap; gap: 6px; margin: -2px 0 10px; }
-  .vchip { background: var(--bg2); color: var(--text); border: 1px solid var(--line); border-radius: 999px; padding: 6px 11px; font-size: 13px; font-weight: 700; }
-  .vchip:hover { border-color: var(--accent); }
+  .links a { color: var(--action); word-break: break-all; text-underline-offset: 3px; }
+  .links div { margin: 8px 0; font-size: 14px; }
+  .links .lbl { color: var(--muted); display: block; font-size: 13px; }
+  .members { display: flex; flex-wrap: wrap; gap: 8px; }
+  .voters { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+  .vchip { background: var(--bg2); border: 1px solid var(--line-strong); border-radius: var(--r-sm); min-height: 36px; padding: 0 12px; font-size: 14px; font-weight: 500; }
+  @media (hover: hover) and (pointer: fine) { .vchip:hover { border-color: var(--action); } }
 </style>
 </head>
 <body>
@@ -81,7 +86,8 @@
     <span class="live-badge">Apresentadora</span>
     <h1>Painel de controle</h1>
     <p>Digite a senha do grupo. Use <b>a mesma</b> no telão. Se for a primeira vez, invente uma (mín. 4 dígitos) e combine com o grupo.</p>
-    <input id="pin" type="password" inputmode="numeric" placeholder="••••" required>
+    <label for="pin">Senha do grupo</label>
+    <input id="pin" type="password" inputmode="numeric" required>
     <button type="submit">Entrar</button>
     <div class="err" id="gateErr"></div>
   </form>
@@ -91,7 +97,7 @@
   <header>
     <span class="live-badge">Ao vivo</span>
     <h1>Painel da Evilayne</h1>
-    <span class="pill">👥 <span id="people">0</span></span>
+    <span class="pill"><span class="num" id="people">0</span>&nbsp;na sala</span>
     <span class="pill"><span class="dot" id="conn"></span> <span id="connTxt">conectando</span></span>
   </header>
 
@@ -100,18 +106,18 @@
       <div class="box">
         <h2>Slide <span id="slideNum"></span></h2>
         <div class="nav">
-          <button class="btn" id="prev" type="button">◀</button>
+          <button class="btn" id="prev" type="button" aria-label="Slide anterior">&larr;</button>
           <div class="cur"><div class="k" id="curK"></div><div class="ti" id="curT"></div><div class="sp" id="curS"></div></div>
-          <button class="btn y" id="next" type="button">▶</button>
+          <button class="btn y" id="next" type="button" aria-label="Próximo slide">&rarr;</button>
         </div>
         <div class="notes" id="notes"></div>
-        <details id="argsBox" open class="notes" style="border-left-color:var(--blue);background:rgba(77,163,255,.08)" hidden><summary style="cursor:pointer;font-weight:800">🔥 Perguntas pra esquentar o debate</summary><div id="argsBody"></div></details>
+        <details id="argsBox" open class="notes" style="border-left-color:var(--blue);background:rgba(77,163,255,.08)" hidden><summary style="cursor:pointer;font-weight: 500">Perguntas pra esquentar o debate</summary><div id="argsBody"></div></details>
         <div class="nextup" id="nextup"></div>
       </div>
 
       <div class="box" id="pollBox" hidden>
         <h2>Votação desta pergunta <span id="pollCount"></span></h2>
-        <div id="pollQ" style="font-weight:800;margin-bottom:8px"></div>
+        <div id="pollQ" style="font-weight: 500;margin-bottom:8px"></div>
         <div id="pollBars"></div>
         <div class="status" id="pollStatus"></div>
         <div class="row" id="pollBtns"></div>
@@ -121,7 +127,7 @@
         <h2>Com a palavra</h2>
         <div id="speakerArea"></div>
         <div class="row" style="margin-bottom:10px">
-          <span style="color:var(--muted);font-size:14px">Tempo de fala:</span>
+          <label class="inl" for="dur">Tempo de fala</label>
           <select id="dur">
             <option value="30">30 s</option>
             <option value="60" selected>1 min</option>
@@ -130,7 +136,7 @@
             <option value="0">Sem limite</option>
           </select>
         </div>
-        <h2>Fila ✋ <span id="qcount">0</span></h2>
+        <h2>Fila para falar <span class="num" id="qcount">0</span></h2>
         <ul class="q" id="queue"></ul>
         <h2 style="margin-top:16px">Dar a palavra a alguém do grupo</h2>
         <div class="members" id="members"></div>
@@ -149,7 +155,7 @@
       </div>
 
       <div class="box">
-        <h2>Reações chegando <span style="text-transform:none;letter-spacing:0">🚫 = remover a pessoa</span></h2>
+        <h2>Reações chegando <span style="text-transform:none;letter-spacing:0">toque em Remover para tirar a pessoa</span></h2>
         <div class="feed" id="feed"><div class="empty">Nenhuma reação ainda.</div></div>
         <div id="bannedBox"></div>
       </div>
@@ -161,9 +167,9 @@
 
       <div class="box links">
         <h2>Links</h2>
-        <div>📺 Telão: <a id="lTelao" target="_blank"></a></div>
-        <div>📱 Alunos: <a id="lAluno" target="_blank"></a></div>
-        <div>🎙️ Falas do grupo: <a id="lOrador" target="_blank"></a></div>
+        <div><span class="lbl">Telão</span><a id="lTelao" target="_blank"></a></div>
+        <div><span class="lbl">Alunos</span><a id="lAluno" target="_blank"></a></div>
+        <div><span class="lbl">Falas do grupo</span><a id="lOrador" target="_blank"></a></div>
       </div>
     </div>
   </div>
@@ -316,13 +322,13 @@
     if (b.dataset.a === 'del') { queue.items = queue.items.filter(i => i !== it); publishQueue(); }
     if (b.dataset.a === 'ban' && confirmBan(b, it.name)) ban(it.uid, it.name);
   });
-  $('members').innerHTML = GROUP.map(n => `<button class="btn sm" data-n="${esc(n)}" type="button">🎤 ${esc(n)}</button>`).join('');
+  $('members').innerHTML = GROUP.map(n => `<button class="btn sm" data-n="${esc(n)}" type="button">${esc(n)}</button>`).join('');
   $('members').onclick = e => { const b = e.target.closest('button'); if (b) giveFloor('grupo:' + b.dataset.n, b.dataset.n); };
 
   function renderSpeaker() {
     const sp = state.speaker;
     if (!sp) { $('speakerArea').innerHTML = '<div class="empty">Ninguém com a palavra.</div>'; return; }
-    $('speakerArea').innerHTML = `<div class="speaker"><div class="n">🎤 ${esc(sp.name)}</div><div class="t" id="spT"></div>
+    $('speakerArea').innerHTML = `<div class="speaker"><div class="n">${esc(sp.name)}</div><div class="t" id="spT"></div>
       <button class="btn sm" id="plus30" type="button">+30 s</button><button class="btn sm" id="endSp" type="button">Encerrar</button></div>`;
     $('endSp').onclick = () => { state.speaker = null; publish(true); };
     $('plus30').onclick = () => { const base = Math.max(Date.now(), sp.ends || Date.now()); state.speaker.ends = base + 30000; publish(true); };
@@ -338,9 +344,9 @@
     $('qcount').textContent = queue.items.length;
     $('queue').innerHTML = queue.items.length ? queue.items.map((it, i) => `
       <li><span class="nm">${i + 1}. ${esc(it.name)}<small>${Math.max(0, Math.round((Date.now() - it.t) / 1000))} s</small></span>
-      <button class="btn sm g" data-a="give" data-uid="${esc(it.uid)}" type="button">🎤 Dar a palavra</button>
-      <button class="btn sm" data-a="del" data-uid="${esc(it.uid)}" type="button">✕</button>
-      <button class="btn sm" data-a="ban" data-uid="${esc(it.uid)}" type="button" title="Remover a pessoa">🚫</button></li>`).join('')
+      <button class="btn sm g" data-a="give" data-uid="${esc(it.uid)}" type="button">Dar a palavra</button>
+      <button class="btn sm" data-a="del" data-uid="${esc(it.uid)}" type="button" aria-label="Tirar da fila">Tirar</button>
+      <button class="btn sm" data-a="ban" data-uid="${esc(it.uid)}" type="button">Remover</button></li>`).join('')
       : '<div class="empty">Ninguém pediu a palavra ainda.</div>';
   }
   setInterval(renderQueue, 5000);
@@ -360,7 +366,7 @@
   function renderBanned() {
     const nm = store.get('apr_names', {});
     $('bannedBox').innerHTML = state.banned.length ? `<h2 style="margin-top:14px">Removidos</h2>` + state.banned.map(u =>
-      `<div class="row" style="margin:6px 0"><span style="flex:1">🚫 ${esc(nm[u] || u)}</span><button class="btn sm" data-u="${esc(u)}" type="button">Desfazer</button></div>`).join('') : '';
+      `<div class="row" style="margin:6px 0"><span style="flex:1">${esc(nm[u] || u)}</span><button class="btn sm" data-u="${esc(u)}" type="button">Desfazer</button></div>`).join('') : '';
   }
   $('bannedBox').onclick = e => { const b = e.target.closest('button'); if (!b) return; state.banned = state.banned.filter(u => u !== b.dataset.u); publish(true); renderBanned(); };
 
@@ -370,13 +376,13 @@
     if ((state.banned || []).includes(msg.uid)) return;
     feed.unshift({ uid: msg.uid, name: String(msg.name || '').slice(0, 22), e: r.e });
     feed.length = Math.min(feed.length, 40);
-    $('feed').innerHTML = feed.map((f, i) => `<div><span>${f.e} ${esc(f.name)}</span><button class="btn sm" data-i="${i}" type="button" title="Remover">🚫</button></div>`).join('');
+    $('feed').innerHTML = feed.map((f, i) => `<div><span>${f.e} ${esc(f.name)}</span><button class="btn sm" data-i="${i}" type="button">Remover</button></div>`).join('');
   });
   $('feed').onclick = e => { const b = e.target.closest('button'); if (!b) return; const f = feed[+b.dataset.i]; if (f && confirmBan(b, f.name)) ban(f.uid, f.name); };
   function confirmBan(btn, name) {
     if (btn.dataset.sure) return true;
     btn.dataset.sure = 1; btn.textContent = 'Remover ' + name + '?'; btn.classList.add('r');
-    setTimeout(() => { delete btn.dataset.sure; btn.textContent = '🚫'; btn.classList.remove('r'); }, 3000);
+    setTimeout(() => { delete btn.dataset.sure; btn.textContent = 'Remover'; btn.classList.remove('r'); }, 3000);
     return false;
   }
 
@@ -390,7 +396,7 @@
     polls = {}; queue = { items: [] };
     state = Object.assign({}, DEFAULT_STATE, { v: state.v, session: (state.session || 1) + 1, teams: state.teams });
     publish(true); publishQueue(); renderBanned();
-    b.textContent = 'Zerado ✓';
+    b.textContent = 'Zerado';
   };
 
   /* ---- pessoas ---- */
@@ -409,7 +415,7 @@
     $('slideNum').textContent = `${state.slide + 1} / ${SLIDES.length}`;
     $('curK').textContent = sl.kicker || '';
     $('curT').textContent = sl.title;
-    $('curS').textContent = sl.speaker === 'Evilayne' ? '🎙️ Você conduz este slide' : sl.speaker ? '🎙️ Quem fala: ' + sl.speaker : '';
+    $('curS').textContent = sl.speaker === 'Evilayne' ? 'Você conduz este slide' : sl.speaker ? 'Quem fala: ' + sl.speaker : '';
     $('notes').innerHTML = '<b>Como conduzir:</b> ' + esc(sl.notes || '');
     $('argsBox').hidden = !sl.followups;
     if (sl.followups) {
@@ -438,13 +444,13 @@
         const c = (t.counts || [])[i] || 0, pct = t.total ? Math.round(c * 100 / t.total) : 0;
         const who = Object.entries(pv.votes || {}).filter(([u, v]) => v === i && !(state.banned || []).includes(u) && (pv.names || {})[u]);
         return `<div class="pbar"><i style="width:${pct}%"></i><span>${esc(o)}</span><em>${c} · ${pct}%</em></div>
-          ${who.length ? `<div class="voters">${who.map(([u]) => `<button type="button" class="vchip" data-uid="${esc(u)}" data-name="${esc(pv.names[u])}" title="Dar a palavra">🎤 ${esc(pv.names[u])}</button>`).join('')}</div>` : ''}`;
+          ${who.length ? `<div class="voters">${who.map(([u]) => `<button type="button" class="vchip" data-uid="${esc(u)}" data-name="${esc(pv.names[u])}" title="Dar a palavra">${esc(pv.names[u])}</button>`).join('')}</div>` : ''}`;
       }).join('');
       let st, btns;
-      if (!p) { st = 'Fechada. Abra quando a turma estiver pronta.'; btns = `<button class="btn g" data-p="open">▶ Abrir votação</button>`; }
-      else if (p.open) { st = '🟢 Aberta — os alunos estão votando. O telão ainda esconde o resultado.'; btns = `<button class="btn y" data-p="show">📊 Encerrar e mostrar resultado</button><button class="btn" data-p="close">Só encerrar</button>`; }
+      if (!p) { st = 'Fechada. Abra quando a turma estiver pronta.'; btns = `<button class="btn g" data-p="open">Abrir votação</button>`; }
+      else if (p.open) { st = 'Aberta: os alunos estão votando. O telão ainda esconde o resultado.'; btns = `<button class="btn y" data-p="show">Encerrar e mostrar resultado</button><button class="btn" data-p="close">Só encerrar</button>`; }
       else if (p.show) { st = 'Resultado aparecendo no telão.'; btns = `<button class="btn" data-p="hide">Esconder resultado</button><button class="btn" data-p="open">Reabrir</button><button class="btn sm" data-p="restart">Recomeçar do zero</button>`; }
-      else { st = 'Encerrada (resultado escondido).'; btns = `<button class="btn y" data-p="show">📊 Mostrar resultado</button><button class="btn" data-p="open">Reabrir</button>`; }
+      else { st = 'Encerrada (resultado escondido).'; btns = `<button class="btn y" data-p="show">Mostrar resultado</button><button class="btn" data-p="open">Reabrir</button>`; }
       $('pollStatus').textContent = st;
       $('pollBtns').innerHTML = btns;
     }

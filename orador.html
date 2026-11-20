@@ -8,89 +8,96 @@
 <link rel="stylesheet" href="css/base.css">
 <style>
   body { min-height: 100dvh; padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); }
-  .app { max-width: 620px; margin: 0 auto; padding: 14px 14px 50px; }
-  header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-  header .t { flex: 1; font-family: var(--head); font-weight: 800; font-size: 16px; }
-  header .t small { display: block; color: var(--muted); font-family: var(--body); font-weight: 500; font-size: 12px; }
-  .lnk { background: none; color: var(--blue); font-size: 13px; text-decoration: underline; padding: 4px; }
-  .box { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 18px; margin-bottom: 12px; }
-  h1 { font-family: var(--head); font-size: 26px; margin: 4px 0 8px; }
-  .muted { color: var(--muted); font-size: 14px; line-height: 1.45; }
-  .names { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
-  .names button, .sides button { padding: 16px 10px; border-radius: 14px; background: var(--bg2); color: var(--text); font-weight: 800; font-size: 17px; border: 2px solid var(--line); }
-  .sides { display: grid; gap: 10px; margin-top: 14px; }
-  .sides .pal { border-color: rgba(47,209,139,.6); } .sides .isr { border-color: rgba(77,163,255,.6); }
+  .app { max-width: 620px; margin: 0 auto; padding: 16px 16px 56px; }
+  header { display: flex; align-items: center; gap: 12px; padding: 4px 0 16px; margin-bottom: 16px; border-bottom: 1px solid var(--line); }
+  header .t { flex: 1; font-family: var(--head); font-weight: 500; font-size: 16px; line-height: 1.25; letter-spacing: -.01em; }
+  header .t small { display: block; color: var(--muted); font-family: var(--body); font-weight: 400; font-size: 13px; letter-spacing: 0; }
+  .tag { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: var(--r-sm); background: var(--panel2); border: 1px solid var(--line-strong); font-size: 13px; font-weight: 500; }
+  .lnk { background: none; color: var(--action); font-size: 14px; text-decoration: underline; text-underline-offset: 3px; min-height: 44px; padding: 0 6px; }
+  .lnk:hover, .lnk:active { transform: none !important; }
+  .box { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 24px; margin-bottom: 12px; }
+  h1 { font-size: 28px; line-height: 1.1; margin: 0 0 8px; }
+  .muted { color: var(--muted); font-size: 16px; line-height: 1.55; margin: 0; }
+  .names { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; }
+  .names button, .sides button { min-height: 56px; padding: 0 12px; border-radius: var(--r-btn); background: var(--bg2); font-weight: 500; font-size: 17px; border: 1px solid var(--line-strong); }
+  @media (hover: hover) and (pointer: fine) { .names button:hover { border-color: var(--action); } }
+  .sides { display: grid; gap: 8px; margin-top: 16px; }
+  label.field { display: block; font-size: 14px; font-weight: 500; margin: 20px 0 8px; }
 
-  .status { border-radius: 20px; padding: 20px; margin-bottom: 12px; text-align: center; }
-  .status .big { font-family: var(--head); font-weight: 900; font-size: 34px; line-height: 1.05; }
-  .status .sub { font-size: 15px; margin-top: 6px; opacity: .9; }
-  .s-wait { background: var(--panel2); }
-  .s-soon { background: #6b5200; border: 2px solid var(--accent); }
-  .s-next { background: var(--accent); color: #111; animation: pulse 1s infinite; }
-  .s-now { background: var(--live); color: #fff; }
-  .s-done { background: #0f5a3c; }
-  @keyframes pulse { 50% { transform: scale(1.02); } }
+  .status { border-radius: var(--r-lg); padding: 24px 20px; margin-bottom: 12px; text-align: center; border: 1px solid var(--line); }
+  .status .big { font-family: var(--head); font-weight: 500; font-size: 30px; line-height: 1.1; letter-spacing: -.02em; }
+  .status .sub { font-size: 16px; margin-top: 8px; opacity: .9; }
+  .s-wait { background: var(--panel); }
+  .s-soon { background: var(--panel2); border-color: var(--action); }
+  .s-next { background: var(--action); color: var(--action-ink); border-color: var(--action); }
+  .s-now { background: var(--live); color: #fff; border-color: var(--live); }
+  .s-done { background: var(--panel); }
 
-  .now { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .1em; font-weight: 700; }
-  .ti { font-family: var(--head); font-weight: 800; font-size: 19px; margin: 4px 0 2px; line-height: 1.2; }
-  .who { color: var(--muted); font-size: 13px; }
+  .now { font-size: 13px; color: var(--muted); font-weight: 500; }
+  .ti { font-family: var(--head); font-weight: 500; font-size: 19px; margin: 6px 0 2px; line-height: 1.25; letter-spacing: -.01em; }
+  .who { color: var(--muted); font-size: 14px; }
 
-  .fala { font-size: var(--fs, 22px); line-height: 1.5; font-weight: 500; }
-  .fala.dim { opacity: .75; }
-  .fala .cue { color: var(--accent); font-weight: 700; font-size: .8em; }
-  .sizes { display: flex; gap: 6px; justify-content: flex-end; margin-bottom: 6px; }
-  .sizes button { background: var(--bg2); color: var(--text); border-radius: 10px; padding: 6px 12px; font-weight: 800; border: 1px solid var(--line); }
+  .fala { font-size: var(--fs, 22px); line-height: 1.55; font-weight: 400; }
+  .fala.dim { color: var(--muted); }
+  .fala .cue { color: var(--action); font-weight: 500; font-size: .8em; }
+  .sizes { display: flex; gap: 8px; justify-content: flex-end; margin-bottom: 8px; }
+  .sizes button { min-width: 44px; min-height: 44px; padding: 0 12px; background: var(--bg2); border-radius: var(--r-sm); font-weight: 500; border: 1px solid var(--line-strong); }
 
-  .args h3 { margin: 4px 0 10px; font-family: var(--head); font-size: 20px; }
+  .args h3 { margin: 0 0 12px; font-size: 20px; line-height: 1.25; letter-spacing: -.01em; }
   .args ul { margin: 0; padding-left: 20px; }
-  .args li { font-size: 18px; line-height: 1.45; margin-bottom: 8px; }
-  .punch { margin-top: 10px; padding: 12px 14px; border-left: 4px solid var(--accent); background: rgba(255,204,51,.1); border-radius: 0 12px 12px 0; font-size: 18px; font-weight: 700; }
-  .other { margin-top: 12px; font-size: 14px; color: var(--muted); }
-  .other summary { cursor: pointer; font-weight: 700; color: var(--text); }
-  .other li { font-size: 15px; }
-  .floor { background: var(--live); color: #fff; border-radius: 14px; padding: 12px; text-align: center; font-weight: 900; font-family: var(--head); font-size: 20px; margin-bottom: 10px; }
+  .args li { font-size: 17px; line-height: 1.5; margin-bottom: 8px; }
+  .floor { background: var(--live); color: #fff; border-radius: var(--r-md); padding: 14px 16px; text-align: center; font-weight: 500; font-family: var(--head); font-size: 19px; margin-bottom: 12px; }
 
-  .tabs { display: flex; gap: 8px; margin-bottom: 12px; }
-  .tabs button { flex: 1; padding: 12px; border-radius: 12px; background: var(--panel); color: var(--muted); font-weight: 800; border: 1px solid var(--line); }
-  .tabs button.on { background: var(--accent); color: #111; }
-  .card-ensaio { border-left: 5px solid var(--blue); }
-  .card-ensaio .num { color: var(--accent); font-family: var(--head); font-weight: 900; }
-  .hide-fala .fala { filter: blur(7px); transition: filter .2s; }
+  .tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 12px; padding: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); }
+  .tabs button { min-height: 44px; border-radius: var(--r-sm); background: transparent; color: var(--muted); font-weight: 500; }
+  .tabs button.on { background: var(--text); color: var(--bg); }
+  .tabs button:hover, .tabs button:active { transform: none !important; }
+  .card-ensaio { border-left: 3px solid var(--action); }
+  .card-ensaio .num { color: var(--action); font-family: var(--font-mono); font-weight: 500; }
+  .hide-fala .fala { filter: blur(7px); transition: filter 200ms var(--ease); cursor: pointer; }
   .hide-fala .fala:active, .hide-fala .fala.reveal { filter: none; }
+  .chk { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--muted); font-size: 14px; white-space: nowrap; }
+  .chk input { width: 20px; height: 20px; accent-color: var(--action); }
+  .pinform input { width: 100%; height: 52px; padding: 0 16px; font-size: 22px; letter-spacing: .3em; font-family: var(--font-mono); border-radius: var(--r-sm); border: 1px solid var(--line-strong); background: var(--bg2); color: var(--text); }
+  .pinform input:focus { outline: none; border-color: var(--action); box-shadow: 0 0 0 3px rgba(90,185,252,.25); }
+  .pinform .err { color: var(--red); min-height: 1.4em; margin-top: 8px; font-size: 14px; }
+  .pinform .primary { width: 100%; height: 52px; border-radius: var(--r-btn); background: var(--action); color: var(--action-ink); font-weight: 500; font-size: 16px; margin-top: 8px; }
+  .pinform .lnk { margin-top: 8px; }
   [hidden] { display: none !important; }
 </style>
 </head>
 <body>
 <div class="app">
   <header>
-    <span class="live-badge" style="font-size:12px">Apresentador</span>
+    <span class="tag">Grupo</span>
     <div class="t" id="hdr">Minha fala<small>Genocídio na Palestina</small></div>
     <span class="dot" id="conn"></span>
   </header>
 
   <!-- quem é você -->
   <section id="pick" class="box" hidden>
-    <h1>Quem é você? 🎙️</h1>
+    <h1>Quem é você?</h1>
     <p class="muted">Seu celular avisa quando estiver chegando sua vez e mostra o que você vai falar. (A Evilayne usa o painel dela.)</p>
     <div class="names" id="names"></div>
   </section>
 
   <!-- senha -->
   <section id="pinBox" class="box" hidden>
-    <h1>Oi, <span id="pinName"></span>! 🔒</h1>
+    <h1>Oi, <span id="pinName"></span>!</h1>
     <p class="muted">Digite a sua senha (o Davy mandou no privado).</p>
-    <form id="pinForm" autocomplete="off">
-      <input id="pinIn" type="password" inputmode="numeric" maxlength="8" placeholder="••••" style="width:100%;padding:16px;font-size:24px;letter-spacing:.3em;text-align:center;border-radius:14px;border:2px solid var(--line);background:var(--bg2);color:var(--text);margin-top:12px">
-      <div class="err" id="pinErr" style="color:var(--red);min-height:1.2em;margin-top:8px;font-size:14px"></div>
-      <button type="submit" style="width:100%;padding:16px;border-radius:14px;background:var(--accent);color:#111;font-weight:800;font-size:18px;margin-top:6px">Entrar</button>
-      <button type="button" class="lnk" id="pinBack" style="margin-top:10px">← não sou eu</button>
+    <form id="pinForm" autocomplete="off" class="pinform">
+      <label class="field" for="pinIn">Senha</label>
+      <input id="pinIn" type="password" inputmode="numeric" maxlength="8" aria-describedby="pinErr">
+      <div class="err" id="pinErr" role="alert"></div>
+      <button type="submit" class="primary">Entrar</button>
+      <button type="button" class="lnk" id="pinBack">Não sou eu</button>
     </form>
   </section>
 
   <div id="pickSide" hidden></div>
 
   <section id="main" hidden>
-    <div class="tabs"><button id="tLive" class="on" type="button">🔴 Ao vivo</button><button id="tEnsaio" type="button">📖 Ensaiar</button></div>
+    <div class="tabs"><button id="tLive" class="on" type="button">Ao vivo</button><button id="tEnsaio" type="button">Ensaiar</button></div>
 
     <div id="live">
       <div id="status" class="status s-wait"></div>
@@ -103,7 +110,7 @@
       <div class="box">
         <div class="row" style="display:flex;justify-content:space-between;align-items:center;gap:8px">
           <span class="muted">Toque no texto borrado pra conferir se lembrou.</span>
-          <label class="muted" style="white-space:nowrap"><input type="checkbox" id="blur"> esconder</label>
+          <label class="chk"><input type="checkbox" id="blur"> Esconder o texto</label>
         </div>
       </div>
       <div id="ensaioList"></div>
@@ -131,7 +138,7 @@
   const isHost = n => (PROFILES.find(p => p.name === n) || {}).host;
   if (!proof) { me = ''; }
 
-  $('names').innerHTML = PEOPLE.map(n => `<button type="button" data-n="${esc(n)}">${isHost(n) ? '🎙️ ' : ''}${esc(n)}</button>`).join('');
+  $('names').innerHTML = PEOPLE.map(n => `<button type="button" data-n="${esc(n)}">${esc(n)}</button>`).join('');
   $('names').onclick = e => { const b = e.target.closest('button'); if (!b) return; picking = b.dataset.n; $('pinName').textContent = picking; $('pinIn').value = ''; $('pinErr').textContent = ''; flow(); setTimeout(() => $('pinIn').focus(), 50); };
   $('pinBack').onclick = () => { picking = ''; flow(); };
   $('pinForm').onsubmit = async e => {
@@ -187,20 +194,20 @@
 
   function questionsHTML(sl) {
     if (!sl.followups) return '';
-    return `<div class="box args"><h3>🗳️ ${esc(sl.title)}</h3>
+    return `<div class="box args"><h3>${esc(sl.title)}</h3>
       <p class="muted" style="margin:0 0 10px">Vote também no site da sala. Se a sala ficar quieta, puxe a conversa com uma dessas:</p>
       <ul>${sl.followups.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
   }
 
-  function nextText(ns) { const w = (ns.warmup || []).find(x => x.name === me); return ns.speaker === me ? (ns.fala || '') : w ? '🔥 Na pergunta, você esquenta o debate: ' + w.text : ''; }
+  function nextText(ns) { const w = (ns.warmup || []).find(x => x.name === me); return ns.speaker === me ? (ns.fala || '') : w ? 'Na pergunta, você esquenta o debate: ' + w.text : ''; }
 
   function render() {
     if (!me) return;
     const i = state.slide || 0;
     const sl = SLIDES[i];
-    $('nowBox').innerHTML = `<div class="now">No telão agora · slide ${i + 1}/${SLIDES.length}</div><div class="ti">${esc(sl.title)}</div><div class="who">🎙️ ${esc(sl.speaker)}</div>`;
+    $('nowBox').innerHTML = `<div class="now">No telão agora · slide ${i + 1}/${SLIDES.length}</div><div class="ti">${esc(sl.title)}</div><div class="who">Com ${esc(sl.speaker)}</div>`;
     const sp = state.speaker;
-    $('speakerFloor').innerHTML = sp ? `<div class="floor">🎤 Com a palavra: ${esc(sp.name)}</div>` : '';
+    $('speakerFloor').innerHTML = sp ? `<div class="floor">Com a palavra: ${esc(sp.name)}</div>` : '';
 
     let next = -1;
     for (let k = i; k < SLIDES.length; k++) if (SLIDES[k].speaker === me || (SLIDES[k].warmup || []).some(w => w.name === me)) { next = k; break; }
@@ -209,7 +216,7 @@
 
     if (sl.speaker === me) {
       st.className = 'status s-now';
-      st.innerHTML = `<div class="big">🎤 SUA VEZ!</div><div class="sub">Fala com calma, olhando pra sala.</div>`;
+      st.innerHTML = `<div class="big">Sua vez</div><div class="sub">Fala com calma, olhando pra sala.</div>`;
       card = `<div class="box">${sizes()}<div class="fala">${falaHTML(sl.fala || '')}</div></div>`;
     } else {
       const n = next === -1 ? 0 : next - i;
@@ -218,20 +225,20 @@
       if (myWarm) {
         const idx = sl.warmup.indexOf(myWarm);
         st.className = 'status s-now';
-        st.innerHTML = `<div class="big">🔥 VOCÊ ESQUENTA O DEBATE!</div><div class="sub">${idx === 0 ? 'Você fala primeiro (30 s)' : 'Você rebate o ' + esc(sl.warmup[0].name) + ' (30 s)'}</div>`;
+        st.innerHTML = `<div class="big">Você esquenta o debate</div><div class="sub">${idx === 0 ? 'Você fala primeiro (30 s)' : 'Você rebate o ' + esc(sl.warmup[0].name) + ' (30 s)'}</div>`;
         card = `<div class="box">${sizes()}<div class="fala">${falaHTML(myWarm.text)}</div></div>` + questionsHTML(sl);
       } else if (sl.followups) {
         st.className = 'status s-soon';
-        st.innerHTML = `<div class="big">🗳️ PERGUNTA PRA SALA</div><div class="sub">${ns ? (n === 1 ? '⚡ Depois dessa pergunta é você!' : `Sua vez em ${n} slides`) : 'Você já falou. Agora é debater!'}</div>`;
+        st.innerHTML = `<div class="big">Pergunta pra sala</div><div class="sub">${ns ? (n === 1 ? 'Depois dessa pergunta é você' : `Sua vez em ${n} slides`) : 'Você já falou. Agora é debater!'}</div>`;
         card = questionsHTML(sl);
         if (ns && n === 1) card += `<div class="box"><div class="now" style="margin-bottom:8px">Sua próxima fala</div>${sizes()}<div class="fala dim">${falaHTML(nextText(ns))}</div></div>`;
       } else if (!ns) {
         st.className = 'status s-done';
-        st.innerHTML = `<div class="big">✅ Você já falou!</div><div class="sub">Agora é ajudar a sala a debater.</div>`;
+        st.innerHTML = `<div class="big">Você já falou</div><div class="sub">Agora é ajudar a sala a debater.</div>`;
       } else {
         st.className = 'status ' + (n === 1 ? 's-next' : n <= 3 ? 's-soon' : 's-wait');
         st.innerHTML = n === 1
-          ? `<div class="big">⚡ PRÓXIMO É VOCÊ!</div><div class="sub">Prepare-se: "${esc(ns.title)}"</div>`
+          ? `<div class="big">Próximo é você</div><div class="sub">Prepare-se: "${esc(ns.title)}"</div>`
           : `<div class="big">Sua vez em ${n} slides</div><div class="sub">Seu próximo: "${esc(ns.title)}"</div>`;
         card = `<div class="box"><div class="now" style="margin-bottom:8px">Sua próxima fala</div>${sizes()}<div class="fala dim">${falaHTML(nextText(ns))}</div></div>`;
       }
@@ -246,9 +253,9 @@
       <div class="box card-ensaio">
         <div class="now"><span class="num">Slide ${i + 1}</span> · ${esc(s.kicker || '')}</div>
         <div class="ti" style="margin-bottom:10px">${esc(s.title)}</div>
-        <div class="fala">${falaHTML(s.speaker === me ? (s.fala || '') : '🔥 ' + s.warmup.find(w => w.name === me).text)}</div>
+        <div class="fala">${falaHTML(s.speaker === me ? (s.fala || '') : '' + s.warmup.find(w => w.name === me).text)}</div>
       </div>`).join('');
-    html += `<div class="box"><h1 style="font-size:20px">🗳️ Perguntas pra sala</h1><p class="muted">A Evilayne vai fazer essas perguntas. Pense na sua opinião e ajude a puxar o debate.</p></div>`;
+    html += `<div class="box"><h1 style="font-size:20px">Perguntas pra sala</h1><p class="muted">A Evilayne vai fazer essas perguntas. Pense na sua opinião e ajude a puxar o debate.</p></div>`;
     SLIDES.filter(s => s.followups).forEach(s => { html += questionsHTML(s); });
     $('ensaioList').innerHTML = html;
   }

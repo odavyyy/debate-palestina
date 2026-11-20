@@ -1,48 +1,112 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+/* Sistema visual (tasteskill 2.5, sorteio: palette blue-black-cornflower, type instrument, radius soft).
+   Fundo quase preto porque o projetor da sala lava cores claras; um único azul de ação, calmo e
+   sem cor de "lado" no conflito. O vermelho é só sinal de transmissão ao vivo. */
+/* Fontes embutidas (licença OFL, em fonts/): funcionam mesmo se a rede da escola bloquear o Google Fonts */
+@font-face { font-family: "Instrument Sans"; font-style: normal; font-display: swap; font-weight: 400 700;
+  src: url(../fonts/instrument-sans-latin-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+@font-face { font-family: "Instrument Sans"; font-style: normal; font-display: swap; font-weight: 400 700;
+  src: url(../fonts/instrument-sans-latin-ext-wght-normal.woff2) format("woff2-variations");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: "DM Mono"; font-style: normal; font-display: swap; font-weight: 400; src: url(../fonts/dm-mono-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "DM Mono"; font-style: normal; font-display: swap; font-weight: 500; src: url(../fonts/dm-mono-latin-500-normal.woff2) format("woff2"); }
 
 :root {
-  --bg: #0b1020;
-  --bg2: #121a33;
-  --panel: #18213f;
-  --panel2: #1f2a4f;
-  --line: rgba(255,255,255,.10);
-  --text: #f3f5fb;
-  --muted: #a8b0c8;
-  --live: #ff3b4e;
-  --accent: #ffcc33;
-  --blue: #4da3ff;
-  --green: #2fd18b;
-  --red: #ff5d6c;
-  --radius: 18px;
-  --head: 'Archivo', 'Inter', system-ui, sans-serif;
-  --body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  /* paleta sorteada */
+  --p-bg: #0a0d14; --p-surface: #131824; --p-ink: #e9edf3; --p-muted: #8891a1;
+  --p-action: #5ab9fc; --p-action-ink: #0a0d14;
+
+  /* nomes usados pelas telas */
+  --bg: var(--p-bg);
+  --bg2: #0f131d;
+  --panel: var(--p-surface);
+  --panel2: #1a2030;
+  --line: rgba(233, 237, 243, .13);
+  --line-strong: rgba(233, 237, 243, .24);
+  --text: var(--p-ink);
+  --muted: var(--p-muted);
+  --action: var(--p-action);
+  --action-ink: var(--p-action-ink);
+  --accent: var(--p-action);
+  --blue: var(--p-action);
+  --live: #f0414f;          /* só o sinal "ao vivo" e o "com a palavra" */
+  --green: #3cc98a;         /* só estado: conectado */
+  --red: #ff6b76;           /* só erro */
+  --neutral-fill: #2a3244;  /* barras que não lideram */
+
+  --font-display: "Instrument Sans", system-ui, sans-serif;
+  --font-text: "Instrument Sans", system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --head: var(--font-display);
+  --body: var(--font-text);
+  --display-weight: 500;
+  --display-tracking: -0.028em;
+
+  --r-sm: 8px; --r-md: 12px; --r-lg: 20px; --r-btn: 12px;
+  --radius: var(--r-lg);
+
+  /* movimento (motion.md) */
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --ease-enter: cubic-bezier(.22, 1, .36, 1);
+  --m-in: 150ms; --m-out: 120ms; --m-press: 90ms;
 }
 
 * { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: var(--body); -webkit-font-smoothing: antialiased; }
-button { font: inherit; cursor: pointer; border: 0; }
-input { font: inherit; }
-
-.live-badge {
-  display: inline-flex; align-items: center; gap: .45em;
-  background: var(--live); color: #fff; font-family: var(--head); font-weight: 800;
-  letter-spacing: .08em; text-transform: uppercase; padding: .35em .8em; border-radius: 8px;
+body {
+  background: var(--bg); color: var(--text); font-family: var(--body);
+  font-size: 16px; line-height: 1.5; -webkit-font-smoothing: antialiased;
 }
-.live-badge::before { content: ''; width: .55em; height: .55em; border-radius: 50%; background: #fff; animation: blink 1.2s infinite; }
-@keyframes blink { 50% { opacity: .25; } }
+h1, h2, h3 { font-family: var(--head); font-weight: var(--display-weight); letter-spacing: var(--display-tracking); }
+button { font: inherit; cursor: pointer; border: 0; color: inherit; }
+input { font: inherit; }
+.num, .mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: 0; }
 
-.dot { width: 10px; height: 10px; border-radius: 50%; background: #666; display: inline-block; }
-.dot.on { background: var(--green); box-shadow: 0 0 10px var(--green); }
+/* foco: anel de 2px na cor de ação, sem animação */
+:focus-visible { outline: 2px solid var(--action); outline-offset: 2px; }
+button:focus:not(:focus-visible) { outline: none; }
+
+/* camada de hover e clique (motion.md): sobe 1px, afunda ao clicar */
+button, .btn, a.btn {
+  transition: transform var(--m-out) var(--ease), background-color var(--m-out) var(--ease),
+              border-color var(--m-out) var(--ease), color var(--m-out) var(--ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  button:not(:disabled):hover { transform: translateY(-1px); transition-duration: var(--m-in); }
+}
+button:not(:disabled):active { transform: translateY(1px) scale(.985); transition-duration: var(--m-press); }
+
+/* sinal de transmissão: ponto parado, um anel cresce e some (2,4 s) */
+.live-badge {
+  display: inline-flex; align-items: center; gap: .5em;
+  background: var(--live); color: #fff; font-family: var(--head); font-weight: 500;
+  padding: .3em .75em; border-radius: var(--r-sm); letter-spacing: 0;
+}
+.live-badge::before {
+  content: ''; width: .5em; height: .5em; border-radius: 50%; background: #fff; flex: none;
+  box-shadow: 0 0 0 0 rgba(255, 255, 255, .7); animation: live-ring 2.4s linear infinite;
+}
+@keyframes live-ring {
+  0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, .6); }
+  70%, 100% { box-shadow: 0 0 0 .5em rgba(255, 255, 255, 0); }
+}
+
+.dot { width: 10px; height: 10px; border-radius: 50%; background: #586074; display: inline-block; }
+.dot.on { background: var(--green); }
 .dot.off { background: var(--red); }
 
-.gate {
-  position: fixed; inset: 0; z-index: 100; display: grid; place-items: center;
-  background: radial-gradient(1200px 600px at 50% 0%, #1b2752, var(--bg));
+/* tela de senha */
+.gate { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; background: var(--bg); padding: 24px; }
+.gate form { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 32px; width: min(420px, 100%); }
+.gate h1 { margin: 16px 0 8px; font-size: 28px; line-height: 1.15; }
+.gate p { color: var(--muted); margin: 0 0 24px; line-height: 1.55; }
+.gate label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+.gate input { width: 100%; height: 48px; padding: 0 16px; border-radius: var(--r-sm); border: 1px solid var(--line-strong); background: var(--bg2); color: var(--text); font-size: 20px; letter-spacing: .2em; font-family: var(--font-mono); }
+.gate input:focus { outline: none; border-color: var(--action); box-shadow: 0 0 0 3px rgba(90, 185, 252, .25); }
+.gate button { margin-top: 16px; width: 100%; height: 48px; border-radius: var(--r-btn); background: var(--action); color: var(--action-ink); font-weight: 500; font-size: 16px; }
+.gate .err { color: var(--red); min-height: 1.4em; margin-top: 12px; font-size: 14px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  button:not(:disabled):hover, button:not(:disabled):active { transform: none; }
 }
-.gate form { background: var(--panel); border: 1px solid var(--line); border-radius: 22px; padding: 32px; width: min(420px, 92vw); text-align: center; }
-.gate h1 { font-family: var(--head); margin: .2em 0 .3em; font-size: 28px; }
-.gate p { color: var(--muted); margin: 0 0 18px; line-height: 1.45; }
-.gate input { width: 100%; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line); background: var(--bg2); color: var(--text); font-size: 20px; text-align: center; letter-spacing: .2em; }
-.gate button { margin-top: 14px; width: 100%; padding: 14px; border-radius: 12px; background: var(--accent); color: #111; font-weight: 800; font-size: 17px; }
-.gate .err { color: var(--red); min-height: 1.3em; margin-top: 10px; font-size: 14px; }
