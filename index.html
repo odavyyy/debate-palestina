@@ -246,7 +246,7 @@
           ${p.show ? `<i class="f" style="width:${pct}%"></i>` : ''}
           <span>${mine === i ? '<span class="check" aria-hidden="true">✓</span>' : ''}${esc(o)}</span>${p.show ? `<span class="p">${pct}%</span>` : ''}</button>`;
       }).join('')}
-      <div class="qpos">${p.open ? (mine != null ? 'Voto registrado. Pode trocar até a votação fechar.' : 'Toque numa opção para votar.') : `${total} votos`}</div>`;
+      <div class="qpos">${p.open ? (mine != null ? 'Voto registrado. Pode trocar até a votação fechar.' : 'Toque numa opção para votar.') : `${total} voto${total === 1 ? '' : 's'}`}</div>`;
   }
   $('pollBox').addEventListener('click', e => {
     const b = e.target.closest('.opt'); if (!b || !state.poll || !state.poll.open) return;

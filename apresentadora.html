@@ -48,7 +48,8 @@
   .speaker .btn { background: rgba(0,0,0,.22); border-color: transparent; color: #fff; }
 
   .q { list-style: none; margin: 0; padding: 0; }
-  .q li { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .q li { display: flex; align-items: center; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+  .q li .nm { min-width: 140px; }
   .q li .nm { flex: 1; font-weight: 500; font-size: 17px; }
   .q li .nm small { color: var(--muted); font-weight: 400; font-size: 13px; margin-left: 6px; font-family: var(--font-mono); }
   .empty { color: var(--muted); font-size: 14px; padding: 8px 0; }
@@ -77,6 +78,16 @@
   .voters { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
   .vchip { background: var(--bg2); border: 1px solid var(--line-strong); border-radius: var(--r-sm); min-height: 36px; padding: 0 12px; font-size: 14px; font-weight: 500; }
   @media (hover: hover) and (pointer: fine) { .vchip:hover { border-color: var(--action); } }
+  /* celular: barra fixa com os botões de passar slide */
+  .mobnav { display: none; }
+  @media (max-width: 700px) {
+    .wrap { padding-bottom: 104px; }
+    .mobnav { display: grid; grid-template-columns: 64px 1fr 64px; gap: 8px; align-items: center; position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid var(--line); }
+    .mobnav .btn { min-height: 52px; font-size: 22px; padding: 0; }
+    .mobnav .mt { font-size: 14px; line-height: 1.3; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .mobnav .mt b { font-family: var(--font-mono); font-weight: 500; color: var(--action); margin-right: 4px; }
+    .speaker .n { flex-basis: 100%; }
+  }
 </style>
 </head>
 <body>
@@ -175,6 +186,12 @@
   </div>
 </div>
 
+<nav class="mobnav" aria-label="Passar slides">
+  <button class="btn" id="mprev" type="button" aria-label="Slide anterior">&larr;</button>
+  <div class="mt" id="mtitle"></div>
+  <button class="btn y" id="mnext" type="button" aria-label="Próximo slide">&rarr;</button>
+</nav>
+
 <script src="js/mqtt.min.js"></script>
 <script src="js/core.js"></script>
 <script src="js/slides.js"></script>
@@ -259,6 +276,8 @@
   }
   $('prev').onclick = () => setSlide(state.slide - 1);
   $('next').onclick = () => setSlide(state.slide + 1);
+  $('mprev').onclick = () => setSlide(state.slide - 1);
+  $('mnext').onclick = () => setSlide(state.slide + 1);
   addEventListener('keydown', e => {
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
     if (e.key === 'ArrowRight' || e.key === 'PageDown') setSlide(state.slide + 1);
@@ -424,8 +443,9 @@
     }
     const nx = SLIDES[state.slide + 1];
     $('nextup').textContent = nx ? `Próximo: ${nx.title} (${nx.speaker})` : 'Último slide.';
-    $('prev').disabled = state.slide === 0;
-    $('next').disabled = state.slide === SLIDES.length - 1;
+    $('prev').disabled = $('mprev').disabled = state.slide === 0;
+    $('mtitle').innerHTML = `<b>${state.slide + 1}/${SLIDES.length}</b>${esc(sl.title)}`;
+    $('next').disabled = $('mnext').disabled = state.slide === SLIDES.length - 1;
 
     $('swReact').classList.toggle('on', !!state.reactions);
     $('swHands').classList.toggle('on', !!state.hands);
@@ -438,7 +458,7 @@
       const p = state.poll && state.poll.slideId === sl.id ? state.poll : null;
       const t = p ? p : Object.assign({ options: sl.poll.options }, tally(sl.id));
       $('pollQ').textContent = sl.poll.q;
-      $('pollCount').textContent = (t.total || 0) + ' votos';
+      $('pollCount').textContent = (t.total || 0) + (t.total === 1 ? ' voto' : ' votos');
       const pv = polls[sl.id] || { votes: {}, names: {} };
       $('pollBars').innerHTML = sl.poll.options.map((o, i) => {
         const c = (t.counts || [])[i] || 0, pct = t.total ? Math.round(c * 100 / t.total) : 0;
