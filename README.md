@@ -1,4 +1,6 @@
-# Debate ao vivo: Genocídio na Palestina
+# 🇵🇸 Debate ao vivo: Genocídio na Palestina
+
+🔗 **Site:** https://odavyyy.github.io/debate-palestina/
 
 Apresentação interativa para a escola, com três telas que conversam em tempo real:
 
@@ -24,3 +26,21 @@ Antes de começar, use **Zerar tudo** no painel para apagar os testes.
 Site estático (GitHub Pages). O tempo real usa dois servidores MQTT públicos e gratuitos (EMQX e HiveMQ) ao mesmo tempo; se um cair, o outro segura. Os comandos do painel são assinados com a senha, então só quem tem a senha controla slides e fila.
 
 Grupo: Davy dos Santos Mendes, Eduardo Santos Yamanaka, Luis Eduardo Cremoneze Dourado, Gustavo Mauricio de Morais Silva, Kaiky Victor Santos, Guilherme Aquiles Xavier. Apresentação: Evilayne.
+
+## Tecnologia
+- HTML, CSS e JavaScript puro (sem framework), publicado no **GitHub Pages**.
+- Tempo real via **MQTT** (`js/mqtt.min.js`) em dois brokers públicos.
+- QR Code gerado no próprio navegador (`js/qrcode.js`).
+- Fontes locais (DM Mono e Instrument Sans, licença OFL) na pasta `fonts/`.
+
+## Estrutura
+```
+index.html         -> tela dos alunos (entrar e votar)
+telao.html         -> slides + QR Code no projetor
+apresentadora.html -> painel de controle (senha)
+orador.html        -> fala de cada apresentador no celular
+css/base.css       -> estilos
+js/core.js         -> conexão MQTT, utilidades e filtro de nomes
+js/slides.js       -> conteúdo dos slides
+js/profiles.js     -> perfis de quem apresenta (só hash da senha)
+```
