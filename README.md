@@ -8,6 +8,7 @@ Apresentação interativa para a escola, com três telas que conversam em tempo 
 | Telão | `https://odavyyy.github.io/debate-palestina/telao.html` | Computador ligado no projetor |
 | Painel | `https://odavyyy.github.io/debate-palestina/apresentadora.html` | Evilayne (celular ou notebook) |
 | Falas | `https://odavyyy.github.io/debate-palestina/orador.html` | Cada apresentador no próprio celular: avisa a vez e mostra a fala |
+| Atalhos | `https://odavyyy.github.io/debate-palestina/links.html` | Quem for testar: botões para todas as telas e sala de teste |
 
 ## Como usar no dia
 1. No computador do projetor, abra o **telão**, digite a senha do grupo e aperte **F** (tela cheia).
