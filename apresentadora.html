@@ -202,10 +202,10 @@
   const GROUP = ['Davy', 'Eduardo', 'Luis Eduardo', 'Gustavo', 'Kaiky', 'Guilherme', 'Evilayne'];
 
   const aluno = DP.studentURL();
-  const telao = new URL('telao.html', aluno); new URL(location.href).searchParams.forEach((v, k) => telao.searchParams.set(k, v));
+  const telao = new URL('telao', aluno); new URL(location.href).searchParams.forEach((v, k) => telao.searchParams.set(k, v));
   $('lAluno').href = $('lAluno').textContent = aluno;
   $('lTelao').href = $('lTelao').textContent = telao.toString();
-  const orador = new URL('orador.html', aluno); new URL(location.href).searchParams.forEach((v, k) => orador.searchParams.set(k, v));
+  const orador = new URL('orador', aluno); new URL(location.href).searchParams.forEach((v, k) => orador.searchParams.set(k, v));
   $('lOrador').href = $('lOrador').textContent = orador.toString();
 
   /* ---- senha ---- */
