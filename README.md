@@ -39,6 +39,7 @@ index.html         -> tela dos alunos (entrar e votar)
 telao.html         -> slides + QR Code no projetor
 apresentadora.html -> painel de controle (senha)
 orador.html        -> fala de cada apresentador no celular
+links.html         -> atalhos para todas as telas e sala de teste
 css/base.css       -> estilos
 js/core.js         -> conexão MQTT, utilidades e filtro de nomes
 js/slides.js       -> conteúdo dos slides
