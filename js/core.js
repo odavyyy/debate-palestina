@@ -179,6 +179,7 @@
     poll: null,         // {id, q, options:[...], open, show, counts:[...], total}
     banned: [],
     session: 1,
+    qr: false,         // QR grande por cima do slide (painel ou tecla Q)
     score: null,       // {pal, isr, played}
     teams: { pal: [], isr: [] },
   };

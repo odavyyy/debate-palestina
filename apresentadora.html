@@ -35,6 +35,8 @@
   .notes b { font-weight: 600; }
   .notes summary { min-height: 28px; }
   .nextup { margin-top: 12px; color: var(--muted); font-size: 14px; }
+  .qrbtn { width: 100%; margin-top: 12px; min-height: 48px; }
+  .qrbtn.on { background: var(--text); color: var(--bg); border-color: var(--text); }
 
   .pbar { position: relative; background: var(--bg2); border-radius: var(--r-sm); height: 44px; margin-bottom: 8px; overflow: hidden; border: 1px solid var(--line); }
   .pbar i { position: absolute; inset: 0 auto 0 0; background: rgba(90,185,252,.3); }
@@ -124,6 +126,7 @@
         <div class="notes" id="notes"></div>
         <details id="argsBox" open class="notes" style="border-left-color:var(--blue);background:rgba(77,163,255,.08)" hidden><summary style="cursor:pointer;font-weight: 500">Perguntas pra esquentar o debate</summary><div id="argsBody"></div></details>
         <div class="nextup" id="nextup"></div>
+        <button class="btn qrbtn" id="qrBtn" type="button" aria-pressed="false">Mostrar QR Code no telão</button>
       </div>
 
       <div class="box" id="pollBox" hidden>
@@ -270,6 +273,7 @@
   function setSlide(n) {
     n = Math.max(0, Math.min(SLIDES.length - 1, n));
     state.slide = n;
+    state.qr = false; // trocou de slide: o QR grande sai da frente
     if (!SLIDES[n].poll) state.speaker = null; // slide de apresentação: tira a tarja de quem estava falando
     if (state.poll && state.poll.slideId !== SLIDES[n].id && (state.poll.open || state.poll.show)) { state.poll.open = false; state.poll.show = false; }
     publish(true);
@@ -408,6 +412,7 @@
   /* ---- interruptores ---- */
   $('swReact').onclick = () => { state.reactions = !state.reactions; publish(true); };
   $('swHands').onclick = () => { state.hands = !state.hands; publish(true); };
+  $('qrBtn').onclick = () => { state.qr = !state.qr; publish(true); };
   $('clearQueue').onclick = () => { queue.items = []; publishQueue(); };
   $('resetAll').onclick = e => {
     const b = e.currentTarget;
@@ -449,6 +454,12 @@
 
     $('swReact').classList.toggle('on', !!state.reactions);
     $('swHands').classList.toggle('on', !!state.hands);
+    // QR grande: não faz sentido nos slides que já mostram o QR (1 e 2)
+    const qrSlide = sl.layout === 'qr' || sl.layout === 'cover';
+    $('qrBtn').hidden = qrSlide;
+    $('qrBtn').classList.toggle('on', !!state.qr);
+    $('qrBtn').setAttribute('aria-pressed', String(!!state.qr));
+    $('qrBtn').textContent = state.qr ? 'Tirar QR Code do telão' : 'Mostrar QR Code no telão';
 
     // votação
     const pb = $('pollBox');
