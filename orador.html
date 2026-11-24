@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0b1020">
-<title>Minha fala · Debate Palestina</title>
+<title>Falas do grupo · Debate Palestina</title>
 <link rel="stylesheet" href="css/base.css">
 <style>
   body { min-height: 100dvh; padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom); }
@@ -63,6 +63,42 @@
   .pinform .err { color: var(--red); min-height: 1.4em; margin-top: 8px; font-size: 14px; }
   .pinform .primary { width: 100%; height: 52px; border-radius: var(--r-btn); background: var(--action); color: var(--action-ink); font-weight: 500; font-size: 16px; margin-top: 8px; }
   .pinform .lnk { margin-top: 8px; }
+  .top { position: sticky; top: 0; z-index: 5; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin: 0 0 16px; padding: 4px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); }
+  .top button { min-height: 44px; border-radius: var(--r-sm); background: transparent; color: var(--muted); font-weight: 500; font-size: 15px; padding: 0 6px; }
+  .top button.on { background: var(--action); color: var(--action-ink); }
+  .top button:hover, .top button:active { transform: none !important; }
+  .doc h2 { font-size: 22px; line-height: 1.2; margin: 0 0 12px; letter-spacing: -.01em; }
+  .doc p, .doc li { font-size: 17px; line-height: 1.55; }
+  .doc p { margin: 0 0 10px; }
+  .doc ul, .doc ol { margin: 0; padding-left: 22px; }
+  .doc li { margin-bottom: 8px; }
+  .doc .lead { font-size: 19px; color: var(--text); }
+  .steps { list-style: none; padding: 0 !important; counter-reset: st; }
+  .steps li { position: relative; padding-left: 44px; min-height: 32px; }
+  .steps li::before { counter-increment: st; content: counter(st); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--bg2); border: 1px solid var(--line-strong); display: grid; place-items: center; font-family: var(--font-mono); font-size: 14px; color: var(--action); }
+  .tl { display: grid; grid-template-columns: 76px 1fr; gap: 8px 12px; font-size: 17px; line-height: 1.45; }
+  .tl b { font-family: var(--font-mono); font-weight: 500; color: var(--action); font-size: 15px; padding-top: 2px; }
+  .role { display: flex; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 16px; line-height: 1.45; }
+  .role:last-child { border-bottom: 0; }
+  .role b { min-width: 96px; font-weight: 600; }
+  .rt { border-left: 3px solid var(--line-strong); }
+  .rt.mine { border-left-color: var(--action); }
+  .rt.q { border-left-color: var(--live); }
+  .rt .hd { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .rt .n { font-family: var(--font-mono); color: var(--muted); font-size: 14px; }
+  .rt .ti { flex: 1; margin: 0; }
+  .chip { display: inline-flex; align-items: center; height: 28px; padding: 0 10px; border-radius: var(--r-sm); background: var(--bg2); border: 1px solid var(--line-strong); font-size: 14px; font-weight: 500; white-space: nowrap; }
+  .chip.me { background: var(--action); color: var(--action-ink); border-color: var(--action); }
+  .rt .meta { color: var(--muted); font-size: 14px; margin: 6px 0 0; }
+  .rt .what { font-size: 16px; line-height: 1.5; margin: 10px 0 0; }
+  .rt details { margin-top: 10px; }
+  .rt summary { min-height: 40px; display: flex; align-items: center; color: var(--action); font-size: 15px; font-weight: 500; cursor: pointer; }
+  .rt .fala { font-size: 17px; }
+  .guide { margin: 12px 0; padding: 12px 14px; background: var(--bg2); border-radius: var(--r-sm); font-size: 16px; line-height: 1.5; }
+  .guide b { display: block; font-size: 13px; font-weight: 500; color: var(--action); margin-bottom: 2px; }
+  .guide + .guide { margin-top: -4px; }
+  .guide ul { margin: 4px 0 0; padding-left: 20px; }
+  .deixa { border-left: 3px solid var(--action); }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -70,11 +106,21 @@
 <div class="app">
   <header>
     <span class="tag">Grupo</span>
-    <div class="t" id="hdr">Minha fala<small>Genocídio na Palestina</small></div>
+    <div class="t" id="hdr">Falas do grupo<small>Genocídio na Palestina</small></div>
     <span class="dot" id="conn"></span>
   </header>
 
   <!-- quem é você -->
+  <nav class="top" aria-label="Seções">
+    <button type="button" data-t="como">Dinâmica</button>
+    <button type="button" data-t="roteiro">Roteiro</button>
+    <button type="button" data-t="minha">Minha fala</button>
+  </nav>
+
+  <section id="como" class="doc" hidden></section>
+  <section id="roteiro" hidden></section>
+
+  <div id="minha" hidden>
   <section id="pick" class="box" hidden>
     <h1>Quem é você?</h1>
     <p class="muted">Seu celular avisa quando estiver chegando sua vez e mostra o que você vai falar. (A Evilayne usa o painel dela.)</p>
@@ -117,6 +163,7 @@
     </div>
     <p class="muted" style="text-align:center;margin-top:18px">Você: <b id="meName"></b> · <button class="lnk" id="change" type="button">sair</button></p>
   </section>
+  </div>
 </div>
 
 <script src="js/mqtt.min.js"></script>
@@ -150,7 +197,7 @@
     me = picking; proof = pr; picking = '';
     store.set('orador', me); store.set('orador_proof', proof);
     side = ''; store.set('orador_side', '');
-    flow();
+    flow(); topTab('minha');
   };
   $('change').onclick = () => { me = ''; proof = ''; side = null; store.del('orador'); store.del('orador_proof'); store.del('orador_side'); flow(); };
 
@@ -160,8 +207,137 @@
     $('pickSide').hidden = true;
     $('main').hidden = !me;
     if (me) $('meName').textContent = me;
-    render(); renderEnsaio();
+    render(); renderEnsaio(); renderRoteiro();
   }
+
+  /* ---- abas de cima: Como funciona / Roteiro / Minha fala (as duas primeiras sem senha) ---- */
+  function topTab(t) {
+    if (!['como', 'roteiro', 'minha'].includes(t)) t = me ? 'minha' : 'como';
+    document.querySelectorAll('.top button').forEach(b => b.classList.toggle('on', b.dataset.t === t));
+    $('como').hidden = t !== 'como'; $('roteiro').hidden = t !== 'roteiro'; $('minha').hidden = t !== 'minha';
+    try { history.replaceState(null, '', '#' + t); } catch {}
+    scrollTo(0, 0);
+  }
+  document.querySelector('.top').onclick = e => { const b = e.target.closest('button'); if (b) topTab(b.dataset.t); };
+
+  /* ---- ajudas de texto ---- */
+  const words = t => (t || '').replace(/\[.*?\]/g, '').split(/\s+/).filter(Boolean).length;
+  const secs = t => { const n = Math.max(10, Math.round(words(t) / 2.6 / 5) * 5); return n >= 60 ? `~${Math.floor(n / 60)} min ${n % 60 ? n % 60 + ' s' : ''}`.trim() : `~${n} s`; };
+  const lastSentence = t => { const c = (t || '').replace(/\[.*?\]/g, '').trim().split(/(?<=[.!?])\s+/); return c[c.length - 1]; };
+  const isRound = sl => !!(sl.warmup && sl.warmup.length);
+  function deixa(i, role) {
+    const sl = SLIDES[i];
+    if (role === 'abre') return 'A Evilayne lê a pergunta da rodada e te chama.';
+    if (role === 'rebate') return `${sl.warmup[0].name} abre, a sala vota, os 2 sorteados falam e a Evilayne te chama.`;
+    const prev = SLIDES[i - 1];
+    if (!prev) return 'Você começa a apresentação: assim que o telão estiver com o QR Code.';
+    if (prev.fala) return `${prev.speaker} termina com: "${lastSentence(prev.fala)}"`;
+    return `A Evilayne termina o slide "${prev.title}" e te chama.`;
+  }
+  function guideHTML(faz, espera, ouvir) {
+    return (faz ? `<div class="guide"><b>O que você faz</b>${esc(faz)}</div>` : '') +
+      (espera ? `<div class="guide"><b>O que esperar da sala</b>${esc(espera)}${ouvir && ouvir.length ? `<ul>${ouvir.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}</div>` : '');
+  }
+  // As partes de uma pessoa: slides em que ela fala e rodadas em que abre ou rebate
+  function partsOf(name) {
+    const out = [];
+    SLIDES.forEach((sl, i) => {
+      if (sl.speaker === name && sl.fala) out.push({ i, sl, role: 'fala', text: sl.fala, faz: sl.faz, espera: sl.espera });
+      (sl.warmup || []).forEach((w, k) => { if (w.name === name) out.push({ i, sl, role: k === 0 ? 'abre' : 'rebate', text: w.text, faz: w.faz, espera: w.espera, ouvir: k === 1 ? sl.ouvir : null }); });
+    });
+    return out;
+  }
+  const roleLabel = r => r === 'abre' ? 'Você abre a rodada (30 s)' : r === 'rebate' ? 'Você rebate (30 s)' : '';
+
+  /* ---- Como funciona ---- */
+  function renderComo() {
+    const ppl = PEOPLE.map(n => {
+      const parts = partsOf(n).map(x => x.role === 'fala' ? x.sl.title : (x.role === 'abre' ? 'abre a ' : 'rebate a ') + (x.sl.kicker || '').replace(' · ', ' (') + ')');
+      return `<div class="role"><b>${esc(n)}</b><span>${esc(parts.join(' · '))}</span></div>`;
+    }).join('');
+    $('como').innerHTML = `
+      <div class="box"><h2>A ideia</h2>
+        <p class="lead">A gente não vai só apresentar. A sala vota pelo celular e quem for sorteado defende o próprio voto. O grupo dá o contexto, provoca e responde.</p>
+        <p class="muted">Apresentadora: Evilayne, pelo painel dela. O resto do grupo fala pelos slides e pelas rodadas.</p></div>
+
+      <div class="box"><h2>A ordem (uns 15 a 18 min)</h2>
+        <div class="tl">
+          <b>2 min</b><span><strong>Abertura</strong> com o Davy: todo mundo escaneia o QR Code e ele explica como funciona.</span>
+          <b>30 s</b><span><strong>Primeira votação</strong>: "É genocídio?". Rápida, sem debate. No final a gente pergunta de novo.</span>
+          <b>3,5 min</b><span><strong>Contexto</strong>, um atrás do outro: Eduardo, Luis, Gustavo, Kaiky e Guilherme.</span>
+          <b>30 s</b><span><strong>Pergunta central</strong> com a Evilayne: "O que o mundo deveria fazer quando acontece um genocídio?"</span>
+          <b>10 min</b><span><strong>3 rodadas</strong>, uns 3 minutos cada: o Brasil, a ONU e a gente.</span>
+          <b>1 min</b><span><strong>Votação final</strong>: a mesma do começo. O telão mostra quantos mudaram de ideia.</span>
+          <b>30 s</b><span><strong>Encerramento</strong> com o Davy.</span>
+        </div></div>
+
+      <div class="box"><h2>Como funciona cada rodada</h2>
+        <ol class="steps">
+          <li>A Evilayne lê a pergunta e chama quem <b>abre</b>. Essa pessoa explica a situação em 30 s, sem dar opinião.</li>
+          <li>A sala vota no celular (uns 20 s) e o resultado aparece no telão.</li>
+          <li>A Evilayne toca em <b>Sortear</b>: o telão mostra 1 aluno de cada lado, e o celular deles vibra.</li>
+          <li>Cada sorteado defende o voto por 1 minuto, com cronômetro no telão.</li>
+          <li>Quem <b>rebate</b> responde com um fato (30 s), de preferência citando o que os alunos falaram.</li>
+          <li>Sobrou tempo? A Evilayne chama quem pediu a palavra ou faz uma pergunta extra.</li>
+        </ol></div>
+
+      <div class="box"><h2>Quem faz o quê</h2>${ppl}
+        <div class="role"><b>Evilayne</b><span>Apresenta tudo: passa os slides, abre as votações, sorteia e dá a palavra.</span></div></div>
+
+      <div class="box"><h2>No dia, antes de começar</h2><ul>
+        <li>Telão aberto no PC da sala, em tela cheia, com a senha do grupo.</li>
+        <li>Evilayne com o painel aberto no celular e carregado.</li>
+        <li>Cada um com esta página aberta em <b>Minha fala → Ao vivo</b>: o celular vibra quando está chegando a sua vez.</li>
+      </ul></div>
+
+      <div class="box"><h2>Se der errado</h2><ul>
+        <li><b>Internet caiu ou pouca gente votou:</b> a sala vota levantando a mão e a Evilayne escolhe 1 de cada lado.</li>
+        <li><b>O sorteado não quer falar:</b> a Evilayne toca em "Trocar".</li>
+        <li><b>Ninguém votou num dos lados:</b> a Evilayne pergunta se alguém defende esse lado. Se ninguém quiser, quem rebate faz o papel do outro lado.</li>
+        <li><b>Atrasou:</b> a Evilayne muda o tempo de fala pra 30 s.</li>
+        <li><b>O telão travou:</b> recarrega a página. Ele volta no mesmo slide.</li>
+      </ul></div>
+
+      <div class="box"><h2>Combinados do grupo</h2><ul>
+        <li>A gente não discute entre a gente na frente da sala: o debate é com eles.</li>
+        <li>Nunca zoar quem foi sorteado. Agradece e segue.</li>
+        <li>Quando terminar sua parte, chama o próximo pelo nome. A deixa de cada um está no Roteiro.</li>
+      </ul></div>`;
+  }
+
+  /* ---- Roteiro: todos os slides, quem fala e o que acontece ---- */
+  function renderRoteiro() {
+    $('roteiro').innerHTML = `<div class="box"><p class="muted">Todos os slides em ordem. ${me ? 'As suas partes estão marcadas em azul.' : 'Entre em "Minha fala" pra ver as suas partes marcadas.'} Toque em "Ver a fala" pra ler o texto.</p></div>` +
+      SLIDES.map((sl, i) => {
+        const chip = n => `<span class="chip ${n === me ? 'me' : ''}">${esc(n)}</span>`;
+        const mine = sl.speaker === me || (sl.warmup || []).some(w => w.name === me);
+        let what = '', meta = '', fala = '';
+        if (isRound(sl)) {
+          const [a, b] = sl.warmup;
+          meta = 'Rodada · uns 3 minutos';
+          what = `<ol class="steps" style="margin-top:10px">
+            <li>${chip(a.name)} abre a rodada (30 s)</li>
+            <li>A sala vota e o resultado aparece</li>
+            <li>A Evilayne sorteia 1 aluno de cada lado</li>
+            <li>Cada sorteado fala 1 minuto</li>
+            <li>${chip(b.name)} rebate (30 s)</li></ol>`;
+          fala = `<details ${mine ? 'open' : ''}><summary>Ver a fala de ${esc(a.name)} e ${esc(b.name)}</summary>
+            <p class="meta">${esc(a.name)} abre:</p><div class="fala">${falaHTML(a.text)}</div>
+            <p class="meta" style="margin-top:12px">${esc(b.name)} rebate:</p><div class="fala">${falaHTML(b.text)}</div></details>`;
+        } else if (sl.fala) {
+          meta = 'Fala · ' + secs(sl.fala);
+          what = sl.faz ? `<p class="what"><b>O que ${esc(sl.speaker)} faz:</b> ${esc(sl.faz)}</p>` : '';
+          fala = `<details ${sl.speaker === me ? 'open' : ''}><summary>Ver a fala</summary><div class="fala">${falaHTML(sl.fala)}</div></details>`;
+        } else {
+          meta = sl.poll ? 'Votação · conduz a Evilayne' : 'Conduz a Evilayne';
+          what = `<p class="what">${esc(sl.notes || '')}</p>`;
+        }
+        return `<div class="box rt ${mine ? 'mine' : ''} ${sl.poll ? 'q' : ''}">
+          <div class="hd"><span class="n">${i + 1}</span><div class="ti">${esc(sl.title)}</div>${isRound(sl) ? '' : chip(sl.speaker)}</div>
+          <p class="meta">${esc(sl.kicker || '')} · ${meta}</p>${what}${fala}</div>`;
+      }).join('');
+  }
+  renderComo(); renderRoteiro();
   /* abas */
   $('tLive').onclick = () => { $('tLive').classList.add('on'); $('tEnsaio').classList.remove('on'); $('live').hidden = false; $('ensaio').hidden = true; };
   $('tEnsaio').onclick = () => { $('tEnsaio').classList.add('on'); $('tLive').classList.remove('on'); $('live').hidden = true; $('ensaio').hidden = false; };
@@ -217,7 +393,7 @@
     if (sl.speaker === me) {
       st.className = 'status s-now';
       st.innerHTML = `<div class="big">Sua vez</div><div class="sub">Fala com calma, olhando pra sala.</div>`;
-      card = `<div class="box">${sizes()}<div class="fala">${falaHTML(sl.fala || '')}</div></div>`;
+      card = `<div class="box">${sizes()}<div class="fala">${falaHTML(sl.fala || '')}</div>${guideHTML(sl.faz, sl.espera)}</div>`;
     } else {
       const n = next === -1 ? 0 : next - i;
       const ns = next === -1 ? null : SLIDES[next];
@@ -226,7 +402,7 @@
         const idx = sl.warmup.indexOf(myWarm);
         st.className = 'status s-now';
         st.innerHTML = `<div class="big">${idx === 0 ? 'Você abre a rodada' : 'Você rebate'}</div><div class="sub">${idx === 0 ? 'Explique a situação em 30 s, antes da votação' : 'Depois que os sorteados falarem, responda com o fato (30 s)'}</div>`;
-        card = `<div class="box">${sizes()}<div class="fala">${falaHTML(myWarm.text)}</div></div>` + questionsHTML(sl);
+        card = `<div class="box">${guideHTML(myWarm.faz)}${sizes()}<div class="fala">${falaHTML(myWarm.text)}</div>${guideHTML(null, myWarm.espera, idx === 1 ? sl.ouvir : null)}</div>` + questionsHTML(sl);
       } else if (sl.followups) {
         st.className = 'status s-soon';
         st.innerHTML = `<div class="big">Pergunta pra sala</div><div class="sub">${ns ? (n === 1 ? 'Depois dessa pergunta é você' : `Sua vez em ${n} slides`) : 'Você já falou. Agora é debater!'}</div>`;
@@ -248,12 +424,16 @@
 
   function renderEnsaio() {
     if (!me) return;
-    const mine = SLIDES.map((s, i) => ({ s, i })).filter(x => x.s.speaker === me || (x.s.warmup || []).some(w => w.name === me));
-    let html = mine.map(({ s, i }) => `
+    const parts = partsOf(me);
+    let html = `<div class="box"><p class="muted" style="margin:0">Você tem ${parts.length} ${parts.length === 1 ? 'parte' : 'partes'}. Pra cada uma: a sua deixa (quando entrar), o que fazer, o texto e o que pode vir da sala. O roteiro completo está na aba Roteiro.</p></div>`;
+    html += parts.map(x => `
       <div class="box card-ensaio">
-        <div class="now"><span class="num">Slide ${i + 1}</span> · ${esc(s.kicker || '')}</div>
-        <div class="ti" style="margin-bottom:10px">${esc(s.title)}</div>
-        <div class="fala">${falaHTML(s.speaker === me ? (s.fala || '') : '' + s.warmup.find(w => w.name === me).text)}</div>
+        <div class="now"><span class="num">Slide ${x.i + 1}</span> · ${esc(x.sl.kicker || '')}${x.role !== 'fala' ? ' · ' + roleLabel(x.role) : ' · ' + secs(x.text)}</div>
+        <div class="ti" style="margin-bottom:10px">${esc(x.sl.title)}</div>
+        <div class="guide deixa"><b>Sua deixa</b>${esc(deixa(x.i, x.role))}</div>
+        ${guideHTML(x.faz)}
+        <div class="fala">${falaHTML(x.text)}</div>
+        ${guideHTML(null, x.espera, x.ouvir)}
       </div>`).join('');
     html += `<div class="box"><h1 style="font-size:20px">Perguntas pra sala</h1><p class="muted">A Evilayne vai fazer essas perguntas. Pense na sua opinião e ajude a puxar o debate.</p></div>`;
     SLIDES.filter(s => s.followups).forEach(s => { html += questionsHTML(s); });
@@ -261,6 +441,8 @@
   }
 
   flow();
+  topTab(location.hash.slice(1));
+  addEventListener('hashchange', () => topTab(location.hash.slice(1)));
 })();
 </script>
 </body>
