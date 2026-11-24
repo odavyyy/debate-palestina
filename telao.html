@@ -83,6 +83,19 @@
   .compare .bar { height: 72px; }
   .compare .bar .lbl, .compare .bar .pct { font-size: 26px; }
 
+  .compare-note { margin: 0 0 24px; font-size: 34px; }
+  .compare-note b { font-family: var(--font-mono); color: var(--action); font-weight: 500; }
+  /* Sorteio por cima do slide */
+  #drawover { position: absolute; left: 0; right: 0; top: 96px; bottom: 64px; z-index: 3; background: var(--bg); display: none; flex-direction: column; justify-content: center; padding: 32px 72px; }
+  #drawover.on { display: flex; animation: s-fade 420ms var(--ease-enter); }
+  #drawover h1 { font-size: 84px; line-height: 1.04; margin: 16px 0 48px; letter-spacing: var(--display-tracking); }
+  .picks { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 32px; }
+  .pickcard { background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--r-lg); padding: 40px 44px; min-width: 0; }
+  .pickcard .side { font-size: 30px; color: var(--muted); margin-bottom: 16px; }
+  .pickcard .nm { font-family: var(--head); font-weight: 500; font-size: 96px; line-height: 1.05; letter-spacing: -.02em; overflow-wrap: anywhere; }
+  .pickcard.done { border-color: var(--action); }
+  .pickcard.done .nm { color: var(--action); }
+  .pickcard .nm.none { font-size: 40px; color: var(--muted); }
   .podium { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
   .podium div { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-md); padding: 14px 22px; font-size: 26px; font-weight: 500; }
   .podium div em { font-style: normal; font-family: var(--font-mono); color: var(--action); margin-right: 10px; }
@@ -206,6 +219,14 @@
   html.fluid .qrcount { font-size: 16px; margin-top: 16px; }
   html.fluid .qrcount b { font-size: 56px; }
   html.fluid #fsbtn { display: none; }
+  html.fluid #drawover { position: fixed; top: 0; bottom: 0; z-index: 7; padding: 24px 16px; overflow: auto; justify-content: flex-start; }
+  html.fluid #drawover h1 { font-size: 30px; margin: 8px 0 20px; }
+  html.fluid .picks { grid-template-columns: 1fr; gap: 12px; }
+  html.fluid .pickcard { padding: 18px 20px; }
+  html.fluid .pickcard .side { font-size: 15px; margin-bottom: 6px; }
+  html.fluid .pickcard .nm { font-size: 40px; }
+  html.fluid .pickcard .nm.none { font-size: 18px; }
+  html.fluid .compare-note { font-size: 18px; }
   html.fluid #qrover { position: fixed; top: 0; bottom: 0; z-index: 7; flex-direction: column; align-items: stretch; gap: 20px; padding: 24px 16px; overflow: auto; }
   /* celular deitado: pouca altura, então nada fixo além da tarja de quem fala */
   @media (max-height: 520px) {
@@ -248,6 +269,8 @@
     <div id="slide"></div>
 
     <div id="qrover"></div>
+
+    <div id="drawover"></div>
 
     <div id="floats"></div>
 
@@ -331,7 +354,7 @@
     state = Object.assign({}, DEFAULT_STATE, s);
     store.set('telao_state', state);
     renderSlide(prevSlide !== state.slide);
-    renderQR();
+    renderQR(); renderDraw();
     renderLower();
     renderSide();
   });
@@ -367,7 +390,7 @@
     const n = Math.max(0, Math.min(SLIDES.length - 1, state.slide + d));
     if (n === state.slide) return;
     state.slide = n; state.qr = false;
-    renderSlide(true); renderQR(); publishState();
+    renderSlide(true); renderQR(); renderDraw(); publishState();
   }
 
   /* ---- slides ---- */
@@ -419,9 +442,10 @@
     const hidden = !p.show;
     if (sl.final && state.compare && p.show) {
       area.innerHTML = `<div class="poll"><div class="status">${status}</div>
+        <p class="compare-note"><b>${state.compare.changed || 0}</b> ${state.compare.changed === 1 ? 'pessoa mudou' : 'pessoas mudaram'} de ideia desde o começo.</p>
         <div class="compare">
-          <div><h4>Rodada 1 (antes)</h4>${bars(state.compare, false)}</div>
-          <div><h4>Agora (depois do debate)</h4>${bars(p, false)}</div>
+          <div><h4>No começo</h4>${bars(state.compare, false)}</div>
+          <div><h4>Agora, depois do debate</h4>${bars(p, false)}</div>
         </div></div>`;
     } else {
       area.innerHTML = `<div class="poll"><div class="status">${status}</div>${bars(p, hidden)}</div>`;
@@ -435,6 +459,30 @@
     const on = !!state.qr && sl.layout !== 'qr';
     if (on && !qrover.classList.contains('on')) qrover.innerHTML = bigQR('Ainda dá tempo de entrar');
     qrover.classList.toggle('on', on);
+  }
+
+  /* ---- sorteio (painel) ---- */
+  const drawover = document.getElementById('drawover');
+  let drawShown = null, drawSpin = null;
+  function renderDraw() {
+    const sl = SLIDES[state.slide] || SLIDES[0];
+    const d = state.draw;
+    const on = !!(d && d.show && d.slideId === sl.id);
+    drawover.classList.toggle('on', on);
+    if (!on) { drawShown = null; clearInterval(drawSpin); return; }
+    if (drawShown === d.id) return;
+    drawShown = d.id; clearInterval(drawSpin);
+    drawover.innerHTML = `<div class="kicker">Sorteio</div><h1>Quem vai defender cada lado</h1>
+      <div class="picks">${d.picks.map(p => `<div class="pickcard"><div class="side">${esc(p.label)}</div><div class="nm${p.uid ? '' : ' none'}">${p.uid ? '…' : 'Alguém da sala defende esse lado?'}</div></div>`).join('')}</div>`;
+    const cards = [...drawover.querySelectorAll('.pickcard')];
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finish = () => { clearInterval(drawSpin); d.picks.forEach((p, i) => { if (p.uid) { cards[i].querySelector('.nm').textContent = p.name; cards[i].classList.add('done'); } }); };
+    if (reduce) return finish();
+    const t0 = Date.now();
+    drawSpin = setInterval(() => {
+      if (Date.now() - t0 > 2200) return finish();
+      d.picks.forEach((p, i) => { if (p.uid && p.pool && p.pool.length) cards[i].querySelector('.nm').textContent = p.pool[Math.floor(Math.random() * p.pool.length)]; });
+    }, 90);
   }
 
   /* ---- tarja do orador ---- */
@@ -542,7 +590,7 @@
     document.querySelectorAll('.qrPeople').forEach(el => { el.textContent = people.size; });
   }, 2000);
 
-  renderSlide(); renderQR(); renderLower(); renderSide();
+  renderSlide(); renderQR(); renderDraw(); renderLower(); renderSide();
 })();
 </script>
 </body>

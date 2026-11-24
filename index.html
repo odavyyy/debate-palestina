@@ -213,7 +213,11 @@
     const items = queue.items || [];
     const pos = items.findIndex(i => i.uid === UID);
     const speaking = state.speaker && state.speaker.uid === UID;
-    $('turn').hidden = !speaking;
+    const drawn = !speaking && state.draw && state.draw.show && (state.draw.picks || []).some(p => p.uid === UID);
+    $('turn').hidden = !(speaking || drawn);
+    $('turn').textContent = speaking ? 'É a sua vez. Pode falar!' : 'Você foi sorteado! Daqui a pouco é a sua vez de defender o seu voto.';
+    if (drawn && navigator.vibrate && renderHand.lastDraw !== state.draw.id) navigator.vibrate([200, 100, 200]);
+    renderHand.lastDraw = drawn ? state.draw.id : null;
     const b = $('hand');
     b.hidden = speaking;
     b.disabled = !state.hands && !raised;

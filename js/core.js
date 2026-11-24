@@ -180,6 +180,8 @@
     banned: [],
     session: 1,
     qr: false,         // QR grande por cima do slide (painel ou tecla Q)
+    draw: null,        // sorteio: {id, slideId, show, picks:[{opt, label, uid, name, pool}]}
+    compare: null,     // votação final x primeira: {options, counts, total, changed}
     score: null,       // {pal, isr, played}
     teams: { pal: [], isr: [] },
   };

@@ -199,7 +199,7 @@
       <ul>${sl.followups.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div>`;
   }
 
-  function nextText(ns) { const w = (ns.warmup || []).find(x => x.name === me); return ns.speaker === me ? (ns.fala || '') : w ? 'Na pergunta, você esquenta o debate: ' + w.text : ''; }
+  function nextText(ns) { const w = (ns.warmup || []).find(x => x.name === me); return ns.speaker === me ? (ns.fala || '') : w ? 'Na rodada, você ' + ((ns.warmup || [])[0] === w ? 'abre: ' : 'rebate: ') + w.text : ''; }
 
   function render() {
     if (!me) return;
@@ -225,7 +225,7 @@
       if (myWarm) {
         const idx = sl.warmup.indexOf(myWarm);
         st.className = 'status s-now';
-        st.innerHTML = `<div class="big">Você esquenta o debate</div><div class="sub">${idx === 0 ? 'Você fala primeiro (30 s)' : 'Você rebate o ' + esc(sl.warmup[0].name) + ' (30 s)'}</div>`;
+        st.innerHTML = `<div class="big">${idx === 0 ? 'Você abre a rodada' : 'Você rebate'}</div><div class="sub">${idx === 0 ? 'Explique a situação em 30 s, antes da votação' : 'Depois que os sorteados falarem, responda com o fato (30 s)'}</div>`;
         card = `<div class="box">${sizes()}<div class="fala">${falaHTML(myWarm.text)}</div></div>` + questionsHTML(sl);
       } else if (sl.followups) {
         st.className = 'status s-soon';

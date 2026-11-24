@@ -78,6 +78,12 @@
   .links .lbl { color: var(--muted); display: block; font-size: 13px; }
   .members { display: flex; flex-wrap: wrap; gap: 8px; }
   .voters { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 12px; }
+  .draw { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .draw h3 { margin: 0 0 10px; font-family: var(--body); font-size: 14px; font-weight: 500; color: var(--muted); }
+  .pick { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; background: var(--bg2); border: 1px solid var(--line); border-radius: var(--r-md); padding: 10px 12px; margin-bottom: 8px; }
+  .pick .side { color: var(--muted); font-size: 13px; flex-basis: 100%; }
+  .pick .who { flex: 1; font-family: var(--head); font-weight: 500; font-size: 20px; min-width: 120px; }
+  .pick .who.none { font-family: var(--body); font-size: 15px; color: var(--muted); font-weight: 400; }
   .vchip { background: var(--bg2); border: 1px solid var(--line-strong); border-radius: var(--r-sm); min-height: 36px; padding: 0 12px; font-size: 14px; font-weight: 500; }
   @media (hover: hover) and (pointer: fine) { .vchip:hover { border-color: var(--action); } }
   /* celular: barra fixa com os botões de passar slide */
@@ -135,6 +141,7 @@
         <div id="pollBars"></div>
         <div class="status" id="pollStatus"></div>
         <div class="row" id="pollBtns"></div>
+        <div id="drawArea"></div>
       </div>
 
       <div class="box">
@@ -272,9 +279,10 @@
   /* ---- slides ---- */
   function setSlide(n) {
     n = Math.max(0, Math.min(SLIDES.length - 1, n));
+    if (n !== state.slide) state.speaker = null; // trocou de slide: tira a tarja de quem estava falando
     state.slide = n;
     state.qr = false; // trocou de slide: o QR grande sai da frente
-    if (!SLIDES[n].poll) state.speaker = null; // slide de apresentação: tira a tarja de quem estava falando
+    if (state.draw && state.draw.slideId !== SLIDES[n].id) state.draw = null; // sorteio vale só pra sua pergunta
     if (state.poll && state.poll.slideId !== SLIDES[n].id && (state.poll.open || state.poll.show)) { state.poll.open = false; state.poll.show = false; }
     publish(true);
   }
@@ -308,10 +316,42 @@
     if (act === 'show') { state.poll.open = false; state.poll.show = true; polls[sl.id].revealed = true; }
     if (act === 'hide') state.poll.show = false;
     if (act === 'restart') { polls[sl.id] = { id: sl.id + '_' + rid(5), votes: {} }; return pollAction('open'); }
-    computeScore();
+    updateCompare();
     publish(true);
   }
   function computeScore() { state.score = null; }
+  // Votação final: compara com a primeira e conta quem mudou de ideia
+  function changers(sl) {
+    const a = (polls[sl.compareWith] || {}).votes || {}, b = (polls[sl.id] || {}).votes || {};
+    return Object.keys(b).filter(u => a[u] != null && a[u] !== b[u] && !(state.banned || []).includes(u));
+  }
+  function updateCompare() {
+    const sl = state.poll && SLIDES.find(s => s.id === state.poll.slideId);
+    if (!sl || !sl.compareWith) return;
+    const base = SLIDES.find(s => s.id === sl.compareWith);
+    state.compare = Object.assign({ options: base.poll.options, changed: changers(sl).length }, tally(base.id));
+  }
+  /* ---- sorteio: 1 pessoa de cada lado entre quem votou ---- */
+  const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+  function pickFor(sl, opt, avoid) {
+    const pv = polls[sl.id] || { votes: {}, names: {} };
+    const all = Object.entries(pv.votes).filter(([u, v]) => v === opt && (pv.names || {})[u] && !(state.banned || []).includes(u)).map(([u]) => u);
+    const used = new Set(store.get('apr_drawn', []));
+    let cands = all.filter(u => !used.has(u) && !avoid.includes(u));
+    if (!cands.length) cands = all.filter(u => !avoid.includes(u)); // todo mundo desse lado já falou: pode repetir
+    const uid = cands.length ? cands[Math.floor(Math.random() * cands.length)] : null;
+    if (uid) store.set('apr_drawn', [...used, uid]);
+    return { opt, label: sl.poll.options[opt], uid, name: uid ? pv.names[uid] : null, pool: shuffle(all.map(u => pv.names[u])).slice(0, 14) };
+  }
+  function doDraw(only) {
+    const sl = SLIDES[state.slide]; if (!sl.poll) return;
+    const sides = sl.poll.sides || sl.poll.options.map((_, i) => i);
+    const cur = state.draw && state.draw.slideId === sl.id ? state.draw.picks : [];
+    const avoid = cur.map(p => p.uid).filter(Boolean);
+    const picks = sides.map((opt, i) => (only == null || only === i) ? pickFor(sl, opt, avoid) : cur[i]);
+    state.draw = { id: rid(6), slideId: sl.id, show: true, picks };
+    publish(true);
+  }
   bus.on(T.vote, msg => {
     const p = state.poll;
     if (!p || !p.open || msg.pollId !== p.id || !msg.uid) return;
@@ -319,6 +359,7 @@
     polls[p.slideId].votes[msg.uid] = msg.opt;
     if (msg.name && !DP.nameProblem(String(msg.name))) (polls[p.slideId].names ||= {})[msg.uid] = String(msg.name).slice(0, 22);
     Object.assign(state.poll, tally(p.slideId));
+    updateCompare();
     publish(false);
   });
 
@@ -335,6 +376,7 @@
   function giveFloor(uid, name) {
     const d = +$('dur').value;
     state.speaker = { uid, name, ends: d ? Date.now() + d * 1000 : 0 };
+    if (state.draw) state.draw.show = false; // o telão sai do sorteio e mostra a tarja
     queue.items = queue.items.filter(i => i.uid !== uid);
     publish(true); publishQueue();
   }
@@ -417,7 +459,7 @@
   $('resetAll').onclick = e => {
     const b = e.currentTarget;
     if (!b.dataset.sure) { b.dataset.sure = 1; b.textContent = 'Tem certeza? Toque de novo'; b.classList.add('r'); setTimeout(() => { delete b.dataset.sure; b.textContent = 'Zerar tudo (novo ensaio)'; b.classList.remove('r'); }, 3000); return; }
-    polls = {}; queue = { items: [] };
+    polls = {}; queue = { items: [] }; store.del('apr_drawn');
     state = Object.assign({}, DEFAULT_STATE, { v: state.v, session: (state.session || 1) + 1, teams: state.teams });
     publish(true); publishQueue(); renderBanned();
     b.textContent = 'Zerado';
@@ -484,11 +526,42 @@
       else { st = 'Encerrada (resultado escondido).'; btns = `<button class="btn y" data-p="show">Mostrar resultado</button><button class="btn" data-p="open">Reabrir</button>`; }
       $('pollStatus').textContent = st;
       $('pollBtns').innerHTML = btns;
+      renderDraw(sl, t);
     }
 
     $('slidelist').innerHTML = SLIDES.map((s, i) => `<button type="button" data-i="${i}" class="${i === state.slide ? 'on' : ''}">${i + 1}. ${esc(s.title)} <small>· ${esc(s.speaker)}</small></button>`).join('');
     renderSpeaker(); renderQueue(); renderBanned();
   }
+  function renderDraw(sl, t) {
+    const area = $('drawArea');
+    if (sl.compareWith) {
+      const pv = polls[sl.id] || { names: {} };
+      const ch = changers(sl);
+      area.innerHTML = `<div class="draw"><h3>Mudaram de ideia desde a primeira votação: ${ch.length}</h3>` +
+        (ch.length ? `<div class="voters">${ch.map(u => `<button type="button" class="vchip" data-uid="${esc(u)}" data-name="${esc((pv.names || {})[u] || 'Aluno')}">${esc((pv.names || {})[u] || 'Sem nome')}</button>`).join('')}</div>` : '<div class="empty">Ninguém ainda.</div>') + '</div>';
+      return;
+    }
+    if (sl.noDraw) { area.innerHTML = ''; return; }
+    const d = state.draw && state.draw.slideId === sl.id ? state.draw : null;
+    if (!d) {
+      area.innerHTML = `<div class="draw"><button class="btn y" data-d="all" type="button" style="width:100%;min-height:52px" ${t.total ? '' : 'disabled'}>Sortear 1 de cada lado</button>
+        <div class="status">${t.total ? 'O telão mostra o sorteio. Só entra quem votou com nome.' : 'Abra a votação primeiro: o sorteio é entre quem votou.'}</div></div>`;
+      return;
+    }
+    area.innerHTML = `<div class="draw"><h3>Sorteados</h3>` + d.picks.map((p, i) => `<div class="pick"><span class="side">${esc(p.label)}</span>
+        ${p.uid ? `<span class="who">${esc(p.name)}</span><button class="btn sm g" data-d="give" data-i="${i}" type="button">Dar a palavra</button><button class="btn sm" data-d="swap" data-i="${i}" type="button">Trocar</button>`
+          : `<span class="who none">Ninguém votou nisso. Pergunte se alguém da sala defende esse lado.</span>`}</div>`).join('') +
+      `<div class="row"><button class="btn sm" data-d="toggle" type="button">${d.show ? 'Tirar sorteio do telão' : 'Mostrar sorteio no telão'}</button><button class="btn sm" data-d="all" type="button">Sortear de novo</button></div></div>`;
+  }
+  $('drawArea').onclick = e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const d = state.draw, i = +b.dataset.i;
+    if (b.dataset.d === 'all') doDraw();
+    if (b.dataset.d === 'swap') doDraw(i);
+    if (b.dataset.d === 'toggle' && d) { d.show = !d.show; publish(true); }
+    if (b.dataset.d === 'give' && d && d.picks[i] && d.picks[i].uid) giveFloor(d.picks[i].uid, d.picks[i].name);
+    const v = e.target.closest('.vchip'); if (v) giveFloor(v.dataset.uid, v.dataset.name);
+  };
   $('pollBars').onclick = e => { const b = e.target.closest('.vchip'); if (b) giveFloor(b.dataset.uid, b.dataset.name); };
   $('pollBtns').onclick = e => { const b = e.target.closest('button'); if (b) pollAction(b.dataset.p); };
   $('slidelist').onclick = e => { const b = e.target.closest('button'); if (b) setSlide(+b.dataset.i); };
