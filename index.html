@@ -237,7 +237,15 @@
   function renderPoll() {
     const p = state.poll;
     const box = $('pollBox');
-    if (!p || (!p.open && !p.show)) { box.hidden = true; return; }
+    if (!p || (!p.open && !p.show)) {
+      // Sem votação aberta: avisa que ela vai aparecer aqui, pra ninguém achar que não tem
+      const sl = SLIDES[state.slide];
+      box.hidden = false;
+      box.innerHTML = sl && sl.poll
+        ? `<span class="label">Votação</span><h3>${esc(sl.poll.q)}</h3><div class="qpos" style="text-align:left">A votação abre em instantes. Fica de olho!</div>`
+        : `<span class="label">Votação</span><div class="qpos" style="text-align:left;margin-top:8px">Quando a Evilayne fizer uma pergunta, a votação aparece aqui. Quem votar pode ser sorteado pra defender o voto.</div>`;
+      return;
+    }
     box.hidden = false;
     const mine = myVotes[p.id];
     const total = p.total || 0;
