@@ -11,11 +11,6 @@ window.PROFILES = [
   "host": false
  },
  {
-  "name": "Luis Eduardo",
-  "check": "d9dce6f99faf95e0e36eefb066425953b5bd21cdc6b9d178eac4179c18c44097",
-  "host": false
- },
- {
   "name": "Gustavo",
   "check": "80d1739a4212434d34af34b8addb191df5437eb82790d178a558d70fa06e278c",
   "host": false

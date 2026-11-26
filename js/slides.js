@@ -1,5 +1,5 @@
 /* Conteúdo dos slides. Cada slide tem: quem fala, título, corpo (HTML), fala (para decorar) e dicas para a apresentadora.
-   Formato: contexto curto, pergunta central e 3 rodadas (o grupo abre, a sala vota, o site sorteia 1 de cada lado e o grupo rebate).
+   Formato: contexto curto, pergunta central e 2 rodadas (o grupo abre, a sala vota, o site sorteia 1 de cada lado e o grupo rebate).
    A primeira votação (p0) é repetida no final (pfinal) para mostrar quem mudou de ideia.
    Números verificados em novembro de 2026 (ver slide de fontes). */
 window.SLIDES = [
@@ -71,39 +71,15 @@ window.SLIDES = [
   },
   {
     "id": "historia",
-    "fala": "E isso não começou ontem. Em 1948 Israel foi criado, e cerca de 700 mil palestinos perderam suas casas. Pros israelenses, 1948 é a independência. Pros palestinos, é a Nakba, a catástrofe. A mesma data, duas histórias. Em 1967 Israel ocupou Gaza e a Cisjordânia, e em 2007 o Hamas tomou Gaza. O Luis vai mostrar o dia que mudou tudo.",
+    "fala": "E isso não começou ontem. Em 1948 Israel foi criado, e cerca de 700 mil palestinos perderam suas casas. Pros israelenses, 1948 é a independência. Pros palestinos, é a Nakba, a catástrofe. A mesma data, duas histórias. Em 1967 Israel ocupou Gaza e a Cisjordânia, e em 2007 o Hamas tomou Gaza. E em 7 de outubro de 2023 o Hamas atacou Israel e matou cerca de 1.200 pessoas. Israel respondeu com uma guerra que já matou mais de 74 mil pessoas em Gaza. O Gustavo vai explicar o que é genocídio.",
     "speaker": "Eduardo",
     "layout": "timeline",
     "kicker": "Contexto",
     "title": "Como a gente chegou aqui",
     "body": "\n      <ol class=\"timeline\">\n        <li><b>1947</b><span>A ONU propõe dividir a região em um Estado judeu e um Estado árabe.</span></li>\n        <li><b>1948</b><span>Israel é criado. Na guerra que segue, cerca de 700 mil palestinos fogem ou são expulsos — os palestinos chamam isso de <i>Nakba</i> (\"catástrofe\").</span></li>\n        <li><b>1967</b><span>Guerra dos Seis Dias: Israel passa a ocupar Gaza, Cisjordânia e Jerusalém Oriental.</span></li>\n        <li><b>2005</b><span>Israel retira colonos e soldados de Gaza.</span></li>\n        <li><b>2007</b><span>Hamas toma Gaza; começa o bloqueio. Várias guerras curtas acontecem nos anos seguintes.</span></li>\n        <li><b>2023</b><span>7 de outubro: começa a guerra atual.</span></li>\n      </ol>",
     "notes": "Não precisa decorar datas. A ideia: é um conflito de mais de 75 anos, com disputa por terra, refugiados e ocupação. Os dois lados contam essa história de jeitos diferentes.",
-    "faz": "Continua direto do slide anterior, sem parar. No final, chama o Luis pelo nome.",
+    "faz": "Continua direto do slide anterior, sem parar. Fala o 7 de outubro com calma, é a parte mais pesada. No final, chama o Gustavo pelo nome.",
     "espera": "Se alguém soltar \"mas a terra é de quem?\", fala \"boa, guarda essa pro debate\" e segue."
-  },
-  {
-    "id": "out7",
-    "fala": "7 de outubro de 2023. O Hamas invadiu o sul de Israel e matou cerca de 1.200 pessoas, a maioria civis: jovens numa festa de música, famílias dentro de casa. 251 pessoas foram levadas como reféns pra Gaza, inclusive crianças e idosos. Foi o dia mais mortal para judeus desde o Holocausto.",
-    "speaker": "Luis Eduardo",
-    "layout": "cards",
-    "kicker": "7 de outubro de 2023",
-    "title": "O ataque que iniciou a guerra",
-    "body": "\n      <div class=\"cards c2\">\n        <div class=\"card stat\"><div class=\"num\">~1.200</div><h3>mortos em Israel</h3><p>O Hamas e outros grupos atacaram o sul de Israel. A maioria dos mortos era civil.</p></div>\n        <div class=\"card stat\"><div class=\"num\">251</div><h3>reféns levados para Gaza</h3><p>Entre eles crianças e idosos. Os últimos reféns vivos foram libertados no cessar-fogo de 2025.</p></div>\n      </div>\n      <p class=\"rule\">Israel declarou guerra ao Hamas com o objetivo de destruir o grupo e trazer os reféns de volta.</p>",
-    "notes": "É importante mostrar esse lado: foi o dia mais mortal para judeus desde o Holocausto. Isso é central no argumento de Israel de que age em legítima defesa.",
-    "faz": "Entra quando o Eduardo te chamar. Fala mais devagar e sério: é o momento mais pesado.",
-    "espera": "Pode ficar um silêncio ou alguém comentar. Não discute agora, segue pro próximo slide."
-  },
-  {
-    "id": "numeros",
-    "fala": "E Israel respondeu com guerra. Mais de 74.600 mortos em Gaza, segundo o Ministério da Saúde de lá. Mais de 175 mil feridos. Cerca de 90% da população teve que fugir de casa, e em 2025 foi confirmada fome. Israel diz que esses números são exagerados, porque o ministério é do Hamas, mas a ONU considera os dados confiáveis. Desde outubro de 2025 tem um cessar-fogo, mas as mortes não pararam. Então: 1.200 mortos de um lado, mais de 74 mil do outro. O Gustavo vai explicar o que é genocídio.",
-    "speaker": "Luis Eduardo",
-    "layout": "cards",
-    "kicker": "A guerra em Gaza",
-    "title": "Dois anos de guerra em números",
-    "body": "\n      <div class=\"cards c4\">\n        <div class=\"card stat red\"><div class=\"num\">74.600+</div><h3>mortos</h3><p>Segundo o Ministério da Saúde de Gaza (nov. 2026).</p></div>\n        <div class=\"card stat\"><div class=\"num\">175 mil+</div><h3>feridos</h3><p>Mais de 43 mil com lesões que mudam a vida, segundo a OMS.</p></div>\n        <div class=\"card stat\"><div class=\"num\">~90%</div><h3>deslocados</h3><p>A maior parte da população teve que deixar sua casa, muitos várias vezes.</p></div>\n        <div class=\"card stat\"><div class=\"num\">2025</div><h3>fome confirmada</h3><p>Em agosto, o sistema IPC (ligado à ONU) confirmou fome na Cidade de Gaza.</p></div>\n      </div>\n      <p class=\"note\"><b>Atenção:</b> o Ministério da Saúde de Gaza é controlado pelo Hamas e não separa civis de combatentes. Israel contesta os números; a ONU e vários estudos independentes consideram os dados confiáveis.</p>",
-    "notes": "Ler os números com calma. Explicar a polêmica dos dados: quem conta é o ministério de Gaza, ligado ao Hamas. Israel diz que estão inflados; ONU e pesquisadores independentes costumam considerar confiáveis e alguns estudos estimam até mais mortes.",
-    "faz": "Lê os números com uma pausa entre eles. No final, chama o Gustavo.",
-    "espera": "Se alguém falar \"esses números são do Hamas\", a resposta já está na sua fala: a ONU considera os dados confiáveis."
   },
   {
     "id": "definicao",
@@ -114,7 +90,7 @@ window.SLIDES = [
     "title": "O que é genocídio, afinal?",
     "body": "\n      <blockquote>Atos cometidos <b>com a intenção de destruir</b>, no todo ou em parte, um grupo nacional, étnico, racial ou religioso.</blockquote>\n      <p class=\"src\">Convenção da ONU para a Prevenção e Punição do Crime de Genocídio, 1948 — criada depois do Holocausto.</p>\n      <div class=\"cards c5 small\">\n        <div class=\"card\"><b>1</b><p>Matar membros do grupo</p></div>\n        <div class=\"card\"><b>2</b><p>Causar danos físicos ou mentais graves</p></div>\n        <div class=\"card\"><b>3</b><p>Impor condições de vida para destruir o grupo</p></div>\n        <div class=\"card\"><b>4</b><p>Impedir nascimentos</p></div>\n        <div class=\"card\"><b>5</b><p>Transferir crianças à força</p></div>\n      </div>\n      <p class=\"rule\">A parte mais difícil de provar é a <b>intenção</b>. Muitas mortes, sozinhas, não bastam: precisa mostrar que o objetivo era destruir o grupo.</p>",
     "notes": "Este slide é a chave do debate. Genocídio não é sinônimo de \"muita gente morreu\". É um crime com definição jurídica, e o ponto central é a intenção. Guerra com muitas mortes civis pode ser crime de guerra sem ser genocídio, e o debate é justamente esse.",
-    "faz": "Entra quando o Luis te chamar. Aponta pros 5 atos no telão e dá ênfase na palavra \"intenção\".",
+    "faz": "Entra quando o Eduardo te chamar. Aponta pros 5 atos no telão e dá ênfase na palavra \"intenção\".",
     "espera": "Pode vir \"então toda guerra é genocídio?\". Responde: \"não, o que muda é a intenção\" e segue."
   },
   {
@@ -162,8 +138,8 @@ window.SLIDES = [
     "layout": "cards",
     "kicker": "Pergunta central",
     "title": "O que o mundo deveria fazer quando acontece um genocídio?",
-    "body": "\n      <div class=\"cards c3\">\n        <div class=\"card\"><div class=\"big\">01</div><h3>O Brasil</h3><p>Deveria cortar relações com Israel?</p></div>\n        <div class=\"card\"><div class=\"big\">02</div><h3>A ONU</h3><p>Deveria poder intervir à força?</p></div>\n        <div class=\"card\"><div class=\"big\">03</div><h3>Você</h3><p>Boicote e protesto de gente comum mudam alguma coisa?</p></div>\n      </div>\n      <p class=\"rule\">Cada rodada: alguém do grupo explica a situação, vocês votam, o site <b>sorteia 1 de cada lado</b> pra defender o voto, e o grupo responde.</p>",
-    "notes": "Lê a pergunta central em voz alta e explica as 3 rodadas, do país até a gente. Depois chama o Kaiky pra abrir a rodada 1."
+    "body": "\n      <div class=\"cards c2\">\n        <div class=\"card\"><div class=\"big\">01</div><h3>O Brasil</h3><p>Deveria cortar relações com Israel?</p></div>\n        <div class=\"card\"><div class=\"big\">02</div><h3>A ONU</h3><p>Deveria poder intervir à força?</p></div>\n      </div>\n      <p class=\"rule\">Cada rodada: alguém do grupo explica a situação, vocês votam, o site <b>sorteia 1 de cada lado</b> pra defender o voto, e o grupo responde.</p>",
+    "notes": "Lê a pergunta central em voz alta e explica as 2 rodadas: o Brasil e a ONU. Depois chama o Kaiky pra abrir a rodada 1."
   },
   {
     "id": "r1",
@@ -255,52 +231,6 @@ window.SLIDES = [
       "\"A ONU não manda em ninguém\"",
       "\"Os Estados Unidos nunca vão deixar\"",
       "\"Aí qualquer país vai poder invadir o outro\""
-    ]
-  },
-  {
-    "id": "r3",
-    "speaker": "Evilayne",
-    "layout": "question",
-    "kicker": "Rodada 3 · Você",
-    "title": "Boicote e protesto de gente comum mudam alguma coisa?",
-    "body": "<p class=\"lead\">Vote no celular. Depois o site sorteia 1 pessoa de cada lado pra defender o voto.</p>",
-    "poll": {
-      "q": "Boicote e protesto de gente comum mudam alguma coisa?",
-      "options": [
-        "Sim, mudam",
-        "Não, não adianta",
-        "Ainda não sei"
-      ],
-      "sides": [
-        0,
-        1
-      ]
-    },
-    "followups": [
-      "Alguém aqui já deixou de comprar alguma coisa por causa de uma causa?",
-      "Postar sobre Gaza ajuda ou é só pra aparecer?",
-      "Protesto aqui no Brasil chega lá em Gaza de algum jeito?",
-      "Se nada que a gente faz adianta, então a gente não deveria se importar?"
-    ],
-    "notes": "1) Chama o Luis Eduardo pra abrir a rodada (30 s). 2) Abre a votação, espera uns 20 s e mostra o resultado. 3) Toca em \"Sortear 1 de cada lado\": o telão mostra quem vai defender cada lado. 4) Dá a palavra pra cada sorteado (1 min cada). 5) Chama o Davy pra rebater com um fato (30 s). 6) Sobrou tempo? Usa as perguntas abaixo ou chama quem pediu a palavra. Se o tempo apertar, troca o tempo de fala pra 30 s. Plano B: se pouca gente votar no celular, pede pra levantar a mão e escolhe 1 de cada lado.",
-    "warmup": [
-      {
-        "name": "Luis Eduardo",
-        "text": "Agora é com a gente, gente comum. Desde 2023 teve protesto no mundo inteiro, até nas universidades dos Estados Unidos, e campanha de boicote a marcas ligadas a Israel. E tem exemplo na história: na África do Sul, o boicote do mundo todo, no esporte, nas compras e nos investimentos, ajudou a pressionar o apartheid até acabar, em 1994. Então: o que a gente faz daqui do Brasil adianta alguma coisa?",
-        "faz": "A Evilayne lê a pergunta e te chama. Você explica a situação em 30 s: só os fatos e a pergunta, sem dar a sua opinião.",
-        "espera": "Depois de você, a sala vota no celular e a Evilayne sorteia 1 de cada lado. Você não fala de novo nessa rodada: fica perto e ajuda a puxar a sala se ela travar."
-      },
-      {
-        "name": "Davy",
-        "text": "Quem acha que não adianta: em 2024 o McDonald's e a Starbucks admitiram que as vendas caíram no Oriente Médio por causa do boicote ligado à guerra. Empresa grande sentiu. Agora, quem acha que adianta: muitas vezes o boicote atinge o funcionário da loja, não o governo. Então a pergunta é: boicote contra quem?",
-        "faz": "Espera os 2 sorteados falarem (1 min cada) e presta atenção no que eles disserem. Quando a Evilayne te chamar, responde com o fato (30 s). Se der, cita o aluno: \"o fulano disse tal coisa, mas...\".",
-        "espera": "Se ninguém for sorteado ou o sorteado não quiser falar, a Evilayne te chama logo depois da votação. Se a sala começar a discutir sozinha, deixa rolar: é o objetivo."
-      }
-    ],
-    "ouvir": [
-      "\"Postar não muda nada\"",
-      "\"Boicote só prejudica o funcionário\"",
-      "\"Eu não vou parar de comer McDonald's\" (zoeira)"
     ]
   },
   {
