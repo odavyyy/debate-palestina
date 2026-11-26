@@ -53,29 +53,5 @@ window.FOTOS = {
   "cap": "Campo de refugiados de Jabalia, em Gaza, destruído",
   "credit": "Hussein Jaber · CC BY-SA 3.0 igo",
   "page": "https://commons.wikimedia.org/wiki/File:Destruction_caused_by_Israeli_bombing_of_Jabalia_camp,_Gaza_Strip.jpg"
- },
- "central": {
-  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/United_Nations_General_Assembly_Hall_%283%29.jpg/1920px-United_Nations_General_Assembly_Hall_%283%29.jpg",
-  "cap": "Assembleia Geral da ONU, em Nova York",
-  "credit": "Basil D Soufi · CC BY-SA 3.0",
-  "page": "https://commons.wikimedia.org/wiki/File:United_Nations_General_Assembly_Hall_(3).jpg"
- },
- "r1": {
-  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Pal%C3%A1cio_do_Itamaraty%2C_Bras%C3%ADlia%2C_Brasil.jpg/1920px-Pal%C3%A1cio_do_Itamaraty%2C_Bras%C3%ADlia%2C_Brasil.jpg",
-  "cap": "Palácio do Itamaraty, o Ministério das Relações Exteriores, em Brasília",
-  "credit": "Lou Fernando · CC BY-SA 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:Pal%C3%A1cio_do_Itamaraty,_Bras%C3%ADlia,_Brasil.jpg"
- },
- "r2": {
-  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b1/United_Nations_Headquarters_-_Security_Council_chamber%2C_angled_view_%28cropped%29.jpg/1920px-United_Nations_Headquarters_-_Security_Council_chamber%2C_angled_view_%28cropped%29.jpg",
-  "cap": "Sala do Conselho de Segurança da ONU, onde 5 países têm poder de veto",
-  "credit": "Jdforrester · CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:United_Nations_Headquarters_-_Security_Council_chamber,_angled_view_(cropped).jpg"
- },
- "r3": {
-  "src": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/October_13th%2C_National_march_for_Palestine_in_central_London_-_55164011723.jpg/1920px-October_13th%2C_National_march_for_Palestine_in_central_London_-_55164011723.jpg",
-  "cap": "Marcha pela Palestina em Londres",
-  "credit": "Clarisse Clemes · CC BY 4.0",
-  "page": "https://commons.wikimedia.org/wiki/File:October_13th,_National_march_for_Palestine_in_central_London_-_55164011723.jpg"
  }
 };

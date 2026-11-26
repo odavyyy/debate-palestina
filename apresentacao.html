@@ -40,14 +40,13 @@
   .side .cards.c4 { grid-template-columns: repeat(2, 1fr); }
   .side .cards.c5 { grid-template-columns: repeat(3, 1fr); }
 
-  /* foto grande (capa, pergunta central e rodadas) */
+  /* foto grande (capa) */
   .hero .ph { position: absolute; right: 0; top: 0; bottom: 0; width: 52%; margin: 0; }
   .hero .ph img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .hero .ph::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg) 0%, rgba(10,13,20,.7) 22%, rgba(10,13,20,0) 55%); z-index: 1; }
   .hero .ph figcaption { position: absolute; right: 40px; bottom: 32px; max-width: 640px; text-align: right; z-index: 1; background: rgba(10,13,20,.72); padding: 10px 16px; border-radius: var(--r-sm); font-size: 20px; }
   .hero .ph figcaption small { font-size: 16px; }
   .hero .content { right: 46%; }
-  .hero h1 { font-size: 92px; }
   .hero.cover h1 { font-size: 128px; line-height: .98; letter-spacing: -.036em; }
 
   .lead { font-size: 38px; color: var(--text); line-height: 1.4; margin: 0 0 24px; }
@@ -78,19 +77,6 @@
   .points li b { font-weight: 600; }
   .sources { margin-top: 28px; font-size: 21px; color: var(--muted); line-height: 1.55; }
 
-  /* pergunta: a sala responde levantando a mão */
-  .opts { display: grid; gap: 14px; margin: 8px 0 0; }
-  .opt { display: flex; align-items: center; gap: 24px; background: var(--panel); border: 1px solid var(--line-strong); border-radius: var(--r-md); padding: 18px 28px; font-size: 38px; font-weight: 500; }
-  .opt b { font-family: var(--font-mono); font-weight: 500; color: var(--action); font-size: 30px; width: 40px; }
-  .hand { font-size: 30px; color: var(--muted); margin: 0 0 18px; }
-  .hand strong { color: var(--text); font-weight: 600; }
-  .steps { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 28px; }
-  .steps span { font-size: 22px; color: var(--muted); background: var(--bg2); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 8px 14px; }
-  .steps span i { font-style: normal; font-family: var(--font-mono); color: var(--action); margin-right: 8px; }
-  .center .content { justify-content: center; }
-  .center h1 { font-size: 104px; max-width: 1500px; }
-  .center .opts { max-width: 1100px; }
-
   .credits { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 48px; font-size: 19px; line-height: 1.45; color: var(--muted); }
   .credits b { color: var(--text); font-weight: 500; }
 
@@ -102,13 +88,6 @@
   @keyframes s-in { from { transform: translateY(18px); opacity: 0; } }
   @keyframes s-fade { from { opacity: 0; } }
   @media (prefers-reduced-motion: reduce) { #slide.enter * { animation: none !important; } }
-
-  /* cronômetro (tecla T) */
-  #timer { position: absolute; left: 72px; bottom: 40px; z-index: 4; display: none; align-items: center; gap: 16px; background: var(--live); color: #fff; border-radius: var(--r-md); padding: 12px 28px; box-shadow: 0 18px 40px rgba(0,0,0,.5); }
-  #timer.on { display: flex; }
-  #timer .t { font-family: var(--font-mono); font-size: 64px; font-weight: 500; line-height: 1; }
-  #timer .l { font-size: 22px; opacity: .9; }
-  #timer.done { background: var(--text); color: var(--bg); }
 
   /* controles (aparecem quando mexe o mouse) */
   #ctl { position: fixed; right: 16px; bottom: 16px; z-index: 10; display: flex; gap: 8px; opacity: 0; transition: opacity 200ms var(--ease); }
@@ -123,23 +102,21 @@
 <div id="wrap">
   <div id="stage">
     <div id="top">
-      <div class="show">Genocídio na Palestina <span>· Debate</span></div>
+      <div class="show">Genocídio na Palestina <span>· Sociologia</span></div>
       <div class="sp"></div>
       <div class="who" id="who"></div>
       <div class="count" id="count"></div>
     </div>
     <div id="slide"></div>
-    <div id="timer" role="timer" aria-live="off"><span class="l">Tempo</span><span class="t" id="tt">1:00</span></div>
     <div id="bar"></div>
   </div>
 </div>
 <div id="ctl">
   <button type="button" id="bPrev" aria-label="Slide anterior">&larr;</button>
   <button type="button" id="bNext" aria-label="Próximo slide">&rarr;</button>
-  <button type="button" id="bTimer">Cronômetro 1 min</button>
   <button type="button" id="bFs">Tela cheia</button>
 </div>
-<div id="help"><b>&rarr;</b> ou clique: próximo · <b>&larr;</b>: voltar · <b>T</b>: cronômetro de 1 min · <b>F</b>: tela cheia</div>
+<div id="help"><b>&rarr;</b> ou clique: próximo · <b>&larr;</b>: voltar · <b>F</b>: tela cheia</div>
 
 <script src="js/slides.js"></script>
 <script src="js/fotos.js"></script>
@@ -147,21 +124,14 @@
 (function () {
   const $ = id => document.getElementById(id);
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const L = 'ABCDE';
 
-  // Versão sem celular: sem o slide do QR Code, e as perguntas viram "levante a mão".
+  // Versão sem celular: só a apresentação. Sem QR Code, sem as regras e sem as perguntas pra sala.
   const OVR = {
-    capa: { body: '<p class="lead">Um debate com a sala: a gente faz a pergunta, vocês respondem levantando a mão e defendem a resposta.</p>' },
-    regras: { body: `
-      <div class="cards c4">
-        <div class="card"><div class="big">01</div><h3>Pergunta</h3><p>A Evilayne faz uma pergunta pra sala.</p></div>
-        <div class="card"><div class="big">02</div><h3>Mão levantada</h3><p>Vocês respondem levantando a mão em cada opção.</p></div>
-        <div class="card"><div class="big">03</div><h3>1 de cada lado</h3><p>A Evilayne escolhe uma pessoa de cada lado pra defender a resposta.</p></div>
-        <div class="card"><div class="big">04</div><h3>1 minuto</h3><p>Cada um fala 1 minuto, com o cronômetro aqui na tela.</p></div>
-      </div>
-      <p class="rule">Regra de ouro: <b>critique ideias, não pessoas.</b></p>` },
+    capa: { body: '<p class="lead">O que está acontecendo em Gaza, os dois lados e a opinião do nosso grupo.</p>' },
+    fim: { kicker: 'Obrigado!', title: 'Obrigado pela atenção!' },
   };
-  const LIST = SLIDES.filter(s => s.layout !== 'qr').map(s => Object.assign({}, s, OVR[s.id] || {}));
+  const SKIP = ['regras', 'central'];
+  const LIST = SLIDES.filter(s => s.layout !== 'qr' && s.layout !== 'question' && !SKIP.includes(s.id)).map(s => Object.assign({}, s, OVR[s.id] || {}));
   LIST.push({ id: 'creditos', layout: 'credits', kicker: 'Créditos', title: 'Fotos usadas', speaker: '' });
 
   function photo(id, cls) {
@@ -173,31 +143,16 @@
     return `<figure class="ph"><img src="${esc(f.src)}" alt="${esc(f.cap)}" decoding="async" onerror="this.style.visibility='hidden'">
       <figcaption>${esc(f.cap)}<small>Foto: <bdi>${esc(f.credit.split(' · ')[0])}</bdi> · ${esc(f.credit.split(' · ')[1] || '')} · Wikimedia Commons</small></figcaption></figure>`; };
 
-  function questionBody(sl) {
-    const round = sl.warmup && sl.warmup.length;
-    const opts = `<div class="opts">${sl.poll.options.map((o, i) => `<div class="opt"><b>${L[i]}</b>${esc(o)}</div>`).join('')}</div>`;
-    let hand = '<p class="hand"><strong>Levante a mão</strong> quando a Evilayne falar a sua resposta.</p>';
-    let after = '';
-    if (round) after = `<div class="steps"><span><i>1</i>${esc(sl.warmup[0].name)} explica a situação</span><span><i>2</i>Mão levantada</span><span><i>3</i>1 de cada lado defende (1 min)</span><span><i>4</i>${esc(sl.warmup[1].name)} responde</span></div>`;
-    else if (sl.final) after = '<p class="rule">Alguém <b>mudou de ideia</b> desde o começo? Levanta a mão e conta por quê.</p>';
-    else after = '<p class="note">Guardem essa resposta: no final a gente pergunta de novo.</p>';
-    return hand + opts + after;
-  }
-
   function html(sl) {
     const k = `<div class="kicker">${esc(sl.kicker || '')}</div>`;
     const t = `<h1>${esc(sl.title)}</h1>`;
     const F = window.FOTOS || {};
     if (sl.layout === 'credits') {
-      const items = Object.values(F).map(f => `<div><b>${esc(f.cap)}</b><br><bdi>${esc(f.credit.split(' · ')[0])}</bdi> · ${esc(f.credit.split(' · ')[1] || '')}</div>`).join('');
+      const items = LIST.map(x => F[x.id]).filter(Boolean).map(f => `<div><b>${esc(f.cap)}</b><br><bdi>${esc(f.credit.split(' · ')[0])}</bdi> · ${esc(f.credit.split(' · ')[1] || '')}</div>`).join('');
       return { cls: '', inner: `<div class="content">${k}${t}<div class="body"><div class="credits">${items}</div><p class="note">Todas as fotos são do Wikimedia Commons, com licença livre.</p></div></div>` };
     }
-    if (sl.layout === 'question') {
-      const hero = F[sl.id];
-      return { cls: hero ? 'hero' : 'center', inner: (hero ? heroPhoto(sl.id) : '') + `<div class="content">${k}${t}<div class="body">${questionBody(sl)}</div></div>` };
-    }
-    if (sl.layout === 'cover' || sl.id === 'central') {
-      return { cls: 'hero' + (sl.layout === 'cover' ? ' cover' : ''), inner: heroPhoto(sl.id) + `<div class="content" style="justify-content:${sl.layout === 'cover' ? 'center' : 'flex-start'}">${k}${t}<div class="body" style="flex:0">${sl.body || ''}</div></div>` };
+    if (sl.layout === 'cover') {
+      return { cls: 'hero cover', inner: heroPhoto(sl.id) + `<div class="content" style="justify-content:center">${k}${t}<div class="body" style="flex:0">${sl.body || ''}</div></div>` };
     }
     if (F[sl.id]) return { cls: 'side', inner: photo(sl.id, sl.id === 'onde' ? 'map' : '') + `<div class="content">${k}${t}<div class="body">${sl.body || ''}</div></div>` };
     return { cls: '', inner: `<div class="content">${k}${t}<div class="body">${sl.body || ''}</div></div>` };
@@ -226,7 +181,6 @@
     else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); prev(); }
     else if (k === 'Home') show(0, true);
     else if (k === 'End') show(LIST.length - 1, true);
-    else if (k === 't' || k === 'T') toggleTimer();
     else if (k === 'f' || k === 'F') fullscreen();
   });
   // clique: metade direita avança, metade esquerda volta
@@ -236,7 +190,6 @@
   $('wrap').addEventListener('touchend', e => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) { dx < 0 ? next() : prev(); } tx = null; });
   $('bPrev').onclick = e => { e.stopPropagation(); prev(); };
   $('bNext').onclick = e => { e.stopPropagation(); next(); };
-  $('bTimer').onclick = e => { e.stopPropagation(); toggleTimer(); };
   $('bFs').onclick = e => { e.stopPropagation(); fullscreen(); };
   function fullscreen() {
     try { if (!document.fullscreenElement) document.documentElement.requestFullscreen(); else document.exitFullscreen(); } catch {}
@@ -244,20 +197,6 @@
   let hideT = null;
   addEventListener('mousemove', () => { $('ctl').classList.add('show'); clearTimeout(hideT); hideT = setTimeout(() => $('ctl').classList.remove('show'), 2200); });
   setTimeout(() => $('help').classList.add('hide'), 6000);
-
-  /* ---- cronômetro de 1 minuto ---- */
-  let tEnd = 0, tInt = null;
-  function toggleTimer() {
-    const el = $('timer');
-    if (el.classList.contains('on')) { el.classList.remove('on', 'done'); clearInterval(tInt); return; }
-    tEnd = Date.now() + 60000; el.classList.add('on'); el.classList.remove('done');
-    const tick = () => {
-      const left = Math.max(0, Math.ceil((tEnd - Date.now()) / 1000));
-      $('tt').textContent = Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0');
-      if (!left) { el.classList.add('done'); $('tt').textContent = 'Tempo!'; clearInterval(tInt); }
-    };
-    clearInterval(tInt); tick(); tInt = setInterval(tick, 250);
-  }
 
   /* ---- escala 1920x1080 na tela ---- */
   const stage = $('stage');
