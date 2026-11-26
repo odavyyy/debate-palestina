@@ -10,6 +10,7 @@ Apresentação interativa para a escola, com três telas que conversam em tempo 
 | Telão | `https://odavyyy.github.io/debate-palestina/telao` | Computador ligado no projetor |
 | Painel | `https://odavyyy.github.io/debate-palestina/apresentadora` | Evilayne (celular ou notebook) |
 | Falas | `https://odavyyy.github.io/debate-palestina/orador` | Cada apresentador no próprio celular: avisa a vez e mostra a fala |
+| Só slides (sem celular) | `https://odavyyy.github.io/debate-palestina/apresentacao` | Plano B se não puder usar celular: slides com fotos, mão levantada e cronômetro (tecla T) |
 | Atalhos | `https://odavyyy.github.io/debate-palestina/links` | Quem for testar: botões para todas as telas e sala de teste |
 
 ## Como usar no dia
@@ -39,6 +40,7 @@ index.html         -> tela dos alunos (entrar e votar)
 telao.html         -> slides + QR Code no projetor
 apresentadora.html -> painel de controle (senha)
 orador.html        -> fala de cada apresentador no celular
+apresentacao.html  -> versão só slides, sem celular (fotos em js/fotos.js)
 links.html         -> atalhos para todas as telas e sala de teste
 css/base.css       -> estilos
 js/core.js         -> conexão MQTT, utilidades e filtro de nomes

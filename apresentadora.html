@@ -191,6 +191,7 @@
         <div><span class="lbl">Telão</span><a id="lTelao" target="_blank"></a></div>
         <div><span class="lbl">Alunos</span><a id="lAluno" target="_blank"></a></div>
         <div><span class="lbl">Falas do grupo</span><a id="lOrador" target="_blank"></a></div>
+        <div><span class="lbl">Só slides, sem celular (plano B)</span><a id="lSlides" target="_blank"></a></div>
       </div>
     </div>
   </div>
@@ -217,6 +218,8 @@
   $('lTelao').href = $('lTelao').textContent = telao.toString();
   const orador = new URL('orador', aluno); new URL(location.href).searchParams.forEach((v, k) => orador.searchParams.set(k, v));
   $('lOrador').href = $('lOrador').textContent = orador.toString();
+  const slides = new URL('apresentacao', aluno);
+  $('lSlides').href = $('lSlides').textContent = slides.toString();
 
   /* ---- senha ---- */
   const pin = await new Promise(resolve => {
